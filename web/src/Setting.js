@@ -251,60 +251,6 @@ export const OtherProviderInfo = {
       url: "https://door.casdoor.com/",
     },
   },
-  Payment: {
-    "Dummy": {
-      logo: `${StaticBaseUrl}/img/payment_paypal.png`,
-      url: "",
-    },
-    "Balance": {
-      logo: `${StaticBaseUrl}/img/payment_balance.svg`,
-      url: "",
-    },
-    "Alipay": {
-      logo: `${StaticBaseUrl}/img/payment_alipay.png`,
-      url: "https://www.alipay.com/",
-    },
-    "WeChat Pay": {
-      logo: `${StaticBaseUrl}/img/payment_wechat_pay.png`,
-      url: "https://pay.weixin.qq.com/",
-    },
-    "PayPal": {
-      logo: `${StaticBaseUrl}/img/payment_paypal.png`,
-      url: "https://www.paypal.com/",
-    },
-    "Stripe": {
-      logo: `${StaticBaseUrl}/img/social_stripe.png`,
-      url: "https://stripe.com/",
-    },
-    "AirWallex": {
-      logo: `${StaticBaseUrl}/img/payment_airwallex.svg`,
-      url: "https://airwallex.com/",
-    },
-    "GC": {
-      logo: `${StaticBaseUrl}/img/payment_gc.png`,
-      url: "https://gc.org",
-    },
-    "Polar": {
-      logo: `${StaticBaseUrl}/img/payment_polar.png`,
-      url: "https://polar.sh/",
-    },
-    "Paddle": {
-      logo: `${StaticBaseUrl}/img/payment_paddle.png`,
-      url: "https://www.paddle.com/",
-    },
-    "FastSpring": {
-      logo: `${StaticBaseUrl}/img/payment_fastspring.png`,
-      url: "https://fastspring.com/",
-    },
-    "Lemon Squeezy": {
-      logo: `${StaticBaseUrl}/img/payment_lemonsqueezy.jpg`,
-      url: "https://www.lemonsqueezy.com/",
-    },
-    "Adyen": {
-      logo: `${StaticBaseUrl}/img/payment_adyen.svg`,
-      url: "https://www.adyen.com/",
-    },
-  },
   Captcha: {
     "Default": {
       logo: `${StaticBaseUrl}/img/captcha_default.png`,
@@ -551,11 +497,6 @@ export const GetTranslatedUserItems = () => {
     {name: "Gender", label: i18next.t("user:Gender")},
     {name: "Birthday", label: i18next.t("user:Birthday")},
     {name: "Education", label: i18next.t("user:Education")},
-    {name: "Balance", label: i18next.t("user:Balance")},
-    {name: "Balance currency", label: i18next.t("organization:Balance currency")},
-    {name: "Balance credit", label: i18next.t("organization:Balance credit")},
-    {name: "Cart", label: i18next.t("general:Cart")},
-    {name: "Transactions", label: i18next.t("general:Transactions")},
     {name: "Score", label: i18next.t("user:Score")},
     {name: "Karma", label: i18next.t("user:Karma")},
     {name: "Ranking", label: i18next.t("user:Ranking")},
@@ -1410,22 +1351,6 @@ export function getProviderTypeOptions(category) {
       {id: "Custom", name: "Custom"},
       {id: "Custom Flexible", name: "Custom Flexible"},
     ]);
-  } else if (category === "Payment") {
-    return ([
-      {id: "Dummy", name: "Dummy"},
-      {id: "Balance", name: "Balance"},
-      {id: "Alipay", name: "Alipay"},
-      {id: "WeChat Pay", name: "WeChat Pay"},
-      {id: "PayPal", name: "PayPal"},
-      {id: "Stripe", name: "Stripe"},
-      {id: "AirWallex", name: "AirWallex"},
-      {id: "GC", name: "GC"},
-      {id: "Polar", name: "Polar"},
-      {id: "Paddle", name: "Paddle"},
-      {id: "FastSpring", name: "FastSpring"},
-      {id: "Lemon Squeezy", name: "Lemon Squeezy"},
-      {id: "Adyen", name: "Adyen"},
-    ]);
   } else if (category === "Captcha") {
     return ([
       {id: "Default", name: "Default"},
@@ -2057,7 +1982,7 @@ export function isAnonymousUserName(userName) {
 export function getUserCommonFields() {
   return ["Owner", "Name", "CreatedTime", "UpdatedTime", "DeletedTime", "Id", "ExternalId", "Type", "Password", "PasswordSalt", "PasswordType", "DisplayName", "FirstName", "LastName", "Avatar", "AvatarType", "PermanentAvatar",
     "Email", "EmailVerified", "Phone", "CountryCode", "Location", "Address", "Affiliation", "Title", "IdCardType", "IdCard", "RealName", "IsVerified", "Homepage", "Bio", "Tag", "Region",
-    "Language", "Gender", "Birthday", "Education", "Score", "Karma", "Ranking", "Balance", "BalanceCredit", "Currency", "BalanceCurrency", "IsDefaultAvatar", "IsOnline", "IsAdmin", "IsForbidden", "IsDeleted",
+    "Language", "Gender", "Birthday", "Education", "Score", "Karma", "Ranking", "IsDefaultAvatar", "IsOnline", "IsAdmin", "IsForbidden", "IsDeleted",
     "SignupApplication", "RegisterType", "RegisterSource", "CreatedIp", "LastSigninTime", "LastSigninIp",
     "PreferredMfaType", "TotpSecret", "RecoveryCodes", "MfaPhoneEnabled", "MfaEmailEnabled", "MfaRadiusEnabled", "MfaRadiusUsername", "MfaRadiusProvider", "MfaPushEnabled", "MfaPushReceiver", "MfaPushProvider",
     "WebauthnCredentials", "FaceIds", "Invitation", "InvitationCode", "Ldap", "Properties", "Groups"];
@@ -2250,14 +2175,6 @@ export function checkLoginMfa(res, body, params, handleLogin, componentThis, req
         getVerifyTotp: () => renderMfaAuthVerifyForm(body, params, handleLogin, componentThis),
       });
     });
-  } else if (res.data === "SelectPlan") {
-    // paid-user does not have active or pending subscription, go to application default pricing page to select-plan
-    const pricing = res.data2;
-    goToLink(`/select-plan/${pricing.owner}/${pricing.name}?user=${body.username}`);
-  } else if (res.data === "BuyPlanResult") {
-    // paid-user has pending subscription, go to buy-plan/result apge to notify payment result
-    const sub = res.data2;
-    goToLink(`/buy-plan/${sub.owner}/${sub.pricing}/result?subscription=${sub.name}`);
   } else {
     handleLogin(res);
   }
@@ -2449,7 +2366,7 @@ export function filterTableColumns(columns, formItems, actionKey = "op") {
 }
 
 export function getApiPaths() {
-  const objects = ["organization", "group", "user", "application", "provider", "resource", "cert", "role", "permission", "model", "adapter", "enforcer", "session", "token", "product", "payment", "plan", "pricing", "subscription", "syncer", "webhook", "form", "invitation", "ldap", "order", "ticket", "transaction"];
+  const objects = ["organization", "group", "user", "application", "provider", "resource", "cert", "role", "permission", "model", "adapter", "enforcer", "session", "token", "syncer", "webhook", "form", "invitation", "ldap", "ticket"];
   const res = [];
 
   // Auth and user session APIs
@@ -2461,12 +2378,6 @@ export function getApiPaths() {
     ["add", "update", "delete"].forEach(action => {
       res.push(`${action}-${obj}`);
     });
-    if (obj === "payment") {
-      res.push("invoice-payment", "notify-payment");
-    }
-    if (obj === "order") {
-      res.push("place-order", "cancel-order", "pay-order");
-    }
     if (obj === "user") {
       res.push("remove-user-from-group", "upload-users");
       res.push("check-user-password", "set-password", "reset-email-or-phone");

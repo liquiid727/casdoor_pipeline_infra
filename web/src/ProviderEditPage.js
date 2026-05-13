@@ -29,7 +29,6 @@ import {renderMfaProviderFields} from "./provider/MfaProviderFields";
 import {renderSamlProviderFields} from "./provider/SamlProviderFields";
 import {renderOAuthProviderFields} from "./provider/OAuthProviderFields";
 import {renderCaptchaProviderFields} from "./provider/CaptchaProviderFields";
-import {renderPaymentProviderFields} from "./provider/PaymentProviderFields";
 import {renderWeb3ProviderFields} from "./provider/Web3ProviderFields";
 import {renderStorageProviderFields} from "./provider/StorageProviderFields";
 import {renderFaceIdProviderFields} from "./provider/FaceIDProviderFields";
@@ -830,9 +829,6 @@ class ProviderEditPage extends React.Component {
               } else if (value === "SAML") {
                 defaultType = "Keycloak";
                 this.updateProviderField("type", defaultType);
-              } else if (value === "Payment") {
-                defaultType = "PayPal";
-                this.updateProviderField("type", defaultType);
               } else if (value === "Captcha") {
                 defaultType = "Default";
                 this.updateProviderField("type", defaultType);
@@ -887,7 +883,6 @@ class ProviderEditPage extends React.Component {
                   {id: "MFA", name: "MFA"},
                   {id: "Notification", name: "Notification"},
                   {id: "OAuth", name: "OAuth"},
-                  {id: "Payment", name: "Payment"},
                   {id: "SAML", name: "SAML"},
                   {id: "Scan", name: "Scan"},
                   {id: "SMS", name: "SMS"},
@@ -1159,11 +1154,6 @@ class ProviderEditPage extends React.Component {
             }
           ) : null
         }
-        {this.state.provider.category === "Payment" ? renderPaymentProviderFields(
-          this.state.provider,
-          this.updateProviderField.bind(this),
-          this.state.certs
-        ) : null}
         {this.state.provider.category === "Web3" ? renderWeb3ProviderFields(
           this.state.provider,
           this.updateProviderField.bind(this)

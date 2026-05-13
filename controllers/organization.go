@@ -136,10 +136,6 @@ func (c *ApiController) UpdateOrganization() {
 
 	isGlobalAdmin, _ := c.isGlobalAdmin()
 
-	if organization.BalanceCurrency == "" {
-		organization.BalanceCurrency = "USD"
-	}
-
 	c.Data["json"] = wrapActionResponse(object.UpdateOrganization(id, &organization, isGlobalAdmin))
 	c.ServeJSON()
 }
@@ -173,10 +169,6 @@ func (c *ApiController) AddOrganization() {
 	if err = object.CheckIpWhitelist(organization.IpWhitelist, c.GetAcceptLanguage()); err != nil {
 		c.ResponseError(err.Error())
 		return
-	}
-
-	if organization.BalanceCurrency == "" {
-		organization.BalanceCurrency = "USD"
 	}
 
 	if len(organization.AccountItems) == 0 {

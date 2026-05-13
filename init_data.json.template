@@ -93,11 +93,6 @@
         {"name": "Gender", "visible": true, "viewRule": "Public", "modifyRule": "Self"},
         {"name": "Birthday", "visible": true, "viewRule": "Public", "modifyRule": "Self"},
         {"name": "Education", "visible": true, "viewRule": "Public", "modifyRule": "Self"},
-        {"name": "Balance", "visible": true, "viewRule": "Self", "modifyRule": "Self"},
-        {"name": "Balance credit", "visible": true, "viewRule": "Self", "modifyRule": "Self"},
-        {"name": "Balance currency", "visible": true, "viewRule": "Self", "modifyRule": "Self"},
-        {"name": "Cart", "visible": true, "viewRule": "Self", "modifyRule": "Self"},
-        {"name": "Transactions", "visible": true, "viewRule": "Self", "modifyRule": "Self"},
         {"name": "Score", "visible": true, "viewRule": "Public", "modifyRule": "Self"},
         {"name": "Karma", "visible": true, "viewRule": "Public", "modifyRule": "Self"},
         {"name": "Ranking", "visible": true, "viewRule": "Public", "modifyRule": "Self"},
@@ -332,53 +327,6 @@
       "users": []
     }
   ],
-  "payments": [
-    {
-      "currency": "",
-      "detail": "",
-      "displayName": "",
-      "invoiceRemark": "",
-      "invoiceTaxId": "",
-      "invoiceTitle": "",
-      "invoiceType": "",
-      "invoiceUrl": "",
-      "message": "",
-      "name": "",
-      "organization": "",
-      "owner": "",
-      "payUrl": "",
-      "personEmail": "",
-      "personIdCard": "",
-      "personName": "",
-      "personPhone": "",
-      "price": 0,
-      "productDisplayName": "",
-      "productName": "",
-      "provider": "",
-      "returnUrl": "",
-      "state": "",
-      "tag": "",
-      "type": "",
-      "user": ""
-    }
-  ],
-  "products": [
-    {
-      "currency": "",
-      "detail": "",
-      "displayName": "",
-      "image": "",
-      "name": "",
-      "owner": "",
-      "price": 0,
-      "providers": [],
-      "quantity": 0,
-      "returnUrl": "",
-      "sold": 0,
-      "state": "",
-      "tag": ""
-    }
-  ],
   "resources": [
     {
       "owner": "",
@@ -515,31 +463,4 @@
       "enforcer": ""
     }
   ],
-  "plans": [
-    {
-      "owner": "",
-      "name": "",
-      "displayName": "",
-      "description": "",
-      "price": 0,
-      "currency": "",
-      "period": "",
-      "product": "",
-      "paymentProviders": [],
-      "isEnabled": true,
-      "role": ""
-    }
-  ],
-  "pricings": [
-    {
-      "owner": "",
-      "name": "",
-      "displayName": "",
-      "description": "",
-      "plans": [],
-      "isEnabled": true,
-      "trialDuration": 0,
-      "application": ""
-    }
-  ]
 }

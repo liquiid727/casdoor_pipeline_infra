@@ -29,8 +29,6 @@ import ThemeEditor from "./common/theme/ThemeEditor";
 import MfaTable from "./table/MfaTable";
 import {NavItemTree} from "./common/NavItemTree";
 import {WidgetItemTree} from "./common/WidgetItemTree";
-import TransactionTable from "./table/TransactionTable";
-import * as TransactionBackend from "./backend/TransactionBackend";
 
 const {Option} = Select;
 
@@ -44,7 +42,6 @@ class OrganizationEditPage extends React.Component {
       applications: [],
       ldaps: null,
       mode: props.location.mode !== undefined ? props.location.mode : "edit",
-      transactions: [],
     };
   }
 
@@ -52,7 +49,6 @@ class OrganizationEditPage extends React.Component {
     this.getOrganization();
     this.getApplications();
     this.getLdaps();
-    this.getOrganizationTransactions();
   }
 
   getOrganization() {
@@ -101,22 +97,6 @@ class OrganizationEditPage extends React.Component {
         this.setState({
           ldaps: resdata,
         });
-      });
-  }
-
-  getOrganizationTransactions() {
-    TransactionBackend.getTransactions(this.state.organizationName)
-      .then((res) => {
-        if (res.status === "ok") {
-          this.setState({
-            transactions: res.data ?? [],
-          });
-        } else {
-          Setting.showMessage("error", `${i18next.t("general:Failed to load")}: ${res.msg}`);
-        }
-      })
-      .catch(error => {
-        Setting.showMessage("error", `${i18next.t("general:Failed to connect to server")}: ${error}`);
       });
   }
 
@@ -914,11 +894,6 @@ class OrganizationEditPage extends React.Component {
         {
           this.state.organization !== null ? this.renderOrganization() : <Loading type="page" tip={i18next.t("login:Loading")} />
         }
-        {this.state.mode !== "add" && this.state.transactions.length > 0 ? (
-          <Card size="small" title={i18next.t("general:Transactions")} style={{marginTop: "20px"}} type="inner">
-            <TransactionTable transactions={this.state.transactions} includeUser={true} />
-          </Card>
-        ) : null}
         <div style={{marginTop: "20px", marginLeft: "40px"}}>
           <Button size="large" onClick={() => this.submitOrganizationEdit(false)}>{i18next.t("general:Save")}</Button>
           <Button style={{marginLeft: "20px"}} type="primary" size="large" onClick={() => this.submitOrganizationEdit(true)}>{i18next.t("general:Save & Exit")}</Button>
