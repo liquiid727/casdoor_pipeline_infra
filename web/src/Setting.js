@@ -1183,7 +1183,7 @@ export function getProviderLogoURL(provider) {
     const type = provider.type.startsWith("Custom") ? "Custom" : provider.type;
     return `${StaticBaseUrl}/img/social_${type.toLowerCase()}.png`;
   } else {
-    const info = OtherProviderInfo[provider.category][provider.type];
+    const info = OtherProviderInfo[provider.category]?.[provider.type];
     // avoid crash when provider is not found
     if (info) {
       return info.logo;

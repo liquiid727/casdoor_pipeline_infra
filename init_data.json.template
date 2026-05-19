@@ -142,6 +142,58 @@
           "canUnlink": false,
           "prompted": false,
           "alertType": "None"
+        },
+        {
+          "name": "provider_sms_aliyun",
+          "canSignUp": false,
+          "canSignIn": true,
+          "canUnlink": false,
+          "countryCodes": ["CN"],
+          "prompted": false,
+          "rule": "login"
+        },
+        {
+          "name": "provider_sms_aliyun",
+          "canSignUp": false,
+          "canSignIn": true,
+          "canUnlink": false,
+          "countryCodes": ["CN"],
+          "prompted": false,
+          "rule": "forget"
+        },
+        {
+          "name": "provider_sms_tencent",
+          "canSignUp": true,
+          "canSignIn": false,
+          "canUnlink": false,
+          "countryCodes": ["CN"],
+          "prompted": false,
+          "rule": "signup"
+        },
+        {
+          "name": "provider_sms_tencent",
+          "canSignUp": false,
+          "canSignIn": false,
+          "canUnlink": false,
+          "countryCodes": ["CN"],
+          "prompted": false,
+          "rule": "reset"
+        },
+        {
+          "name": "provider_sms_custom_http",
+          "canSignUp": false,
+          "canSignIn": false,
+          "canUnlink": false,
+          "prompted": false,
+          "rule": "mfaSetup"
+        },
+        {
+          "name": "provider_sms_custom_http",
+          "canSignUp": false,
+          "canSignIn": false,
+          "canUnlink": false,
+          "prompted": false,
+          "rule": "mfaAuth"
         }
       ],
       "signinMethods": [
@@ -274,6 +326,52 @@
       "displayName": "",
       "category": "",
       "type": ""
+    },
+    {
+      "owner": "",
+      "name": "provider_sms_aliyun",
+      "displayName": "Aliyun SMS",
+      "category": "SMS",
+      "type": "Aliyun SMS",
+      "clientId": "",
+      "clientSecret": "",
+      "signName": "",
+      "templateCode": "",
+      "content": "CN",
+      "receiver": ""
+    },
+    {
+      "owner": "",
+      "name": "provider_sms_tencent",
+      "displayName": "Tencent Cloud SMS",
+      "category": "SMS",
+      "type": "Tencent Cloud SMS",
+      "clientId": "",
+      "clientSecret": "",
+      "appId": "",
+      "signName": "",
+      "templateCode": "",
+      "content": "CN",
+      "receiver": ""
+    },
+    {
+      "owner": "",
+      "name": "provider_sms_custom_http",
+      "displayName": "Custom HTTP SMS",
+      "category": "SMS",
+      "type": "Custom HTTP SMS",
+      "method": "POST",
+      "endpoint": "",
+      "issuerUrl": "application/json",
+      "title": "content",
+      "templateCode": "%s",
+      "userMapping": {
+        "phoneNumber": "phoneNumber",
+        "content": "content"
+      },
+      "httpHeaders": {},
+      "content": "CN",
+      "receiver": ""
     }
   ],
   "certs": [
@@ -462,5 +560,5 @@
       "adapter": "",
       "enforcer": ""
     }
-  ],
+  ]
 }
