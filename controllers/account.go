@@ -323,7 +323,7 @@ func (c *ApiController) Signup() {
 			return
 		}
 
-		code, err := object.GetOAuthCode(userId, clientId, "", "password", responseType, redirectUri, scope, state, nonce, codeChallenge, "", c.Ctx.Request.Host, c.GetAcceptLanguage())
+		code, err := object.GetOAuthCode(userId, clientId, "", "password", responseType, redirectUri, scope, state, nonce, codeChallenge, "", c.Ctx.Request.Host, c.GetAcceptLanguage(), nil)
 		if err != nil {
 			c.ResponseError(err.Error(), nil)
 			return
@@ -658,8 +658,9 @@ func (c *ApiController) GetUserinfo() {
 
 	scope, aud := c.GetSessionOidc()
 	host := c.Ctx.Request.Host
+	channelContext := c.GetSessionChannelContext()
 
-	userInfo, err := object.GetUserInfo(user, scope, aud, host)
+	userInfo, err := object.GetUserInfo(user, scope, aud, host, channelContext)
 	if err != nil {
 		c.ResponseError(err.Error())
 		return

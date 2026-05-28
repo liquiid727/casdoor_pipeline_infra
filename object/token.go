@@ -28,9 +28,12 @@ type Token struct {
 	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
 	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
 
-	Application  string `xorm:"varchar(100)" json:"application"`
-	Organization string `xorm:"varchar(100)" json:"organization"`
-	User         string `xorm:"varchar(100)" json:"user"`
+	Application      string `xorm:"varchar(100)" json:"application"`
+	Organization     string `xorm:"varchar(100)" json:"organization"`
+	User             string `xorm:"varchar(100)" json:"user"`
+	Channel          string `xorm:"varchar(100)" json:"channel"`
+	RootOrganization string `xorm:"varchar(100)" json:"rootOrganization"`
+	ChannelMode      string `xorm:"varchar(100)" json:"channelMode"`
 
 	Code                  string `xorm:"varchar(100) index" json:"code"`
 	AccessToken           string `xorm:"mediumtext" json:"accessToken"`

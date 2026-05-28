@@ -39,6 +39,7 @@ class OrganizationEditPage extends React.Component {
       classes: props,
       organizationName: props.match.params.organizationName,
       organization: null,
+      organizations: [],
       applications: [],
       ldaps: null,
       mode: props.location.mode !== undefined ? props.location.mode : "edit",
@@ -47,6 +48,7 @@ class OrganizationEditPage extends React.Component {
 
   UNSAFE_componentWillMount() {
     this.getOrganization();
+    this.getOrganizations();
     this.getApplications();
     this.getLdaps();
   }
@@ -67,6 +69,17 @@ class OrganizationEditPage extends React.Component {
           });
         } else {
           Setting.showMessage("error", res.msg);
+        }
+      });
+  }
+
+  getOrganizations() {
+    OrganizationBackend.getOrganizations("admin")
+      .then((res) => {
+        if (res.status === "ok") {
+          this.setState({
+            organizations: res.data || [],
+          });
         }
       });
   }
@@ -162,6 +175,67 @@ class OrganizationEditPage extends React.Component {
             }} />
           </Col>
         </Row>
+        <Row style={{marginTop: "20px"}} >
+          <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 22 : 2}>
+            organizationType :
+          </Col>
+          <Col span={22} >
+            <Select virtual={false} style={{width: "100%"}} value={this.state.organization.organizationType || "root_org"} onChange={value => {
+              this.updateOrganizationField("organizationType", value);
+              if (value !== "channel_org") {
+                this.updateOrganizationField("parentOrganization", "");
+                this.updateOrganizationField("channelMode", "");
+              }
+            }}>
+              <Option value="root_org">root_org</Option>
+              <Option value="channel_org">channel_org</Option>
+            </Select>
+          </Col>
+        </Row>
+        <Row style={{marginTop: "20px"}} >
+          <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 22 : 2}>
+            status :
+          </Col>
+          <Col span={22} >
+            <Select virtual={false} style={{width: "100%"}} value={this.state.organization.status || "active"} onChange={value => {
+              this.updateOrganizationField("status", value);
+            }}>
+              <Option value="active">active</Option>
+              <Option value="disabled">disabled</Option>
+            </Select>
+          </Col>
+        </Row>
+        {
+          this.state.organization.organizationType !== "channel_org" ? null : (
+            <>
+              <Row style={{marginTop: "20px"}} >
+                <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 22 : 2}>
+                  parentOrganization :
+                </Col>
+                <Col span={22} >
+                  <Select virtual={false} style={{width: "100%"}} value={this.state.organization.parentOrganization} onChange={value => {
+                    this.updateOrganizationField("parentOrganization", value);
+                  }}>
+                    {this.state.organizations.filter(item => item.name !== this.state.organization.name).map(item => <Option key={item.name} value={item.name}>{item.displayName || item.name}</Option>)}
+                  </Select>
+                </Col>
+              </Row>
+              <Row style={{marginTop: "20px"}} >
+                <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 22 : 2}>
+                  channelMode :
+                </Col>
+                <Col span={22} >
+                  <Select virtual={false} style={{width: "100%"}} value={this.state.organization.channelMode || "sub_tenant"} onChange={value => {
+                    this.updateOrganizationField("channelMode", value);
+                  }}>
+                    <Option value="shared_account">shared_account</Option>
+                    <Option value="sub_tenant">sub_tenant</Option>
+                  </Select>
+                </Col>
+              </Row>
+            </>
+          )
+        }
         <Row style={{marginTop: "20px"}} >
           <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 22 : 2}>
             {Setting.getLabel(i18next.t("general:Enable dark logo"), i18next.t("general:Enable dark logo - Tooltip"))} :
@@ -562,6 +636,26 @@ class OrganizationEditPage extends React.Component {
                 Setting.CurrencyOptions.map((item, index) => <Option key={index} value={item.id}>{Setting.getCurrencyWithFlag(item.id)}</Option>)
               }
             </Select>
+          </Col>
+        </Row>
+        <Row style={{marginTop: "20px"}} >
+          <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 19 : 2}>
+            settlementEnabled :
+          </Col>
+          <Col span={1} >
+            <Switch checked={!!this.state.organization.settlementEnabled} onChange={checked => {
+              this.updateOrganizationField("settlementEnabled", checked);
+            }} />
+          </Col>
+        </Row>
+        <Row style={{marginTop: "20px"}} >
+          <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 22 : 2}>
+            settlementConfig :
+          </Col>
+          <Col span={22} >
+            <Input.TextArea rows={4} value={this.state.organization.settlementConfig || ""} onChange={e => {
+              this.updateOrganizationField("settlementConfig", e.target.value);
+            }} />
           </Col>
         </Row>
         <Row style={{marginTop: "20px"}} >

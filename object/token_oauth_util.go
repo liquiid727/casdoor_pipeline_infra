@@ -305,7 +305,7 @@ func CheckOAuthLogin(clientId string, responseType string, redirectUri string, s
 	return "", application, nil
 }
 
-func GetOAuthCode(userId string, clientId string, provider string, signinMethod string, responseType string, redirectUri string, scope string, state string, nonce string, challenge string, resource string, host string, lang string) (*Code, error) {
+func GetOAuthCode(userId string, clientId string, provider string, signinMethod string, responseType string, redirectUri string, scope string, state string, nonce string, challenge string, resource string, host string, lang string, channelContext *ChannelContext) (*Code, error) {
 	user, err := GetUser(userId)
 	if err != nil {
 		return nil, err
@@ -358,7 +358,7 @@ func GetOAuthCode(userId string, clientId string, provider string, signinMethod 
 	if err != nil {
 		return nil, err
 	}
-	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, provider, signinMethod, nonce, scope, resource, host)
+	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, provider, signinMethod, nonce, scope, resource, host, channelContext)
 	if err != nil {
 		return nil, err
 	}
@@ -368,22 +368,25 @@ func GetOAuthCode(userId string, clientId string, provider string, signinMethod 
 	}
 
 	token := &Token{
-		Owner:         application.Owner,
-		Name:          tokenName,
-		CreatedTime:   util.GetCurrentTime(),
-		Application:   application.Name,
-		Organization:  user.Owner,
-		User:          user.Name,
-		Code:          util.GenerateClientId(),
-		AccessToken:   accessToken,
-		RefreshToken:  refreshToken,
-		ExpiresIn:     int(application.ExpireInHours * float64(hourSeconds)),
-		Scope:         scope,
-		TokenType:     "Bearer",
-		CodeChallenge: challenge,
-		CodeIsUsed:    false,
-		CodeExpireIn:  time.Now().Add(time.Minute * 5).Unix(),
-		Resource:      resource,
+		Owner:            application.Owner,
+		Name:             tokenName,
+		CreatedTime:      util.GetCurrentTime(),
+		Application:      application.Name,
+		Organization:     user.Owner,
+		User:             user.Name,
+		Code:             util.GenerateClientId(),
+		AccessToken:      accessToken,
+		RefreshToken:     refreshToken,
+		ExpiresIn:        int(application.ExpireInHours * float64(hourSeconds)),
+		Scope:            scope,
+		TokenType:        "Bearer",
+		Channel:          channelContextValue(channelContext, "channel"),
+		RootOrganization: channelContextValue(channelContext, "root"),
+		ChannelMode:      channelContextValue(channelContext, "mode"),
+		CodeChallenge:    challenge,
+		CodeIsUsed:       false,
+		CodeExpireIn:     time.Now().Add(time.Minute * 5).Unix(),
+		Resource:         resource,
 	}
 	_, err = AddToken(token)
 	if err != nil {
@@ -500,7 +503,16 @@ func RefreshToken(application *Application, grantType string, refreshToken strin
 		return nil, err
 	}
 
-	newAccessToken, newRefreshToken, tokenName, err := generateJwtToken(application, user, "", "", "", scope, "", host)
+	channelContext := &ChannelContext{
+		ChannelOrganization: token.Channel,
+		RootOrganization:    token.RootOrganization,
+		ChannelMode:         token.ChannelMode,
+	}
+	if channelContext.ChannelOrganization == "" && channelContext.RootOrganization == "" && channelContext.ChannelMode == "" {
+		channelContext = nil
+	}
+
+	newAccessToken, newRefreshToken, tokenName, err := generateJwtToken(application, user, "", "", "", scope, "", host, channelContext)
 	if err != nil {
 		return &TokenError{
 			Error:            EndpointError,
@@ -509,18 +521,21 @@ func RefreshToken(application *Application, grantType string, refreshToken strin
 	}
 
 	newToken := &Token{
-		Owner:        application.Owner,
-		Name:         tokenName,
-		CreatedTime:  util.GetCurrentTime(),
-		Application:  application.Name,
-		Organization: user.Owner,
-		User:         user.Name,
-		Code:         util.GenerateClientId(),
-		AccessToken:  newAccessToken,
-		RefreshToken: newRefreshToken,
-		ExpiresIn:    int(application.ExpireInHours * float64(hourSeconds)),
-		Scope:        scope,
-		TokenType:    "Bearer",
+		Owner:            application.Owner,
+		Name:             tokenName,
+		CreatedTime:      util.GetCurrentTime(),
+		Application:      application.Name,
+		Organization:     user.Owner,
+		User:             user.Name,
+		Code:             util.GenerateClientId(),
+		AccessToken:      newAccessToken,
+		RefreshToken:     newRefreshToken,
+		ExpiresIn:        int(application.ExpireInHours * float64(hourSeconds)),
+		Scope:            scope,
+		TokenType:        "Bearer",
+		Channel:          token.Channel,
+		RootOrganization: token.RootOrganization,
+		ChannelMode:      token.ChannelMode,
 	}
 	_, err = AddToken(newToken)
 	if err != nil {
@@ -619,7 +634,7 @@ func ValidateClientAssertion(clientAssertion string, host string) (bool, *Applic
 
 // mintImplicitToken mints a token for an already-authenticated user.
 // Callers must verify user identity before calling this function.
-func mintImplicitToken(application *Application, username string, scope string, nonce string, host string) (*Token, *TokenError, error) {
+func mintImplicitToken(application *Application, username string, scope string, nonce string, host string, channel string) (*Token, *TokenError, error) {
 	expandedScope, ok := IsScopeValidAndExpand(scope, application)
 	if !ok {
 		return nil, &TokenError{
@@ -646,7 +661,15 @@ func mintImplicitToken(application *Application, username string, scope string, 
 		}, nil
 	}
 
-	token, err := GetTokenByUser(application, user, scope, nonce, host)
+	channelContext, err := ResolveChannelContextForLogin(application, user, channel)
+	if err != nil {
+		return nil, &TokenError{
+			Error:            InvalidGrant,
+			ErrorDescription: err.Error(),
+		}, nil
+	}
+
+	token, err := GetTokenByUser(application, user, scope, nonce, host, channelContext)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -798,7 +821,7 @@ func createGuestUserToken(application *Application, clientSecret string, verifie
 		}, nil
 	}
 
-	accessToken, refreshToken, tokenName, err := generateJwtToken(application, guestUser, "", "", "", "", "", "")
+	accessToken, refreshToken, tokenName, err := generateJwtToken(application, guestUser, "", "", "", "", "", "", nil)
 	if err != nil {
 		return nil, &TokenError{
 			Error:            EndpointError,

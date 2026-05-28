@@ -201,7 +201,7 @@ func (c *ApiController) GetMcpAccessToken() {
 		return
 	}
 
-	token, err := object.GetTokenByUser(application, user, "read", "", c.Ctx.Request.Host)
+	token, err := object.GetTokenByUser(application, user, "read", "", c.Ctx.Request.Host, nil)
 	if err != nil {
 		c.ResponseError(err.Error())
 		return

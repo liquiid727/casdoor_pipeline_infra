@@ -106,6 +106,13 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 		}
 	}
 
+	channelContext, err := object.ResolveChannelContextForLogin(application, user, form.Channel)
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+	c.SetSessionChannelContext(channelContext)
+
 	if form.Type == ResponseTypeLogin {
 		c.SetSessionUsername(userId)
 		util.LogInfo(c.Ctx, "API: [%s] signed in", userId)
@@ -138,7 +145,7 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 			return
 		}
 
-		code, err := object.GetOAuthCode(userId, clientId, form.Provider, form.SigninMethod, responseType, redirectUri, scope, state, nonce, codeChallenge, resource, c.Ctx.Request.Host, c.GetAcceptLanguage())
+		code, err := object.GetOAuthCode(userId, clientId, form.Provider, form.SigninMethod, responseType, redirectUri, scope, state, nonce, codeChallenge, resource, c.Ctx.Request.Host, c.GetAcceptLanguage(), channelContext)
 		if err != nil {
 			c.ResponseError(err.Error(), nil)
 			return
@@ -160,7 +167,7 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 			if !valid {
 				resp = &Response{Status: "error", Msg: "error: invalid_scope", Data: ""}
 			} else {
-				token, _ := object.GetTokenByUser(application, user, expandedScope, nonce, c.Ctx.Request.Host)
+				token, _ := object.GetTokenByUser(application, user, expandedScope, nonce, c.Ctx.Request.Host, channelContext)
 				resp = tokenToResponse(token)
 
 				resp.Data3 = user.NeedUpdatePassword
@@ -279,6 +286,24 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 			Name:        user.Name,
 			Application: application.Name,
 			SessionId:   []string{c.Ctx.Input.CruSession.SessionID(context.Background())},
+			ChannelOrganization: func() string {
+				if channelContext != nil {
+					return channelContext.ChannelOrganization
+				}
+				return ""
+			}(),
+			RootOrganization: func() string {
+				if channelContext != nil {
+					return channelContext.RootOrganization
+				}
+				return ""
+			}(),
+			ChannelMode: func() string {
+				if channelContext != nil {
+					return channelContext.ChannelMode
+				}
+				return ""
+			}(),
 
 			ExclusiveSignin: application.EnableExclusiveSignin,
 		})
@@ -519,6 +544,9 @@ func (c *ApiController) Login() {
 	if err != nil {
 		c.ResponseError(err.Error())
 		return
+	}
+	if authForm.Channel == "" {
+		authForm.Channel = c.Ctx.Input.Query("channel")
 	}
 
 	verificationType := ""

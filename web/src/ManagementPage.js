@@ -34,6 +34,7 @@ import ShortcutsPage from "./basic/ShortcutsPage";
 import AccountPage from "./account/AccountPage";
 import OrganizationListPage from "./OrganizationListPage";
 import OrganizationEditPage from "./OrganizationEditPage";
+import ChannelRelationListPage from "./ChannelRelationListPage";
 import UserListPage from "./UserListPage";
 import GroupTreePage from "./GroupTreePage";
 import GroupListPage from "./GroupListPage";
@@ -486,6 +487,7 @@ function ManagementPage(props) {
         <Route exact path="/account" render={(props) => renderLoginIfNotLoggedIn(<AccountPage account={account} {...props} />)} />
         <Route exact path="/organizations" render={(props) => renderLoginIfNotLoggedIn(<OrganizationListPage account={account} {...props} />)} />
         <Route exact path="/organizations/:organizationName" render={(props) => renderLoginIfNotLoggedIn(<OrganizationEditPage account={account} onChangeTheme={onChangeTheme} {...props} />)} />
+        <Route exact path="/organizations/:organizationName/channels" render={(props) => renderLoginIfNotLoggedIn(<ChannelRelationListPage account={account} {...props} />)} />
         <Route exact path="/organizations/:organizationName/users" render={(props) => renderLoginIfNotLoggedIn(<UserListPage account={account} {...props} />)} />
         <Route exact path="/trees/:organizationName" render={(props) => renderLoginIfNotLoggedIn(<GroupTreePage account={account} {...props} />)} />
         <Route exact path="/trees/:organizationName/:groupName" render={(props) => renderLoginIfNotLoggedIn(<GroupTreePage account={account} {...props} />)} />

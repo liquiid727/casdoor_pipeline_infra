@@ -6,6 +6,11 @@ IMG_TAG ?=$(shell git --no-pager log -1 --format="%ad" --date=format:"%Y%m%d")-$
 NAMESPACE ?= casdoor
 APP ?= casdoor
 HOST ?= test.com
+REMOTE_HOST ?= realdesk-dev
+REMOTE_DIR ?= /opt/casdoor
+SERVICE_NAME ?= casdoor
+SYSTEMD_RELEASE_DIR ?= .release/casdoor-systemd
+SYSTEMD_RELEASE_ARCHIVE ?= $(SYSTEMD_RELEASE_DIR).tar.gz
 
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
@@ -69,6 +74,27 @@ backend-vendor: vendor fmt vet ## Build backend binary with vendor.
 .PHONY: frontend
 frontend: ## Build backend binary.
 	cd web/ && yarn && yarn run build && cd -
+
+.PHONY: package-systemd
+package-systemd: ## Build a reusable linux/amd64 release bundle for systemd deployment.
+	./scripts/package_systemd_release.sh
+
+.PHONY: deploy-systemd
+deploy-systemd: package-systemd ## Deploy the systemd release bundle to REMOTE_HOST/REMOTE_DIR.
+	REMOTE_HOST=$(REMOTE_HOST) REMOTE_DIR=$(REMOTE_DIR) SERVICE_NAME=$(SERVICE_NAME) SYSTEMD_RELEASE_ARCHIVE=$(SYSTEMD_RELEASE_ARCHIVE) ./scripts/deploy_systemd_release.sh
+
+.PHONY: deploy-realdesk-dev
+deploy-realdesk-dev: REMOTE_HOST = realdesk-dev
+deploy-realdesk-dev: REMOTE_DIR = /opt/casdoor
+deploy-realdesk-dev: SERVICE_NAME = casdoor
+deploy-realdesk-dev: deploy-systemd ## Deploy Casdoor to realdesk-dev via ssh and systemd.
+
+.PHONY: casdoor-test
+casdoor-test: REMOTE_HOST = realdesk-dev
+casdoor-test: REMOTE_DIR = /opt/casdoor
+casdoor-test: SERVICE_NAME = casdoor
+casdoor-test: ## Build frontend locally, compile backend on realdesk-dev, and deploy via systemd.
+	REMOTE_HOST=$(REMOTE_HOST) REMOTE_DIR=$(REMOTE_DIR) SERVICE_NAME=$(SERVICE_NAME) ./scripts/deploy_casdoor_test.sh
 
 .PHONY: vendor
 vendor: ## Update vendor.

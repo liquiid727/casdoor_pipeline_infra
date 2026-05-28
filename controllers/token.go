@@ -184,6 +184,7 @@ func (c *ApiController) GetOAuthToken() {
 	nonce := c.Ctx.Input.Query("nonce")
 	username := c.Ctx.Input.Query("username")
 	password := c.Ctx.Input.Query("password")
+	channel := c.Ctx.Input.Query("channel")
 	tag := c.Ctx.Input.Query("tag")
 	avatar := c.Ctx.Input.Query("avatar")
 	refreshToken := c.Ctx.Input.Query("refresh_token")
@@ -236,6 +237,9 @@ func (c *ApiController) GetOAuthToken() {
 			}
 			if password == "" {
 				password = tokenRequest.Password
+			}
+			if channel == "" {
+				channel = tokenRequest.Channel
 			}
 			if tag == "" {
 				tag = tokenRequest.Tag
@@ -355,7 +359,7 @@ func (c *ApiController) GetOAuthToken() {
 		return
 	}
 
-	token, err := object.GetOAuthToken(grantType, clientId, clientSecret, code, verifier, scope, nonce, username, password, host, refreshToken, tag, avatar, c.GetAcceptLanguage(), subjectToken, subjectTokenType, actorToken, actorTokenType, assertion, clientAssertion, clientAssertionType, audience, resource, dpopProof)
+	token, err := object.GetOAuthToken(grantType, clientId, clientSecret, code, verifier, scope, nonce, username, password, host, refreshToken, tag, avatar, c.GetAcceptLanguage(), subjectToken, subjectTokenType, actorToken, actorTokenType, assertion, clientAssertion, clientAssertionType, audience, resource, dpopProof, channel)
 	if err != nil {
 		c.ResponseError(err.Error())
 		return

@@ -37,6 +37,8 @@ docker compose up     # Start Casdoor + PostgreSQL
 make deploy           # Helm upgrade/install to Kubernetes
 make dry-run          # Helm dry-run preview
 make undeploy         # Helm delete
+make package-systemd  # Build a linux/amd64 systemd release bundle
+make casdoor-test     # Build and deploy to ssh realdesk-dev:/opt/casdoor
 ```
 
 ## Architecture
@@ -88,3 +90,12 @@ Default is PostgreSQL (configured in `conf/app.conf`). Also supports MySQL, SQLi
 - ORM models live in `object/` with corresponding database operations
 - Provider integrations (identity, notification, storage, payment) follow a common interface pattern in their respective directories
 - Commit messages follow conventional commits (used by semantic-release for automated versioning)
+
+## Deployment Agent Knowledge
+
+- The canonical SSH/systemd target is `realdesk-dev`.
+- Install path is `/opt/casdoor`, and the service unit is `/etc/systemd/system/casdoor.service`.
+- Reusable release commands are `make package-systemd` and `make casdoor-test`.
+- The release bundle must include the backend binary plus frontend runtime assets (`web/build` and `web/public`), otherwise Casdoor cannot serve the UI correctly.
+- Runtime overrides live in `/opt/casdoor/.env`; keep secrets there rather than committing them.
+- If `/opt/casdoor/.env` is absent, Casdoor falls back to the bundled `conf/app.conf`.

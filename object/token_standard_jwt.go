@@ -31,6 +31,9 @@ type ClaimsStandard struct {
 	TokenType           string      `json:"tokenType,omitempty"`
 	Nonce               string      `json:"nonce,omitempty"`
 	Scope               string      `json:"scope,omitempty"`
+	Channel             string      `json:"channel,omitempty"`
+	RootOrganization    string      `json:"rootOrganization,omitempty"`
+	ChannelMode         string      `json:"channelMode,omitempty"`
 	Address             OIDCAddress `json:"address,omitempty"`
 	Azp                 string      `json:"azp,omitempty"`
 	Provider            string      `json:"provider,omitempty"`
@@ -53,6 +56,9 @@ func getStandardClaims(claims Claims) ClaimsStandard {
 		TokenType:        claims.TokenType,
 		Nonce:            claims.Nonce,
 		Scope:            claims.Scope,
+		Channel:          claims.Channel,
+		RootOrganization: claims.RootOrganization,
+		ChannelMode:      claims.ChannelMode,
 		RegisteredClaims: claims.RegisteredClaims,
 		Azp:              claims.Azp,
 		Provider:         claims.Provider,

@@ -145,7 +145,7 @@ func mintNativeSsoToken(application *Application, owner string, name string, sco
 		return nil, nil, err
 	}
 
-	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, "", "", "", scope, "", host)
+	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, "", "", "", scope, "", host, nil)
 	if err != nil {
 		return nil, &TokenError{Error: EndpointError, ErrorDescription: fmt.Sprintf("generate jwt token error: %s", err.Error())}, nil
 	}

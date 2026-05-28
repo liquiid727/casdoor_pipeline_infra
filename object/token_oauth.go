@@ -23,7 +23,7 @@ import (
 	"github.com/casdoor/casdoor/util"
 )
 
-func GetOAuthToken(grantType string, clientId string, clientSecret string, code string, verifier string, scope string, nonce string, username string, password string, host string, refreshToken string, tag string, avatar string, lang string, subjectToken string, subjectTokenType string, actorToken string, actorTokenType string, assertion string, clientAssertion string, clientAssertionType string, audience string, resource string, dpopProof string) (interface{}, error) {
+func GetOAuthToken(grantType string, clientId string, clientSecret string, code string, verifier string, scope string, nonce string, username string, password string, host string, refreshToken string, tag string, avatar string, lang string, subjectToken string, subjectTokenType string, actorToken string, actorTokenType string, assertion string, clientAssertion string, clientAssertionType string, audience string, resource string, dpopProof string, channel string) (interface{}, error) {
 	var (
 		application *Application
 		err         error
@@ -85,17 +85,17 @@ func GetOAuthToken(grantType string, clientId string, clientSecret string, code 
 	case "authorization_code": // Authorization Code Grant
 		token, tokenError, err = GetAuthorizationCodeToken(application, clientSecret, code, verifier, resource)
 	case "password": // Resource Owner Password Credentials Grant
-		token, tokenError, err = GetPasswordToken(application, username, password, scope, host)
+		token, tokenError, err = GetPasswordToken(application, username, password, scope, host, channel)
 	case "client_credentials": // Client Credentials Grant
 		token, tokenError, err = GetClientCredentialsToken(application, clientSecret, scope, host)
 	case "token", "id_token": // Implicit Grant
-		token, tokenError, err = GetImplicitToken(application, username, password, scope, nonce, host)
+		token, tokenError, err = GetImplicitToken(application, username, password, scope, nonce, host, channel)
 	case "urn:ietf:params:oauth:grant-type:jwt-bearer":
-		token, tokenError, err = GetJwtBearerToken(application, assertion, scope, nonce, host)
+		token, tokenError, err = GetJwtBearerToken(application, assertion, scope, nonce, host, channel)
 	case "urn:ietf:params:oauth:grant-type:device_code":
 		// The user has already authenticated via browser in the device flow,
 		// so we skip password verification and mint a token directly.
-		token, tokenError, err = mintImplicitToken(application, username, scope, nonce, host)
+		token, tokenError, err = mintImplicitToken(application, username, scope, nonce, host, channel)
 	case "urn:ietf:params:oauth:grant-type:token-exchange": // Token Exchange Grant (RFC 8693)
 		token, tokenError, err = GetTokenExchangeToken(application, clientSecret, subjectToken, subjectTokenType, actorToken, actorTokenType, audience, scope, host)
 	case "refresh_token":
@@ -263,7 +263,7 @@ func GetAuthorizationCodeToken(application *Application, clientSecret string, co
 }
 
 // GetPasswordToken handles the Resource Owner Password Credentials Grant flow.
-func GetPasswordToken(application *Application, username string, password string, scope string, host string) (*Token, *TokenError, error) {
+func GetPasswordToken(application *Application, username string, password string, scope string, host string, channel string) (*Token, *TokenError, error) {
 	expandedScope, ok := IsScopeValidAndExpand(scope, application)
 	if !ok {
 		return nil, &TokenError{
@@ -310,12 +310,20 @@ func GetPasswordToken(application *Application, username string, password string
 		}, nil
 	}
 
+	channelContext, err := ResolveChannelContextForLogin(application, user, channel)
+	if err != nil {
+		return nil, &TokenError{
+			Error:            InvalidGrant,
+			ErrorDescription: err.Error(),
+		}, nil
+	}
+
 	err = ExtendUserWithRolesAndPermissions(user)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, "", "", "", scope, "", host)
+	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, "", "", "", scope, "", host, channelContext)
 	if err != nil {
 		return nil, &TokenError{
 			Error:            EndpointError,
@@ -323,19 +331,22 @@ func GetPasswordToken(application *Application, username string, password string
 		}, nil
 	}
 	token := &Token{
-		Owner:        application.Owner,
-		Name:         tokenName,
-		CreatedTime:  util.GetCurrentTime(),
-		Application:  application.Name,
-		Organization: user.Owner,
-		User:         user.Name,
-		Code:         util.GenerateClientId(),
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
-		ExpiresIn:    int(application.ExpireInHours * float64(hourSeconds)),
-		Scope:        scope,
-		TokenType:    "Bearer",
-		CodeIsUsed:   true,
+		Owner:            application.Owner,
+		Name:             tokenName,
+		CreatedTime:      util.GetCurrentTime(),
+		Application:      application.Name,
+		Organization:     user.Owner,
+		User:             user.Name,
+		Code:             util.GenerateClientId(),
+		AccessToken:      accessToken,
+		RefreshToken:     refreshToken,
+		ExpiresIn:        int(application.ExpireInHours * float64(hourSeconds)),
+		Scope:            scope,
+		TokenType:        "Bearer",
+		Channel:          channelContextValue(channelContext, "channel"),
+		RootOrganization: channelContextValue(channelContext, "root"),
+		ChannelMode:      channelContextValue(channelContext, "mode"),
+		CodeIsUsed:       true,
 	}
 	_, err = AddToken(token)
 	if err != nil {
@@ -368,7 +379,7 @@ func GetClientCredentialsToken(application *Application, clientSecret string, sc
 		Type:  "application",
 	}
 
-	accessToken, _, tokenName, err := generateJwtToken(application, nullUser, "", "", "", scope, "", host)
+	accessToken, _, tokenName, err := generateJwtToken(application, nullUser, "", "", "", scope, "", host, nil)
 	if err != nil {
 		return nil, &TokenError{
 			Error:            EndpointError,
@@ -398,7 +409,7 @@ func GetClientCredentialsToken(application *Application, clientSecret string, sc
 }
 
 // GetImplicitToken handles the Implicit Grant flow (requires password verification).
-func GetImplicitToken(application *Application, username string, password string, scope string, nonce string, host string) (*Token, *TokenError, error) {
+func GetImplicitToken(application *Application, username string, password string, scope string, nonce string, host string, channel string) (*Token, *TokenError, error) {
 	user, err := GetUserByFieldsForSharedApp(application, application.Organization, username)
 	if err != nil {
 		return nil, nil, err
@@ -428,11 +439,11 @@ func GetImplicitToken(application *Application, username string, password string
 		}, nil
 	}
 
-	return mintImplicitToken(application, username, scope, nonce, host)
+	return mintImplicitToken(application, username, scope, nonce, host, channel)
 }
 
 // GetJwtBearerToken handles the JWT Bearer Grant flow (RFC 7523).
-func GetJwtBearerToken(application *Application, assertion string, scope string, nonce string, host string) (*Token, *TokenError, error) {
+func GetJwtBearerToken(application *Application, assertion string, scope string, nonce string, host string, channel string) (*Token, *TokenError, error) {
 	ok, claims, err := ValidateJwtAssertion(assertion, application, host)
 	if err != nil || !ok {
 		if err != nil {
@@ -449,35 +460,38 @@ func GetJwtBearerToken(application *Application, assertion string, scope string,
 	}
 
 	// JWT assertion has already been validated above; skip password re-verification
-	return mintImplicitToken(application, claims.Subject, scope, nonce, host)
+	return mintImplicitToken(application, claims.Subject, scope, nonce, host, channel)
 }
 
 // GetTokenByUser mints a token for the given user (Implicit flow helper).
-func GetTokenByUser(application *Application, user *User, scope string, nonce string, host string) (*Token, error) {
+func GetTokenByUser(application *Application, user *User, scope string, nonce string, host string, channelContext *ChannelContext) (*Token, error) {
 	err := ExtendUserWithRolesAndPermissions(user)
 	if err != nil {
 		return nil, err
 	}
 
-	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, "", "", nonce, scope, "", host)
+	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, "", "", nonce, scope, "", host, channelContext)
 	if err != nil {
 		return nil, err
 	}
 
 	token := &Token{
-		Owner:        application.Owner,
-		Name:         tokenName,
-		CreatedTime:  util.GetCurrentTime(),
-		Application:  application.Name,
-		Organization: user.Owner,
-		User:         user.Name,
-		Code:         util.GenerateClientId(),
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
-		ExpiresIn:    int(application.ExpireInHours * float64(hourSeconds)),
-		Scope:        scope,
-		TokenType:    "Bearer",
-		CodeIsUsed:   true,
+		Owner:            application.Owner,
+		Name:             tokenName,
+		CreatedTime:      util.GetCurrentTime(),
+		Application:      application.Name,
+		Organization:     user.Owner,
+		User:             user.Name,
+		Code:             util.GenerateClientId(),
+		AccessToken:      accessToken,
+		RefreshToken:     refreshToken,
+		ExpiresIn:        int(application.ExpireInHours * float64(hourSeconds)),
+		Scope:            scope,
+		TokenType:        "Bearer",
+		Channel:          channelContextValue(channelContext, "channel"),
+		RootOrganization: channelContextValue(channelContext, "root"),
+		ChannelMode:      channelContextValue(channelContext, "mode"),
+		CodeIsUsed:       true,
 	}
 	_, err = AddToken(token)
 	if err != nil {
@@ -572,7 +586,7 @@ func GetWechatMiniProgramToken(application *Application, code string, host strin
 		return nil, nil, err
 	}
 
-	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, "", "", "", "", "", host)
+	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, "", "", "", "", "", host, nil)
 	if err != nil {
 		return nil, &TokenError{
 			Error:            EndpointError,
@@ -709,7 +723,7 @@ func GetTokenExchangeToken(application *Application, clientSecret string, subjec
 		return nil, nil, err
 	}
 
-	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, "", "", "", scope, "", host)
+	accessToken, refreshToken, tokenName, err := generateJwtToken(application, user, "", "", "", scope, "", host, nil)
 	if err != nil {
 		return nil, &TokenError{
 			Error:            EndpointError,
@@ -750,7 +764,7 @@ func GetAccessTokenByUser(user *User, host string) (string, error) {
 		return "", fmt.Errorf("the application for user %s is not found", user.Id)
 	}
 
-	token, err := GetTokenByUser(application, user, "profile", "", host)
+	token, err := GetTokenByUser(application, user, "profile", "", host, nil)
 	if err != nil {
 		return "", err
 	}

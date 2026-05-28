@@ -156,6 +156,7 @@ func (c *ApiController) GetSessionApplication() *object.Application {
 
 func (c *ApiController) ClearUserSession() {
 	c.SetSessionUsername("")
+	c.SetSessionChannelContext(nil)
 	c.SetSessionData(nil)
 	_ = c.SessionRegenerateID()
 }
@@ -192,6 +193,38 @@ func (c *ApiController) SetSessionUsername(user string) {
 
 func (c *ApiController) SetSessionToken(accessToken string) {
 	c.SetSession("accessToken", accessToken)
+}
+
+func (c *ApiController) GetSessionChannelContext() *object.ChannelContext {
+	channelValue := c.GetSession("channelOrganization")
+	rootValue := c.GetSession("rootOrganization")
+	modeValue := c.GetSession("channelMode")
+
+	channel, _ := channelValue.(string)
+	rootOrganization, _ := rootValue.(string)
+	channelMode, _ := modeValue.(string)
+	if channel == "" && rootOrganization == "" && channelMode == "" {
+		return nil
+	}
+
+	return &object.ChannelContext{
+		ChannelOrganization: channel,
+		RootOrganization:    rootOrganization,
+		ChannelMode:         channelMode,
+	}
+}
+
+func (c *ApiController) SetSessionChannelContext(ctx *object.ChannelContext) {
+	if ctx == nil {
+		c.DelSession("channelOrganization")
+		c.DelSession("rootOrganization")
+		c.DelSession("channelMode")
+		return
+	}
+
+	c.SetSession("channelOrganization", ctx.ChannelOrganization)
+	c.SetSession("rootOrganization", ctx.RootOrganization)
+	c.SetSession("channelMode", ctx.ChannelMode)
 }
 
 // GetSessionData ...

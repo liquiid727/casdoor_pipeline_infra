@@ -187,6 +187,8 @@ func (c *ApiController) AddOrganization() {
 		organization.Languages = []string{"en", "es", "fr", "de", "ja", "zh", "vi", "pt", "tr", "pl", "uk"}
 	}
 
+	object.NormalizeOrganizationChannelFields(&organization)
+
 	c.Data["json"] = wrapActionResponse(object.AddOrganization(&organization))
 	c.ServeJSON()
 }

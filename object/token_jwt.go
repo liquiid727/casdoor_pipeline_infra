@@ -27,10 +27,13 @@ import (
 
 type Claims struct {
 	*User
-	TokenType string `json:"tokenType,omitempty"`
-	Nonce     string `json:"nonce,omitempty"`
-	Tag       string `json:"tag"`
-	Scope     string `json:"scope,omitempty"`
+	TokenType        string `json:"tokenType,omitempty"`
+	Nonce            string `json:"nonce,omitempty"`
+	Tag              string `json:"tag"`
+	Scope            string `json:"scope,omitempty"`
+	Channel          string `json:"channel,omitempty"`
+	RootOrganization string `json:"rootOrganization,omitempty"`
+	ChannelMode      string `json:"channelMode,omitempty"`
 	// the `azp` (Authorized Party) claim. Optional. See https://openid.net/specs/openid-connect-core-1_0.html#IDToken
 	Azp      string `json:"azp,omitempty"`
 	Provider string `json:"provider,omitempty"`
@@ -153,11 +156,14 @@ type UserWithoutThirdIdp struct {
 
 type ClaimsShort struct {
 	*UserShort
-	TokenType string `json:"tokenType,omitempty"`
-	Nonce     string `json:"nonce,omitempty"`
-	Scope     string `json:"scope,omitempty"`
-	Azp       string `json:"azp,omitempty"`
-	Provider  string `json:"provider,omitempty"`
+	TokenType        string `json:"tokenType,omitempty"`
+	Nonce            string `json:"nonce,omitempty"`
+	Scope            string `json:"scope,omitempty"`
+	Channel          string `json:"channel,omitempty"`
+	RootOrganization string `json:"rootOrganization,omitempty"`
+	ChannelMode      string `json:"channelMode,omitempty"`
+	Azp              string `json:"azp,omitempty"`
+	Provider         string `json:"provider,omitempty"`
 
 	SigninMethod string `json:"signinMethod,omitempty"`
 	jwt.RegisteredClaims
@@ -174,12 +180,15 @@ type OIDCAddress struct {
 
 type ClaimsWithoutThirdIdp struct {
 	*UserWithoutThirdIdp
-	TokenType string `json:"tokenType,omitempty"`
-	Nonce     string `json:"nonce,omitempty"`
-	Tag       string `json:"tag"`
-	Scope     string `json:"scope,omitempty"`
-	Azp       string `json:"azp,omitempty"`
-	Provider  string `json:"provider,omitempty"`
+	TokenType        string `json:"tokenType,omitempty"`
+	Nonce            string `json:"nonce,omitempty"`
+	Tag              string `json:"tag"`
+	Scope            string `json:"scope,omitempty"`
+	Channel          string `json:"channel,omitempty"`
+	RootOrganization string `json:"rootOrganization,omitempty"`
+	ChannelMode      string `json:"channelMode,omitempty"`
+	Azp              string `json:"azp,omitempty"`
+	Provider         string `json:"provider,omitempty"`
 
 	SigninMethod string `json:"signinMethod,omitempty"`
 	jwt.RegisteredClaims
@@ -311,6 +320,9 @@ func getShortClaims(claims Claims) ClaimsShort {
 		TokenType:        claims.TokenType,
 		Nonce:            claims.Nonce,
 		Scope:            claims.Scope,
+		Channel:          claims.Channel,
+		RootOrganization: claims.RootOrganization,
+		ChannelMode:      claims.ChannelMode,
 		RegisteredClaims: claims.RegisteredClaims,
 		Azp:              claims.Azp,
 		SigninMethod:     claims.SigninMethod,
@@ -326,6 +338,9 @@ func getClaimsWithoutThirdIdp(claims Claims) ClaimsWithoutThirdIdp {
 		Nonce:               claims.Nonce,
 		Tag:                 claims.Tag,
 		Scope:               claims.Scope,
+		Channel:             claims.Channel,
+		RootOrganization:    claims.RootOrganization,
+		ChannelMode:         claims.ChannelMode,
 		RegisteredClaims:    claims.RegisteredClaims,
 		Azp:                 claims.Azp,
 		SigninMethod:        claims.SigninMethod,
@@ -444,6 +459,12 @@ func getClaimsCustom(claims Claims, tokenField []string, tokenAttributes []*JwtI
 				permissionNames = append(permissionNames, val.Name)
 			}
 			res[util.SnakeToCamel(util.CamelToSnakeCase(field))] = permissionNames
+		} else if field == "Channel" {
+			res["channel"] = claims.Channel
+		} else if field == "RootOrganization" {
+			res["rootOrganization"] = claims.RootOrganization
+		} else if field == "ChannelMode" {
+			res["channelMode"] = claims.ChannelMode
 		} else { // Use selected user field as claims.
 			userField := userValue.FieldByName(field)
 			if userField.IsValid() {
@@ -505,7 +526,7 @@ func refineUser(user *User) *User {
 	return user
 }
 
-func generateJwtToken(application *Application, user *User, provider string, signinMethod string, nonce string, scope string, resource string, host string) (string, string, string, error) {
+func generateJwtToken(application *Application, user *User, provider string, signinMethod string, nonce string, scope string, resource string, host string, channelContext *ChannelContext) (string, string, string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(time.Duration(application.ExpireInHours * float64(time.Hour)))
 	refreshExpireTime := nowTime.Add(time.Duration(application.RefreshExpireInHours * float64(time.Hour)))
@@ -533,11 +554,14 @@ func generateJwtToken(application *Application, user *User, provider string, sig
 		TokenType: "access-token",
 		Nonce:     nonce,
 		// FIXME: A workaround for custom claim by reusing `tag` in user info
-		Tag:          user.Tag,
-		Scope:        scope,
-		Azp:          application.ClientId,
-		Provider:     provider,
-		SigninMethod: signinMethod,
+		Tag:              user.Tag,
+		Scope:            scope,
+		Channel:          channelContextValue(channelContext, "channel"),
+		RootOrganization: channelContextValue(channelContext, "root"),
+		ChannelMode:      channelContextValue(channelContext, "mode"),
+		Azp:              application.ClientId,
+		Provider:         provider,
+		SigninMethod:     signinMethod,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    originBackend,
 			Subject:   user.Id,
@@ -654,6 +678,23 @@ func generateJwtToken(application *Application, user *User, provider string, sig
 	refreshTokenString, err = refreshToken.SignedString(key)
 
 	return tokenString, refreshTokenString, name, err
+}
+
+func channelContextValue(channelContext *ChannelContext, field string) string {
+	if channelContext == nil {
+		return ""
+	}
+
+	switch field {
+	case "channel":
+		return channelContext.ChannelOrganization
+	case "root":
+		return channelContext.RootOrganization
+	case "mode":
+		return channelContext.ChannelMode
+	default:
+		return ""
+	}
 }
 
 func ParseJwtTokenWithoutValidation(token string) (*jwt.Token, error) {

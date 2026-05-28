@@ -21,6 +21,7 @@ type AuthForm struct {
 	SigninMethod string `json:"signinMethod"`
 
 	Organization   string `json:"organization"`
+	Channel        string `json:"channel"`
 	Username       string `json:"username"`
 	Password       string `json:"password"`
 	Name           string `json:"name"`

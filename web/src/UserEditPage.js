@@ -15,7 +15,7 @@
 import React from "react";
 import {
   Button, Card, Col, Form, Input, InputNumber, Layout, List,
-  Menu, Result, Row, Select, Space, Switch, Tabs, Tag, Tooltip
+  Menu, Result, Row, Select, Space, Switch, Table, Tabs, Tag, Tooltip
 } from "antd";
 import {withRouter} from "react-router-dom";
 import {TotpMfaType} from "./auth/MfaSetupPage";
@@ -28,6 +28,7 @@ import * as Setting from "./Setting";
 import i18next from "i18next";
 import CropperDivModal from "./common/modal/CropperDivModal.js";
 import * as ApplicationBackend from "./backend/ApplicationBackend";
+import * as ChannelRelationBackend from "./backend/ChannelRelationBackend";
 import PasswordModal from "./common/modal/PasswordModal";
 import ResetModal from "./common/modal/ResetModal";
 import AffiliationSelect from "./common/select/AffiliationSelect";
@@ -49,6 +50,7 @@ import FaceIdTable from "./table/FaceIdTable";
 import MfaAccountTable from "./table/MfaAccountTable";
 import MfaTable from "./table/MfaTable";
 import ConsentTable from "./table/ConsentTable";
+import * as UserChannelBackend from "./backend/UserChannelBackend";
 import {Content, Header} from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 
@@ -72,6 +74,9 @@ class UserEditPage extends React.Component {
       idCardInfo: ["ID card front", "ID card back", "ID card with person"],
       openFaceRecognitionModal: false,
       consents: [],
+      userChannels: [],
+      availableChannels: [],
+      editingUserChannel: null,
       activeMenuKey: window.location.hash?.slice(1) || "",
       menuMode: "Horizontal",
     };
@@ -112,7 +117,41 @@ class UserEditPage extends React.Component {
           consents: res.data?.applicationScopes ?? [],
           loading: false,
         });
+        this.getUserChannels(res.data.owner, res.data.name);
+        this.getAvailableChannels(res.data.owner);
 
+      });
+  }
+
+  getAvailableChannels(rootOrganization) {
+    ChannelRelationBackend.getChannelRelations("admin", rootOrganization)
+      .then((res) => {
+        if (res.status === "ok") {
+          this.setState({
+            availableChannels: res.data || [],
+          });
+        }
+      });
+  }
+
+  getUserChannels(rootOrganization, userName) {
+    UserChannelBackend.getUserChannels("admin", rootOrganization, userName)
+      .then((res) => {
+        if (res.status === "ok") {
+          this.setState({
+            userChannels: res.data || [],
+            editingUserChannel: res.data?.[0] || {
+              owner: "admin",
+              name: `binding_${Setting.getRandomName()}`,
+              user: userName,
+              rootOrganization: rootOrganization,
+              channelOrganization: "",
+              roles: [],
+              permissions: [],
+              status: "active",
+            },
+          });
+        }
       });
   }
 
@@ -1458,6 +1497,7 @@ class UserEditPage extends React.Component {
         } style={(Setting.isMobile()) ? {margin: "5px"} : {}} type="inner">
           {this.renderUserForm()}
         </Card>
+        {this.renderUserChannels()}
       </div>
     );
   }
@@ -1544,6 +1584,122 @@ class UserEditPage extends React.Component {
       .catch(error => {
         Setting.showMessage("error", `${i18next.t("general:Failed to connect to server")}: ${error}`);
       });
+  }
+
+  updateEditingUserChannelField(key, value) {
+    const editingUserChannel = {...this.state.editingUserChannel};
+    editingUserChannel[key] = value;
+    this.setState({editingUserChannel});
+  }
+
+  saveUserChannel() {
+    const binding = Setting.deepCopy(this.state.editingUserChannel);
+    const exists = this.state.userChannels.some(item => item.name === binding.name);
+    const action = exists
+      ? UserChannelBackend.updateUserChannel("admin", binding.name, binding)
+      : UserChannelBackend.bindUserChannel(binding);
+
+    action.then((res) => {
+      if (res.status === "ok") {
+        Setting.showMessage("success", i18next.t("general:Successfully saved"));
+        this.getUserChannels(this.state.user.owner, this.state.user.name);
+      } else {
+        Setting.showMessage("error", res.msg);
+      }
+    });
+  }
+
+  deleteUserChannel(binding) {
+    UserChannelBackend.unbindUserChannel(binding)
+      .then((res) => {
+        if (res.status === "ok") {
+          Setting.showMessage("success", i18next.t("general:Successfully deleted"));
+          this.getUserChannels(this.state.user.owner, this.state.user.name);
+        } else {
+          Setting.showMessage("error", res.msg);
+        }
+      });
+  }
+
+  renderUserChannels() {
+    if (!this.state.user || !this.state.editingUserChannel || !Setting.isLocalAdminUser(this.props.account)) {
+      return null;
+    }
+
+    const columns = [
+      {title: i18next.t("general:Name"), dataIndex: "name", key: "name"},
+      {title: "Channel", dataIndex: "channelOrganization", key: "channelOrganization"},
+      {title: i18next.t("general:Status"), dataIndex: "status", key: "status"},
+      {
+        title: i18next.t("general:Action"),
+        key: "action",
+        render: (_, record) => (
+          <div>
+            <Button size="small" style={{marginRight: "8px"}} onClick={() => this.setState({editingUserChannel: {...record}})}>{i18next.t("general:Edit")}</Button>
+            <PopconfirmModal
+              title={i18next.t("general:Sure to delete") + `: ${record.name} ?`}
+              onConfirm={() => this.deleteUserChannel(record)}
+            />
+          </div>
+        ),
+      },
+    ];
+
+    return (
+      <Card size="small" title={"Channels"} style={{marginTop: "20px"}}>
+        <Row style={{marginTop: "10px"}}>
+          <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 22 : 4}>
+            {i18next.t("general:Name")} :
+          </Col>
+          <Col span={(Setting.isMobile()) ? 22 : 20}>
+            <Input value={this.state.editingUserChannel.name} onChange={e => this.updateEditingUserChannelField("name", e.target.value)} />
+          </Col>
+        </Row>
+        <Row style={{marginTop: "20px"}}>
+          <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 22 : 4}>
+            Channel :
+          </Col>
+          <Col span={(Setting.isMobile()) ? 22 : 20}>
+            <Select virtual={false} style={{width: "100%"}} value={this.state.editingUserChannel.channelOrganization} onChange={value => this.updateEditingUserChannelField("channelOrganization", value)}>
+              {this.state.availableChannels.map(item => <Option key={item.channelOrganization} value={item.channelOrganization}>{item.channelOrganization}</Option>)}
+            </Select>
+          </Col>
+        </Row>
+        <Row style={{marginTop: "20px"}}>
+          <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 22 : 4}>
+            {i18next.t("general:Roles")} :
+          </Col>
+          <Col span={(Setting.isMobile()) ? 22 : 20}>
+            <Select virtual={false} mode="tags" style={{width: "100%"}} value={this.state.editingUserChannel.roles || []} onChange={value => this.updateEditingUserChannelField("roles", value)} />
+          </Col>
+        </Row>
+        <Row style={{marginTop: "20px"}}>
+          <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 22 : 4}>
+            {i18next.t("general:Permissions")} :
+          </Col>
+          <Col span={(Setting.isMobile()) ? 22 : 20}>
+            <Select virtual={false} mode="tags" style={{width: "100%"}} value={this.state.editingUserChannel.permissions || []} onChange={value => this.updateEditingUserChannelField("permissions", value)} />
+          </Col>
+        </Row>
+        <Row style={{marginTop: "20px"}}>
+          <Col style={{marginTop: "5px"}} span={(Setting.isMobile()) ? 22 : 4}>
+            {i18next.t("general:Status")} :
+          </Col>
+          <Col span={(Setting.isMobile()) ? 22 : 20}>
+            <Select virtual={false} style={{width: "100%"}} value={this.state.editingUserChannel.status || "active"} onChange={value => this.updateEditingUserChannelField("status", value)}>
+              <Option value="active">active</Option>
+              <Option value="disabled">disabled</Option>
+            </Select>
+          </Col>
+        </Row>
+        <Row style={{marginTop: "20px"}}>
+          <Col span={24}>
+            <Button type="primary" onClick={() => this.saveUserChannel()}>{i18next.t("general:Save")}</Button>
+          </Col>
+        </Row>
+        <Table style={{marginTop: "20px"}} rowKey="name" dataSource={this.state.userChannels} columns={columns} pagination={false} />
+      </Card>
+    );
   }
 
   render() {

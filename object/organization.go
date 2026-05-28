@@ -54,6 +54,12 @@ type Organization struct {
 	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
 
 	DisplayName            string     `xorm:"varchar(100)" json:"displayName"`
+	OrganizationType       string     `xorm:"varchar(100)" json:"organizationType"`
+	ParentOrganization     string     `xorm:"varchar(100)" json:"parentOrganization"`
+	ChannelMode            string     `xorm:"varchar(100)" json:"channelMode"`
+	SettlementEnabled      bool       `json:"settlementEnabled"`
+	SettlementConfig       string     `xorm:"mediumtext" json:"settlementConfig"`
+	Status                 string     `xorm:"varchar(100)" json:"status"`
 	WebsiteUrl             string     `xorm:"varchar(100)" json:"websiteUrl"`
 	Logo                   string     `xorm:"varchar(200)" json:"logo"`
 	LogoDark               string     `xorm:"varchar(200)" json:"logoDark"`
@@ -237,6 +243,13 @@ func UpdateOrganization(id string, organization *Organization, isGlobalAdmin boo
 		}
 	}
 
+	if err = ValidateOrganizationChannelFields(organization); err != nil {
+		return false, err
+	}
+	if err = ValidateOrganizationChannelMutation(org, organization); err != nil {
+		return false, err
+	}
+
 	if organization.MasterPassword != "" && organization.MasterPassword != "***" {
 		credManager := cred.GetCredManager(organization.PasswordType)
 		if credManager != nil {
@@ -272,6 +285,10 @@ func UpdateOrganization(id string, organization *Organization, isGlobalAdmin boo
 }
 
 func AddOrganization(organization *Organization) (bool, error) {
+	if err := ValidateOrganizationChannelFields(organization); err != nil {
+		return false, err
+	}
+
 	affected, err := ormer.Engine.Insert(organization)
 	if err != nil {
 		return false, err
@@ -292,6 +309,10 @@ func deleteOrganization(organization *Organization) (bool, error) {
 func DeleteOrganization(organization *Organization) (bool, error) {
 	if organization.Name == "built-in" {
 		return false, nil
+	}
+
+	if err := ensureNoActiveChannelDependencies(organization.Name, "delete"); err != nil {
+		return false, err
 	}
 
 	return deleteOrganization(organization)

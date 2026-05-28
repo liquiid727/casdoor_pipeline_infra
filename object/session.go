@@ -37,6 +37,10 @@ type Session struct {
 
 	SessionId []string `json:"sessionId"`
 
+	ChannelOrganization string `xorm:"varchar(100)" json:"channelOrganization"`
+	RootOrganization    string `xorm:"varchar(100)" json:"rootOrganization"`
+	ChannelMode         string `xorm:"varchar(100)" json:"channelMode"`
+
 	ExclusiveSignin bool `xorm:"-"`
 }
 

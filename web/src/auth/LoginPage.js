@@ -70,6 +70,7 @@ class LoginPage extends React.Component {
       isTermsOfUseVisible: false,
       termsOfUseContent: "",
       orgChoiceMode: new URLSearchParams(props.location?.search).get("orgChoiceMode") ?? null,
+      channel: urlParams.get("channel") || "",
       userLang: null,
       loginLoading: false,
       userCode: props.userCode ?? (props.match?.params?.userCode ?? null),
@@ -331,6 +332,10 @@ class LoginPage extends React.Component {
   populateOauthValues(values) {
     if (this.getApplicationObj()?.organization) {
       values["organization"] = this.getApplicationObj().organization;
+    }
+
+    if (this.state.channel) {
+      values["channel"] = this.state.channel;
     }
 
     values["signinMethod"] = this.getCurrentLoginMethod();
@@ -1107,6 +1112,7 @@ class LoginPage extends React.Component {
           initialValues={{
             organization: application.organization,
             application: application.name,
+            channel: this.state.channel,
             autoSignin: !application?.signinItems.map(signinItem => signinItem.name === "Forgot password?" && signinItem.rule === "Auto sign in - False")?.includes(true),
             username: this.state.prefilledUsername || (Conf.ShowGithubCorner ? "admin" : ""),
             password: Conf.ShowGithubCorner ? "123" : "",
@@ -1141,6 +1147,16 @@ class LoginPage extends React.Component {
             ]}
           >
           </Form.Item>
+          {
+            application.organizationObj?.organizationType === "channel_org" ? null : (
+              <Form.Item name="channel" label={"Channel"}>
+                <Input
+                  placeholder="Optional channel organization"
+                  onChange={e => this.setState({channel: e.target.value})}
+                />
+              </Form.Item>
+            )
+          }
 
           {
             application.signinItems?.map(signinItem => this.renderFormItem(application, signinItem))

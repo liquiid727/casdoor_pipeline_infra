@@ -216,6 +216,7 @@ func (c *ApiController) GrantConsent() {
 		request.Resource,
 		c.Ctx.Request.Host,
 		c.GetAcceptLanguage(),
+		c.GetSessionChannelContext(),
 	)
 	if err != nil {
 		c.ResponseError(err.Error())
