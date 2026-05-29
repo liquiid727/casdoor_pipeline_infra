@@ -236,10 +236,6 @@ func UpdateProvider(id string, provider *Provider) (bool, error) {
 		}
 	}
 
-	if err := fillOpenClawProviderDefaults(provider); err != nil {
-		return false, err
-	}
-
 	if name != provider.Name {
 		err := providerChangeTrigger(owner, name, provider.Name)
 		if err != nil {
@@ -283,10 +279,6 @@ func AddProvider(provider *Provider) (bool, error) {
 		if err != nil {
 			return false, err
 		}
-	}
-
-	if err := fillOpenClawProviderDefaults(provider); err != nil {
-		return false, err
 	}
 
 	affected, err := ormer.Engine.Insert(provider)
@@ -562,33 +554,6 @@ func GetLogProviderFromProvider(provider *Provider) (log.LogProvider, error) {
 				DisplayName: name,
 				Provider:    providerName,
 				Application: CasdoorApplication,
-				Message:     message,
-			}
-			_, err := AddEntry(entry)
-			return err
-		}), nil
-	}
-
-	if provider.Type == "Agent" && provider.SubType == "OpenClaw" {
-		providerName := provider.Name
-		return log.NewOpenClawProvider(providerName, func(entryType, message, clientIp, userAgent string) error {
-			// Bypass: metrics entries are temporarily not persisted to the database.
-			if entryType == "metrics" {
-				return nil
-			}
-
-			name := log.GenerateEntryName()
-			currentTime := util.GetCurrentTime()
-			entry := &Entry{
-				Owner:       CasdoorOrganization,
-				Name:        name,
-				CreatedTime: currentTime,
-				UpdatedTime: currentTime,
-				DisplayName: name,
-				Provider:    providerName,
-				Type:        entryType,
-				ClientIp:    clientIp,
-				UserAgent:   userAgent,
 				Message:     message,
 			}
 			_, err := AddEntry(entry)

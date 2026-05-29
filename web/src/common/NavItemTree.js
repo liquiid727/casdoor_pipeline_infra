@@ -41,9 +41,6 @@ export const NavItemTree = ({disabled, checkedKeys, defaultExpandedKeys, onCheck
           title: i18next.t("general:LLM AI"),
           key: "/sites-top",
           children: [
-            {title: i18next.t("general:Agents"), key: "/agents"},
-            {title: i18next.t("general:MCP Servers"), key: "/servers"},
-            {title: i18next.t("general:MCP Store"), key: "/server-store"},
             {title: i18next.t("general:Entries"), key: "/entries"},
             {title: i18next.t("general:Sites"), key: "/sites"},
             {title: i18next.t("general:Rules"), key: "/rules"},
@@ -68,18 +65,6 @@ export const NavItemTree = ({disabled, checkedKeys, defaultExpandedKeys, onCheck
             {title: i18next.t("general:Records"), key: "/records"},
             {title: i18next.t("general:Tokens"), key: "/tokens"},
             {title: i18next.t("general:Verifications"), key: "/verifications"},
-          ],
-        },
-        {
-          title: i18next.t("general:Business"),
-          key: "/business-top",
-          children: [
-            {title: i18next.t("general:Products"), key: "/products"},
-            {title: i18next.t("general:Payments"), key: "/payments"},
-            {title: i18next.t("general:Plans"), key: "/plans"},
-            {title: i18next.t("general:Pricings"), key: "/pricings"},
-            {title: i18next.t("general:Subscriptions"), key: "/subscriptions"},
-            {title: i18next.t("general:Transactions"), key: "/transactions"},
           ],
         },
         {

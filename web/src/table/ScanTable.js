@@ -64,10 +64,6 @@ function getEntryPath(subType, owner, name) {
     return `/sites/${owner}/${name}`;
   }
 
-  if (subType === "Agent") {
-    return `/agents/${owner}/${name}`;
-  }
-
   return "";
 }
 

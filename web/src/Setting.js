@@ -414,10 +414,6 @@ export const OtherProviderInfo = {
       logo: `${StaticBaseUrl}/img/social_default.png`,
       url: "https://en.wikipedia.org/wiki/Syslog",
     },
-    "Agent": {
-      logo: `${StaticBaseUrl}/img/social_default.png`,
-      url: "",
-    },
     "SELinux Log": {
       logo: `${StaticBaseUrl}/img/social_default.png`,
       url: "https://github.com/SELinuxProject/selinux",
@@ -425,10 +421,6 @@ export const OtherProviderInfo = {
   },
   Scan: {
     "Security Scan": {
-      logo: `${StaticBaseUrl}/img/social_default.png`,
-      url: "",
-    },
-    "MCP Scan": {
       logo: `${StaticBaseUrl}/img/social_default.png`,
       url: "",
     },
@@ -1406,13 +1398,11 @@ export function getProviderTypeOptions(category) {
     return ([
       {id: "Casdoor Permission Log", name: "Casdoor Permission Log"},
       {id: "System Log", name: "System Log"},
-      {id: "Agent", name: "Agent"},
       {id: "SELinux Log", name: "SELinux Log"},
     ]);
   } else if (category === "Scan") {
     return ([
       {id: "Security Scan", name: "Security Scan"},
-      {id: "MCP Scan", name: "MCP Scan"},
     ]);
   } else {
     return [];

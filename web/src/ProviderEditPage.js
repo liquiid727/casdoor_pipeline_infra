@@ -216,9 +216,6 @@ class ProviderEditPage extends React.Component {
     if (key === "owner" && provider["owner"] !== value) {
       // the provider change the owner, reset the cert
       provider["cert"] = "";
-      if (provider["category"] === "Log" && provider["type"] === "Agent" && provider["subType"] === "OpenClaw") {
-        provider["providerUrl"] = "";
-      }
       this.getProviders(value);
       this.getCerts(value);
     }
@@ -517,18 +514,10 @@ class ProviderEditPage extends React.Component {
   }
 
   getProviderSubTypeOptions(type) {
-    if (type === "Agent") {
-      return ([
-        {id: "OpenClaw", name: "OpenClaw"},
-      ]);
-    } else if (type === "Security Scan") {
+    if (type === "Security Scan") {
       return ([
         {id: "Site", name: "Site"},
         {id: "Url", name: "Url"},
-      ]);
-    } else if (type === "MCP Scan") {
-      return ([
-        {id: "Intranet Scan", name: "Intranet Scan"},
       ]);
     } else if (type === "WeCom" || type === "Infoflow") {
       return (
@@ -714,13 +703,10 @@ class ProviderEditPage extends React.Component {
       return;
     }
 
-    const isSecurityUrlScan = provider.type === "Security Scan" && provider.subType === "Url";
-    const rawTarget = isSecurityUrlScan ? (target || provider.content || "") : target;
+    const rawTarget = provider.subType === "Url" ? (target || provider.content || "") : target;
 
     this.setState({scanLoading: true});
-    const scanApi = provider.type === "Security Scan"
-      ? ServerBackend.scanProvider(provider.owner, provider.name, rawTarget)
-      : ServerBackend.syncIntranetServers(provider.owner, provider.name);
+    const scanApi = ServerBackend.scanProvider(provider.owner, provider.name, rawTarget);
 
     scanApi
       .then((res) => {
@@ -858,12 +844,11 @@ class ProviderEditPage extends React.Component {
                 this.updateProviderField("title", "");
                 this.updateProviderField("state", "Enabled");
               } else if (value === "Scan") {
-                defaultType = "MCP Scan";
+                defaultType = "Security Scan";
                 this.updateProviderField("type", defaultType);
-                this.updateProviderField("subType", "Intranet Scan");
-                this.updateProviderField("scopes", "127.0.0.1/32");
-                this.updateProviderField("content", "3000,8080,80");
-                this.updateProviderField("endpoint", "/,/mcp,/sse,/mcp/sse");
+                this.updateProviderField("subType", "Site");
+                this.updateProviderField("content", "");
+                this.updateProviderField("endpoint", "");
               }
               if (defaultType) {
                 if (this.state.nameNotUserEdited) {
@@ -920,17 +905,6 @@ class ProviderEditPage extends React.Component {
               } else if (value === "Custom HTTP") {
                 this.updateProviderField("method", "GET");
                 this.updateProviderField("title", "");
-              } else if (value === "MCP Scan") {
-                this.updateProviderField("subType", "Intranet Scan");
-                if (!this.state.provider?.scopes) {
-                  this.updateProviderField("scopes", "127.0.0.1/32");
-                }
-                if (!this.state.provider?.content) {
-                  this.updateProviderField("content", "3000,8080,80");
-                }
-                if (!this.state.provider?.endpoint) {
-                  this.updateProviderField("endpoint", "/,/mcp,/sse,/mcp/sse");
-                }
               } else if (value === "Security Scan") {
                 this.updateProviderField("subType", "Site");
               }

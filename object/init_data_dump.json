@@ -3390,110 +3390,6 @@
       [
         "*",
         "*",
-        "GET",
-        "/api/get-product",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "GET",
-        "/api/get-products",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "POST",
-        "/api/buy-product",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "GET",
-        "/api/get-order",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "GET",
-        "/api/get-orders",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "GET",
-        "/api/get-user-orders",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "GET",
-        "/api/get-payment",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "POST",
-        "/api/invoice-payment",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "POST",
-        "/api/notify-payment",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "POST",
-        "/api/place-order",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "POST",
-        "/api/cancel-order",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "POST",
-        "/api/pay-order",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "POST",
-        "/api/validate-coupon",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
         "POST",
         "/api/unlink",
         "*",
@@ -3536,30 +3432,6 @@
         "*",
         "POST",
         "/api/verify-code",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "POST",
-        "/api/v1/traces",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "POST",
-        "/api/v1/metrics",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "POST",
-        "/api/v1/logs",
         "*",
         "*"
       ],
@@ -3744,46 +3616,6 @@
         "*",
         "*",
         "/api/metrics",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "GET",
-        "/api/get-pricing",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "GET",
-        "/api/get-plan",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "GET",
-        "/api/get-subscription",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "GET",
-        "/api/get-transactions",
-        "*",
-        "*"
-      ],
-      [
-        "*",
-        "*",
-        "GET",
-        "/api/get-transaction",
         "*",
         "*"
       ],

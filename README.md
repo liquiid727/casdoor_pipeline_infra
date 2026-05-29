@@ -3,11 +3,11 @@
     <img src="https://cdn.casbin.org/img/casdoor-logo_1185x256.png" alt="Casdoor" width="500">
   </a>
 
-  <h3>Casdoor: AI-First Identity and Access Management (IAM) / AI MCP Gateway</h3>
+  <h3>Casdoor: Identity and Access Management (IAM)</h3>
 
   <p align="center">
-    <strong>An open-source, AI-first IAM / MCP gateway and authentication server with a web UI.</strong><br>
-    Supporting MCP, A2A, OAuth&nbsp;2.0, OIDC (OAuth&nbsp;2.x), SAML, CAS, LDAP, SCIM, WebAuthn, TOTP, MFA, Face ID,<br>
+    <strong>An open-source IAM and authentication server with a web UI.</strong><br>
+    Supporting OAuth&nbsp;2.0, OIDC (OAuth&nbsp;2.x), SAML, CAS, LDAP, SCIM, WebAuthn, TOTP, MFA, Face ID,<br>
     Google Workspace, Azure AD, and more.
   </p>
 
@@ -198,11 +198,11 @@ Official guide: [Try with Helm](https://casdoor.ai/docs/basic/try-with-helm)
 <tr>
 <td width="50%">
 
-### 🤖 AI & MCP
+### 📋 Logging & Ops
 
-- **MCP Gateway** — Model Context Protocol support
-- **A2A Protocol** — Agent-to-Agent communication
-- **AI-First Design** — Built for AI applications
+- **Audit logs** — Operational visibility
+- **System logging** — Pull-based log collectors
+- **Webhooks** — Event-driven integrations
 
 </td>
 <td width="50%">

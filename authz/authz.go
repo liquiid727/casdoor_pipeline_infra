@@ -74,28 +74,12 @@ p, *, *, GET, /api/get-user-application, *, *
 p, *, *, POST, /api/upload-users, *, *
 p, *, *, GET, /api/get-resources, *, *
 p, *, *, GET, /api/get-records, *, *
-p, *, *, GET, /api/get-product, *, *
-p, *, *, GET, /api/get-products, *, *
-p, *, *, POST, /api/buy-product, *, *
-p, *, *, GET, /api/get-order, *, *
-p, *, *, GET, /api/get-orders, *, *
-p, *, *, GET, /api/get-user-orders, *, *
-p, *, *, GET, /api/get-payment, *, *
-p, *, *, POST, /api/invoice-payment, *, *
-p, *, *, POST, /api/notify-payment, *, *
-p, *, *, POST, /api/place-order, *, *
-p, *, *, POST, /api/cancel-order, *, *
-p, *, *, POST, /api/pay-order, *, *
-p, *, *, POST, /api/validate-coupon, *, *
 p, *, *, POST, /api/unlink, *, *
 p, *, *, POST, /api/set-password, *, *
 p, *, *, POST, /api/send-verification-code, *, *
 p, *, *, GET, /api/get-captcha, *, *
 p, *, *, POST, /api/verify-captcha, *, *
 p, *, *, POST, /api/verify-code, *, *
-p, *, *, POST, /api/v1/traces, *, *
-p, *, *, POST, /api/v1/metrics, *, *
-p, *, *, POST, /api/v1/logs, *, *
 p, *, *, POST, /api/reset-email-or-phone, *, *
 p, *, *, POST, /api/upload-resource, *, *
 p, *, *, GET, /.well-known/openid-configuration, *, *
@@ -119,11 +103,6 @@ p, *, *, GET, /api/get-release, *, *
 p, *, *, GET, /api/get-default-application, *, *
 p, *, *, GET, /api/get-prometheus-info, *, *
 p, *, *, *, /api/metrics, *, *
-p, *, *, GET, /api/get-pricing, *, *
-p, *, *, GET, /api/get-plan, *, *
-p, *, *, GET, /api/get-subscription, *, *
-p, *, *, GET, /api/get-transactions, *, *
-p, *, *, GET, /api/get-transaction, *, *
 p, *, *, GET, /api/get-provider, *, *
 p, *, *, GET, /api/get-organization-names, *, *
 p, *, *, GET, /api/get-organizations, *, *
@@ -155,14 +134,6 @@ p, *, *, GET, /api/kerberos-login, *, *
 }
 
 func IsAllowed(subOwner string, subName string, method string, urlPath string, objOwner string, objName string, extraInfo map[string]interface{}) (bool, error) {
-	if urlPath == "/api/mcp" {
-		if detailPath, ok := extraInfo["detailPathUrl"].(string); ok {
-			if detailPath == "initialize" || detailPath == "notifications/initialized" || detailPath == "ping" || detailPath == "tools/list" {
-				return true, nil
-			}
-		}
-	}
-
 	if conf.IsDemoMode() {
 		if !isAllowedInDemoMode(subOwner, subName, method, urlPath, objOwner, objName) {
 			return false, nil

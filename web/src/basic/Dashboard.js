@@ -100,9 +100,7 @@ function buildTrendOption(dashboardData) {
     {name: i18next.t("general:Groups"), data: dashboardData.groupCounts},
     {name: i18next.t("general:Resources"), data: dashboardData.resourceCounts},
     {name: i18next.t("general:Certs"), data: dashboardData.certCounts},
-    {name: i18next.t("general:Subscriptions"), data: dashboardData.subscriptionCounts},
     {name: i18next.t("general:Models"), data: dashboardData.modelCounts},
-    {name: i18next.t("general:Transactions"), data: dashboardData.transactionCounts},
     {name: i18next.t("general:Adapters"), data: dashboardData.adapterCounts},
     {name: i18next.t("general:Enforcers"), data: dashboardData.enforcerCounts},
   ];
@@ -118,7 +116,6 @@ function buildTrendOption(dashboardData) {
         [i18next.t("general:Adapters")]: false,
         [i18next.t("general:Enforcers")]: false,
         [i18next.t("general:Models")]: false,
-        [i18next.t("general:Subscriptions")]: false,
       },
     },
     grid: {left: "3%", right: "4%", bottom: "3%", top: "22%", containLabel: true},

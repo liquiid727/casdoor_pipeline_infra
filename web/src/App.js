@@ -179,9 +179,8 @@ class App extends Component {
       "/organizations", "/groups", "/users", "/invitations", // User Management
       "/applications", "/providers", "/resources", "/certs", "/keys", // Identity
       "/roles", "/permissions", "/models", "/adapters", "/enforcers", // Authorization
-      "/agents", "/servers", "/server-store", "/entries", "/sites", "/rules", // LLM AI
+      "/entries", "/sites", "/rules", // LLM AI
       "/sessions", "/records", "/tokens", "/verifications", // Auditing
-      "/products", "/orders", "/payments", "/plans", "/pricings", "/subscriptions", "/transactions", // Business
       "/sysinfo", "/forms", "/syncers", "/webhooks", "/webhook-events", "/tickets", "/swagger", // Admin
     ];
 
@@ -221,14 +220,8 @@ class App extends Component {
       }
     } else if (uri.includes("/keys")) {
       return "/keys";
-    } else if (uri.includes("/agents") || uri.includes("/servers") || uri.includes("/entries") || uri.includes("/sites") || uri.includes("/rules")) {
-      if (uri.includes("/agents")) {
-        return "/agents";
-      } else if (uri.includes("/servers")) {
-        return "/servers";
-      } else if (uri.includes("/server-store")) {
-        return "/server-store";
-      } else if (uri.includes("/entries")) {
+    } else if (uri.includes("/entries") || uri.includes("/sites") || uri.includes("/rules")) {
+      if (uri.includes("/entries")) {
         return "/entries";
       } else if (uri.includes("/sites")) {
         return "/sites";
@@ -256,22 +249,6 @@ class App extends Component {
         return "/tokens";
       } else if (uri.includes("/verifications")) {
         return "/verifications";
-      }
-    } else if (uri.includes("/products") || uri.includes("/orders") || uri.includes("/payments") || uri.includes("/plans") || uri.includes("/pricings") || uri.includes("/subscriptions") || uri.includes("/transactions")) {
-      if (uri.includes("/products")) {
-        return "/products";
-      } else if (uri.includes("/orders")) {
-        return "/orders";
-      } else if (uri.includes("/payments")) {
-        return "/payments";
-      } else if (uri.includes("/plans")) {
-        return "/plans";
-      } else if (uri.includes("/pricings")) {
-        return "/pricings";
-      } else if (uri.includes("/subscriptions")) {
-        return "/subscriptions";
-      } else if (uri.includes("/transactions")) {
-        return "/transactions";
       }
     } else if (uri.includes("/sysinfo") || uri.includes("/forms") || uri.includes("/syncers") || uri.includes("/webhooks") || uri.includes("/webhook-events") || uri.includes("/tickets")) {
       if (uri.includes("/sysinfo")) {
@@ -317,14 +294,12 @@ class App extends Component {
       this.setState({selectedMenuKey: "/orgs"});
     } else if (uri.includes("/applications") || uri.includes("/providers") || uri.includes("/resources") || uri.includes("/certs") || uri.includes("/keys")) {
       this.setState({selectedMenuKey: "/identity"});
-    } else if (uri.includes("/agents") || uri.includes("/servers") || uri.includes("/server-store") || uri.includes("/entries") || uri.includes("/sites") || uri.includes("/rules")) {
+    } else if (uri.includes("/entries") || uri.includes("/sites") || uri.includes("/rules")) {
       this.setState({selectedMenuKey: "/gateway"});
     } else if (uri.includes("/roles") || uri.includes("/permissions") || uri.includes("/models") || uri.includes("/adapters") || uri.includes("/enforcers")) {
       this.setState({selectedMenuKey: "/auth"});
     } else if (uri.includes("/records") || uri.includes("/tokens") || uri.includes("/sessions") || uri.includes("/verifications")) {
       this.setState({selectedMenuKey: "/logs"});
-    } else if (uri.includes("/product-store") || uri.includes("/products") || uri.includes("/orders") || uri.includes("/payments") || uri.includes("/plans") || uri.includes("/pricings") || uri.includes("/subscriptions") || uri.includes("/transactions")) {
-      this.setState({selectedMenuKey: "/business"});
     } else if (uri.includes("/sysinfo") || uri.includes("/forms") || uri.includes("/syncers") || uri.includes("/webhooks") || uri.includes("/webhook-events") || uri.includes("/tickets")) {
       this.setState({selectedMenuKey: "/admin"});
     } else if (uri.includes("/signup")) {

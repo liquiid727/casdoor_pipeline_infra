@@ -49,7 +49,7 @@ HTTP Request → routers/ (Beego router + middleware/filters) → controllers/ (
 ```
 
 ### Key Backend Directories
-- **`controllers/`** — HTTP handlers (one file per domain: users, applications, organizations, auth, LDAP, MCP, etc.)
+- **`controllers/`** — HTTP handlers (one file per domain: users, applications, organizations, auth, LDAP, etc.)
 - **`object/`** — Core business logic and ORM models (~160 files). This is the data access layer using xorm.
 - **`routers/`** — Beego router setup, middleware (CORS, auth checks, Prometheus metrics, timeout, static serving)
 - **`authz/`** — Casbin authorization policy enforcement
@@ -57,8 +57,6 @@ HTTP Request → routers/ (Beego router + middleware/filters) → controllers/ (
 - **`idp/`** — Identity provider implementations (Google, GitHub, Azure AD, WeChat, Telegram, etc.)
 - **`notification/`** — Notification providers (Slack, Discord, Telegram, email, web push)
 - **`storage/`** — File storage providers (S3, Azure, MinIO, local filesystem)
-- **`pp/`** — Payment providers (Stripe, PayPal, Alipay, WeChat Pay)
-- **`mcp/`** — MCP server utilities
 - **`ldap/`** — Built-in LDAP server
 - **`scim/`** — SCIM 2.0 provisioning endpoint
 - **`cred/`** — Credential/password hashing strategies
