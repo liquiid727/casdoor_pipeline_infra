@@ -20,7 +20,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type OpenClawSessionGraph struct {

@@ -17,7 +17,7 @@ package object
 import (
 	"fmt"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/xorm-io/core"
 	"github.com/xorm-io/xorm"
 )

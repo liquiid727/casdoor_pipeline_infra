@@ -21,8 +21,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // LogoutTokenClaims represents the claims in an OIDC Back-Channel Logout token.

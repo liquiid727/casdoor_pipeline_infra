@@ -18,9 +18,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
 	"github.com/likexian/whois"
 	whoisparser "github.com/likexian/whois-parser"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func getDomainExpireTime(domainName string) (string, error) {

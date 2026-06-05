@@ -42,7 +42,7 @@ export const AiDots = ({size = "medium"}) => {
             height: dotPx,
             borderRadius: "50%",
             background: color,
-            animation: "casdoor-ai-bounce 1.4s ease-in-out infinite",
+            animation: "pipeline-auth-ai-bounce 1.4s ease-in-out infinite",
             animationDelay: `${i * 0.16}s`,
             boxShadow: glowBlur > 0 ? `0 0 ${glowBlur}px ${color}90` : "none",
           }}

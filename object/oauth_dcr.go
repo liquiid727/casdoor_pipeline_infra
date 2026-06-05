@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // DynamicClientRegistrationRequest represents an RFC 7591 client registration request

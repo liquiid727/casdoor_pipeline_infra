@@ -22,11 +22,11 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/casdoor/casdoor/cred"
-	"github.com/casdoor/casdoor/form"
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/util"
 	goldap "github.com/go-ldap/ldap/v3"
+	"github.com/liquiid727/pipeline-auth/cred"
+	"github.com/liquiid727/pipeline-auth/form"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 const (

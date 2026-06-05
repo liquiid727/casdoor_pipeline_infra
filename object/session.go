@@ -20,12 +20,12 @@ import (
 	"slices"
 
 	"github.com/beego/beego/v2/server/web"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/xorm-io/core"
 )
 
 var (
-	CasdoorApplication  = "app-built-in"
+	AuthApplication     = "app-built-in"
 	CasdoorOrganization = "built-in"
 )
 
@@ -169,7 +169,7 @@ func AddSession(session *Session) (bool, error) {
 
 func DeleteSession(id, curSessionId string) (bool, error) {
 	owner, name, application := util.GetOwnerAndNameAndOtherFromId(id)
-	if owner == CasdoorOrganization && application == CasdoorApplication {
+	if owner == CasdoorOrganization && application == AuthApplication {
 		session, err := GetSingleSession(id)
 		if err != nil {
 			return false, err
@@ -215,7 +215,7 @@ func DeleteSessionId(id string, sessionId string) (bool, error) {
 	}
 
 	owner, _, application := util.GetOwnerAndNameAndOtherFromId(id)
-	if owner == CasdoorOrganization && application == CasdoorApplication {
+	if owner == CasdoorOrganization && application == AuthApplication {
 		DeleteBeegoSession([]string{sessionId})
 	}
 

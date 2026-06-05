@@ -1,0 +1,11 @@
+services:
+  casdoor:
+    environment:
+      driverName: "postgres"
+      dataSourceName: "user=postgres password=postgres host=db port=5432 sslmode=disable dbname=casdoor"
+      dbName: "casdoor"
+      RUNNING_IN_DOCKER: "false"
+
+  db:
+    ports:
+      - "15433:5432"

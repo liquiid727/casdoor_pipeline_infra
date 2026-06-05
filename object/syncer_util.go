@@ -23,7 +23,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type Credential struct {
@@ -337,7 +337,7 @@ func (syncer *Syncer) getOriginalUsersFromMap(results []map[string]sql.NullStrin
 			} else {
 				value = result[tableColumnName].String
 			}
-			syncer.setUserByKeyValue(originalUser, tableColumn.CasdoorName, value)
+			syncer.setUserByKeyValue(originalUser, tableColumn.TargetField, value)
 		}
 
 		if syncer.Type == "Keycloak" {
@@ -449,7 +449,7 @@ func (syncer *Syncer) getMapFromOriginalUser(user *OriginalUser) map[string]stri
 
 	m2 := map[string]string{}
 	for _, tableColumn := range syncer.TableColumns {
-		m2[tableColumn.Name] = m[tableColumn.CasdoorName]
+		m2[tableColumn.Name] = m[tableColumn.TargetField]
 	}
 
 	return m2

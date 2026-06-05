@@ -519,8 +519,8 @@ class LoginPage extends React.Component {
         const loginHandler = (res) => {
           let msg = "Logged in successfully. ";
           if (casParams.service === "") {
-            // If service was not specified, Casdoor must display a message notifying the client that it has successfully initiated a single sign-on session.
-            msg += "Now you can visit apps protected by Casdoor.";
+            // If service was not specified, display a message notifying the client that it has successfully initiated a single sign-on session.
+            msg += "Now you can visit apps protected by Pipeline Auth.";
           }
           Setting.showMessage("success", msg);
 
@@ -1242,7 +1242,7 @@ class LoginPage extends React.Component {
 
   sendSilentSigninData(data) {
     if (Setting.inIframe()) {
-      const message = {tag: "Casdoor", type: "SilentSignin", data: data};
+      const message = {tag: "Pipeline Auth", type: "SilentSignin", data: data};
       window.parent.postMessage(message, "*");
     }
   }

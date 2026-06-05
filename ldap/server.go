@@ -21,9 +21,9 @@ import (
 	"log"
 	"strings"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/object"
 	ldap "github.com/casdoor/ldapserver"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/object"
 	"github.com/lor00x/goldap/message"
 )
 

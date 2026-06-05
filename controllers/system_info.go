@@ -17,8 +17,8 @@ package controllers
 import (
 	"errors"
 
-	"github.com/casdoor/casdoor/util"
 	"github.com/go-git/go-git/v5"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // GetSystemInfo

@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/casdoor/casdoor/xlsx"
+	"github.com/liquiid727/pipeline-auth/xlsx"
 )
 
 func getPermissionMap(owner string) (map[string]*Permission, error) {

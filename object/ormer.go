@@ -24,11 +24,11 @@ import (
 	"strings"
 
 	"github.com/beego/beego/v2/server/web"
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/util"
 	xormadapter "github.com/casdoor/xorm-adapter/v3"
-	_ "github.com/go-sql-driver/mysql"  // db = mysql
-	_ "github.com/lib/pq"               // db = postgres
+	_ "github.com/go-sql-driver/mysql" // db = mysql
+	_ "github.com/lib/pq"              // db = postgres
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/util"
 	_ "github.com/microsoft/go-mssqldb" // db = mssql
 	"github.com/xorm-io/xorm"
 	"github.com/xorm-io/xorm/core"
@@ -321,6 +321,11 @@ func (a *Ormer) createTable() {
 		panic(err)
 	}
 
+	err = a.runPipelineAuthFieldMigrations()
+	if err != nil {
+		panic(err)
+	}
+
 	err = a.Engine.Sync2(new(User))
 	if err != nil {
 		panic(err)
@@ -470,4 +475,115 @@ func (a *Ormer) createTable() {
 	if err != nil {
 		panic(err)
 	}
+
+	err = a.runPipelineAuthProviderTypeMigration()
+	if err != nil {
+		panic(err)
+	}
+}
+
+func (a *Ormer) runPipelineAuthFieldMigrations() error {
+	migrations := []struct {
+		table     string
+		oldColumn string
+		newColumn string
+		columnDef string
+	}{
+		{table: "site", oldColumn: "casdoor_application", newColumn: "auth_application", columnDef: "varchar(100)"},
+		{table: "user", oldColumn: "casdoor", newColumn: "oidc", columnDef: "varchar(100)"},
+	}
+
+	for _, migration := range migrations {
+		if err := a.renameColumnIfNeeded(migration.table, migration.oldColumn, migration.newColumn, migration.columnDef); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (a *Ormer) runPipelineAuthProviderTypeMigration() error {
+	if _, err := a.Engine.Where("category = ? AND type = ?", "OAuth", "Casdoor").Cols("type").Update(&Provider{Type: "OIDC"}); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (a *Ormer) renameColumnIfNeeded(table string, oldColumn string, newColumn string, columnDef string) error {
+	tableName := names.NewPrefixMapper(names.SnakeMapper{}, conf.GetConfigString("tableNamePrefix")).Obj2Table(table)
+	oldExists, err := a.columnExists(tableName, oldColumn)
+	if err != nil {
+		return err
+	}
+	if !oldExists {
+		return nil
+	}
+
+	newExists, err := a.columnExists(tableName, newColumn)
+	if err != nil {
+		return err
+	}
+	if newExists {
+		return a.copyColumnData(tableName, oldColumn, newColumn)
+	}
+
+	sqlText, err := a.buildRenameColumnSQL(tableName, oldColumn, newColumn, columnDef)
+	if err != nil {
+		return err
+	}
+
+	_, err = a.Engine.Exec(sqlText)
+	return err
+}
+
+func (a *Ormer) columnExists(tableName string, columnName string) (bool, error) {
+	columns, err := a.Engine.DBMetas()
+	if err != nil {
+		return false, err
+	}
+
+	for _, table := range columns {
+		if table.Name != tableName {
+			continue
+		}
+
+		for _, col := range table.Columns() {
+			if strings.EqualFold(col.Name, columnName) {
+				return true, nil
+			}
+		}
+
+		return false, nil
+	}
+
+	return false, nil
+}
+
+func (a *Ormer) buildRenameColumnSQL(tableName string, oldColumn string, newColumn string, columnDef string) (string, error) {
+	switch a.driverName {
+	case "postgres", "sqlite3", "sqlite":
+		return fmt.Sprintf("ALTER TABLE %s RENAME COLUMN %s TO %s", tableName, oldColumn, newColumn), nil
+	case "mysql":
+		return fmt.Sprintf("ALTER TABLE %s CHANGE %s %s %s", tableName, oldColumn, newColumn, columnDef), nil
+	case "mssql":
+		return fmt.Sprintf("EXEC sp_rename '%s.%s', '%s', 'COLUMN'", tableName, oldColumn, newColumn), nil
+	default:
+		return "", fmt.Errorf("unsupported database driver for column rename: %s", a.driverName)
+	}
+}
+
+func (a *Ormer) copyColumnData(tableName string, oldColumn string, newColumn string) error {
+	sqlText := fmt.Sprintf(
+		"UPDATE %s SET %s = %s WHERE (%s IS NULL OR %s = '') AND (%s IS NOT NULL AND %s <> '')",
+		tableName,
+		newColumn,
+		oldColumn,
+		newColumn,
+		newColumn,
+		oldColumn,
+		oldColumn,
+	)
+	_, err := a.Engine.Exec(sqlText)
+	return err
 }

@@ -20,9 +20,9 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/casdoor/casdoor/conf"
 	"github.com/go-webauthn/webauthn/protocol"
 	"github.com/go-webauthn/webauthn/webauthn"
+	"github.com/liquiid727/pipeline-auth/conf"
 )
 
 func GetWebAuthnObject(host string) (*webauthn.WebAuthn, error) {

@@ -25,10 +25,10 @@ import (
 	"strings"
 
 	"github.com/beego/beego/v2/core/logs"
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/rule"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/rule"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func forwardHandler(targetUrl string, writer http.ResponseWriter, request *http.Request) {
@@ -214,27 +214,27 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// oAuth proxy
-	if site.CasdoorApplication != "" {
+	if site.AuthApplication != "" {
 		// handle oAuth proxy
-		cookie, err := r.Cookie("casdoor_access_token")
+		cookie, err := r.Cookie("pipeline_auth_access_token")
 		if err != nil && err.Error() != "http: named cookie not present" {
 			panic(err)
 		}
 
-		casdoorClient, err := getCasdoorClientFromSite(site)
+		authServerClient, err := getAuthServerClientFromSite(site)
 		if err != nil {
-			responseError(w, "CasWAF error: getCasdoorClientFromSite() error: %s", err.Error())
+			responseError(w, "Pipeline Auth WAF error: get auth server client failed: %s", err.Error())
 			return
 		}
 
 		if cookie == nil {
 			// not logged in
-			redirectToCasdoor(casdoorClient, w, r)
+			redirectToAuthServer(authServerClient, w, r)
 			return
 		} else {
-			_, err = casdoorClient.ParseJwtToken(cookie.Value)
+			_, err = authServerClient.ParseJwtToken(cookie.Value)
 			if err != nil {
-				responseError(w, "CasWAF error: casdoorClient.ParseJwtToken() error: %s", err.Error())
+				responseError(w, "Pipeline Auth WAF error: parse access token failed: %s", err.Error())
 				return
 			}
 		}
@@ -242,7 +242,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 
 	host := site.GetHost()
 	if host == "" {
-		responseError(w, "CasWAF error: targetUrl should not be empty for host: %s, site = %v", r.Host, site)
+		responseError(w, "Pipeline Auth WAF error: target URL should not be empty for host: %s, site = %v", r.Host, site)
 		return
 	}
 

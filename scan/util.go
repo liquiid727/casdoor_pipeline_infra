@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/beego/beego/v2/core/logs"
-	"github.com/casdoor/casdoor/object"
+	"github.com/liquiid727/pipeline-auth/object"
 )
 
 func getSiteBaseURLs(site *object.Site) []string {

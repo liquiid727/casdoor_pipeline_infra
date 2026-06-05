@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/casdoor/casdoor/log"
+	"github.com/liquiid727/pipeline-auth/log"
 )
 
 var (

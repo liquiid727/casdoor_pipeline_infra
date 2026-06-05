@@ -15,8 +15,8 @@
 package object
 
 import (
-	"github.com/casdoor/casdoor/cred"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/cred"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func calculateHash(user *User) (string, error) {

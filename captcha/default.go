@@ -14,7 +14,7 @@
 
 package captcha
 
-import "github.com/casdoor/casdoor/object"
+import "github.com/liquiid727/pipeline-auth/object"
 
 type DefaultCaptchaProvider struct{}
 

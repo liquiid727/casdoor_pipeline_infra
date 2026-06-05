@@ -18,9 +18,9 @@ import (
 	"strings"
 
 	"github.com/casbin/casbin/v2"
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 	stringadapter "github.com/qiangmzsx/string-adapter/v2"
 )
 

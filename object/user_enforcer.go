@@ -7,7 +7,7 @@ import (
 	"github.com/casbin/casbin/v2/errors"
 
 	"github.com/casbin/casbin/v2"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type UserGroupEnforcer struct {

@@ -19,8 +19,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casdoor/casdoor/idp"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/idp"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func GetOAuthToken(grantType string, clientId string, clientSecret string, code string, verifier string, scope string, nonce string, username string, password string, host string, refreshToken string, tag string, avatar string, lang string, subjectToken string, subjectTokenType string, actorToken string, actorTokenType string, assertion string, clientAssertion string, clientAssertionType string, audience string, resource string, dpopProof string) (interface{}, error) {

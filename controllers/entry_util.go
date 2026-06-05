@@ -20,9 +20,9 @@ import (
 	"strings"
 
 	"github.com/beego/beego/v2/server/web/context"
-	"github.com/casdoor/casdoor/log"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/log"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func responseOtlpError(ctx *context.Context, status int, body []byte, format string, args ...interface{}) {

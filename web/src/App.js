@@ -497,8 +497,8 @@ class App extends Component {
     footerHtml = footerHtml ?? this.state.application?.footerHtml;
     return (
       <React.Fragment>
-        {!this.state.account ? null : <div style={{display: "none"}} id="CasdoorApplicationName" value={this.state.account.signupApplication} />}
-        {!this.state.account ? null : <div style={{display: "none"}} id="CasdoorAccessToken" value={this.state.accessToken} />}
+        {!this.state.account ? null : <div style={{display: "none"}} id="PipelineAuthApplicationName" value={this.state.account.signupApplication} />}
+        {!this.state.account ? null : <div style={{display: "none"}} id="PipelineAuthAccessToken" value={this.state.accessToken} />}
         <Footer id="footer" style={
           {
             textAlign: "center",
@@ -512,7 +512,7 @@ class App extends Component {
               : (
                 Conf.CustomFooter !== null ? Conf.CustomFooter : (
                   <React.Fragment>
-                    Powered by <a target="_blank" href="https://casdoor.org" rel="noreferrer"><img style={{paddingBottom: "3px"}} height={"20px"} alt={"Casdoor"} src={logo} /></a>
+                    Powered by <a target="_blank" href="https://github.com/liquiid727/pipeline-auth" rel="noreferrer"><img style={{paddingBottom: "3px"}} height={"20px"} alt={"Pipeline Auth"} src={logo} /></a>
                   </React.Fragment>
                 )
               )

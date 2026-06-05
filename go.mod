@@ -1,4 +1,4 @@
-module github.com/casdoor/casdoor
+module github.com/liquiid727/pipeline-auth
 
 go 1.25.0
 

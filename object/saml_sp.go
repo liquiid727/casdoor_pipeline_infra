@@ -22,8 +22,8 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/idp"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/idp"
 	"github.com/mitchellh/mapstructure"
 	saml2 "github.com/russellhaering/gosaml2"
 	dsig "github.com/russellhaering/goxmldsig"

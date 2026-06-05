@@ -24,7 +24,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/casdoor/casdoor/mcp"
+	"github.com/liquiid727/pipeline-auth/mcp"
 )
 
 const (

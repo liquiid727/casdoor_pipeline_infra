@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func addNativeSsoDeviceSecret(token *Token) string {

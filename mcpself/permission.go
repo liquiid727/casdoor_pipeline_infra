@@ -15,7 +15,7 @@
 package mcpself
 
 import (
-	"github.com/casdoor/casdoor/object"
+	"github.com/liquiid727/pipeline-auth/object"
 )
 
 // BuiltinScopes defines the default scope-to-tool mappings for Casdoor's MCP server

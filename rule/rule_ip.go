@@ -20,9 +20,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/casdoor/casdoor/ip"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/ip"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type IpRule struct{}

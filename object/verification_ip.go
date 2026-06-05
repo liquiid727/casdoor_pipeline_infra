@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/casdoor/casdoor/i18n"
+	"github.com/liquiid727/pipeline-auth/i18n"
 )
 
 // Hard-coded thresholds for OTP / verification-code brute force protection (per IP + dest).

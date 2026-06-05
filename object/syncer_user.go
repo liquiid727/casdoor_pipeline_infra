@@ -18,7 +18,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type OriginalUser = User
@@ -36,8 +36,8 @@ func (syncer *Syncer) addUser(user *OriginalUser) (bool, error) {
 func (syncer *Syncer) getCasdoorColumns() []string {
 	res := []string{}
 	for _, tableColumn := range syncer.TableColumns {
-		if tableColumn.CasdoorName != "Id" {
-			v := util.CamelToSnakeCase(tableColumn.CasdoorName)
+		if tableColumn.TargetField != "Id" {
+			v := util.CamelToSnakeCase(tableColumn.TargetField)
 			res = append(res, v)
 		}
 	}

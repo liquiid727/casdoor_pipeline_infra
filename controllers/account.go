@@ -22,9 +22,9 @@ import (
 	"strings"
 
 	"github.com/beego/beego/v2/core/logs"
-	"github.com/casdoor/casdoor/form"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/form"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 const (
@@ -356,7 +356,7 @@ func (c *ApiController) Logout() {
 	user := c.GetSessionUsername()
 
 	if accessToken == "" && redirectUri == "" {
-		// TODO https://github.com/casdoor/casdoor/pull/1494#discussion_r1095675265
+		// TODO https://github.com/liquiid727/pipeline-auth/pull/1494#discussion_r1095675265
 		if user == "" {
 			c.ResponseOk()
 			return
@@ -388,7 +388,7 @@ func (c *ApiController) Logout() {
 		c.ResponseOk(user, application.HomepageUrl)
 		return
 	} else {
-		// "post_logout_redirect_uri" has been made optional, see: https://github.com/casdoor/casdoor/issues/2151
+		// "post_logout_redirect_uri" has been made optional, see: https://github.com/liquiid727/pipeline-auth/issues/2151
 		// if redirectUri == "" {
 		// 	c.ResponseError(c.T("general:Missing parameter") + ": post_logout_redirect_uri")
 		// 	return
@@ -419,7 +419,7 @@ func (c *ApiController) Logout() {
 		c.ClearUserSession()
 		c.ClearTokenSession()
 
-		// TODO https://github.com/casdoor/casdoor/pull/1494#discussion_r1095675265
+		// TODO https://github.com/liquiid727/pipeline-auth/pull/1494#discussion_r1095675265
 		if err := c.deleteUserSession(user); err != nil {
 			c.ResponseError(err.Error())
 			return
@@ -486,7 +486,7 @@ func (c *ApiController) SsoLogout() {
 	}
 
 	currentSessionId := c.Ctx.Input.CruSession.SessionID(context.Background())
-	_, err = object.DeleteSessionId(util.GetSessionId(owner, username, object.CasdoorApplication), currentSessionId)
+	_, err = object.DeleteSessionId(util.GetSessionId(owner, username, object.AuthApplication), currentSessionId)
 	if err != nil {
 		c.ResponseError(err.Error())
 		return
@@ -790,7 +790,7 @@ func (c *ApiController) deleteUserSession(user string) error {
 	}
 
 	// Casdoor session ID derived from owner, username, and application
-	sessionId := util.GetSessionId(owner, username, object.CasdoorApplication)
+	sessionId := util.GetSessionId(owner, username, object.AuthApplication)
 
 	// Explicitly get the Beego session ID from the context
 	beegoSessionId := c.Ctx.Input.CruSession.SessionID(context.Background())

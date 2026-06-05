@@ -19,8 +19,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/scan"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/scan"
 )
 
 // Scan

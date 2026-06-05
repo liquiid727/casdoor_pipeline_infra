@@ -21,7 +21,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/casdoor/casdoor/i18n"
+	"github.com/liquiid727/pipeline-auth/i18n"
 )
 
 var reRealName *regexp.Regexp

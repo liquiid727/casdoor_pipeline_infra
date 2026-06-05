@@ -17,7 +17,7 @@ package controllers
 import (
 	"strings"
 
-	"github.com/casdoor/casdoor/scim"
+	"github.com/liquiid727/pipeline-auth/scim"
 )
 
 func (c *RootController) HandleScim() {

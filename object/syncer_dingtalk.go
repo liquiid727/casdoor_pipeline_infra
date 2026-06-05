@@ -24,7 +24,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // DingtalkSyncerProvider implements SyncerProvider for DingTalk API-based syncers
@@ -446,7 +446,7 @@ func (p *DingtalkSyncerProvider) dingtalkUserToOriginalUser(dingtalkUser *Dingta
 	if len(p.Syncer.TableColumns) > 0 {
 		for _, tableColumn := range p.Syncer.TableColumns {
 			value := p.getDingtalkUserFieldValue(dingtalkUser, tableColumn.Name)
-			p.Syncer.setUserByKeyValue(user, tableColumn.CasdoorName, value)
+			p.Syncer.setUserByKeyValue(user, tableColumn.TargetField, value)
 		}
 	} else {
 		// Fallback to default mapping for backward compatibility

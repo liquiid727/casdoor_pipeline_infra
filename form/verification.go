@@ -17,7 +17,7 @@ package form
 import (
 	"strings"
 
-	"github.com/casdoor/casdoor/i18n"
+	"github.com/liquiid727/pipeline-auth/i18n"
 )
 
 type VerificationForm struct {

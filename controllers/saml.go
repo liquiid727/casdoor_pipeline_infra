@@ -19,7 +19,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/casdoor/casdoor/object"
+	"github.com/liquiid727/pipeline-auth/object"
 )
 
 func (c *ApiController) GetSamlMeta() {

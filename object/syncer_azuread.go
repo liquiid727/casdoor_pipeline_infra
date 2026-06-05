@@ -24,7 +24,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // AzureAdSyncerProvider implements SyncerProvider for Azure AD API-based syncers

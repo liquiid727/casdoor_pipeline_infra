@@ -11,6 +11,8 @@
 
 相关文档：
 
+- [文档目录](./README.md)
+- [认证网关当前能力盘点](./identity/auth-gateway-capabilities.md)
 - [Identity Service PRD](./identity-service-prd.md)
 - [Identity Service API 设计](./identity-service-api.md)
 - [Identity Service 场景、用户行为与系统行为](./identity-service-scenarios.md)

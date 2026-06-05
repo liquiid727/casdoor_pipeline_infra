@@ -25,8 +25,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/xorm-io/core"
 )
 
@@ -289,7 +289,7 @@ func CheckOAuthLogin(clientId string, responseType string, redirectUri string, s
 	}
 
 	if application == nil {
-		return i18n.Translate(lang, "token:Invalid client_id"), nil, nil
+		return i18n.Translate(lang, "general:Invalid client_id"), nil, nil
 	}
 
 	if !application.IsRedirectUriValid(redirectUri) {

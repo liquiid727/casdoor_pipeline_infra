@@ -66,7 +66,7 @@ class WebhookEventListPage extends React.Component {
     const stateConfig = {
       Pending: {color: "gold", text: i18next.t("webhook:Pending")},
       Success: {color: "green", text: i18next.t("webhook:Success")},
-      Failed: {color: "red", text: i18next.t("webhook:Failed")},
+      Failed: {color: "red", text: i18next.t("entry:Failed")},
       Retrying: {color: "blue", text: i18next.t("webhook:Retrying")},
     };
 
@@ -264,7 +264,7 @@ class WebhookEventListPage extends React.Component {
         filters: [
           {text: i18next.t("webhook:Pending"), value: "Pending"},
           {text: i18next.t("webhook:Success"), value: "Success"},
-          {text: i18next.t("webhook:Failed"), value: "Failed"},
+          {text: i18next.t("entry:Failed"), value: "Failed"},
           {text: i18next.t("webhook:Retrying"), value: "Retrying"},
         ],
         filterMultiple: false,

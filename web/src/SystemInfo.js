@@ -190,7 +190,7 @@ class SystemInfo extends React.Component {
       <PrometheusInfoTable prometheusInfo={this.state.prometheusInfo} table={"latency"} />;
     const throughputUi = this.state.prometheusInfo?.apiThroughput === null || this.state.prometheusInfo?.apiThroughput?.length <= 0 ? <Loading /> :
       <PrometheusInfoTable prometheusInfo={this.state.prometheusInfo} table={"throughput"} />;
-    const link = this.state.versionInfo?.version !== "" ? `https://github.com/casdoor/casdoor/releases/tag/${this.state.versionInfo?.version}` : "";
+    const link = this.state.versionInfo?.version !== "" ? `https://github.com/liquiid727/pipeline-auth/releases/tag/${this.state.versionInfo?.version}` : "";
     let versionText = this.state.versionInfo?.version !== "" ? this.state.versionInfo?.version : i18next.t("system:Unknown version");
     if (this.state.versionInfo?.commitOffset > 0) {
       versionText += ` (ahead+${this.state.versionInfo?.commitOffset})`;
@@ -231,15 +231,15 @@ class SystemInfo extends React.Component {
               </Card>
             </Col>
             <Col span={24}>
-              <Card id="about-card" title={i18next.t("system:About Casdoor")} bordered={true} style={{textAlign: "center"}}>
+              <Card id="about-card" title={"About Pipeline Auth"} bordered={true} style={{textAlign: "center"}}>
                 <div>{i18next.t("system:An Identity and Access Management (IAM) / Single-Sign-On (SSO) platform with web UI supporting OAuth 2.0, OIDC, SAML and CAS")}</div>
-                GitHub: <a target="_blank" rel="noreferrer" href="https://github.com/casdoor/casdoor">Casdoor</a>
+                GitHub: <a target="_blank" rel="noreferrer" href="https://github.com/liquiid727/pipeline-auth">Pipeline Auth</a>
                 <br />
-                {i18next.t("system:Version")}: <a target="_blank" rel="noreferrer" href={link}>{versionText}</a>
+                {i18next.t("general:Version")}: <a target="_blank" rel="noreferrer" href={link}>{versionText}</a>
                 <br />
-                {i18next.t("system:Official website")}: <a target="_blank" rel="noreferrer" href="https://casdoor.org">https://casdoor.org</a>
+                Repository: <a target="_blank" rel="noreferrer" href="https://github.com/liquiid727/pipeline-auth">https://github.com/liquiid727/pipeline-auth</a>
                 <br />
-                {i18next.t("system:Community")}: <a target="_blank" rel="noreferrer" href="https://casdoor.org/#:~:text=Casdoor%20API-,Community,-GitHub">Get in Touch!</a>
+                Issues: <a target="_blank" rel="noreferrer" href="https://github.com/liquiid727/pipeline-auth/issues">https://github.com/liquiid727/pipeline-auth/issues</a>
               </Card>
             </Col>
           </Row>
@@ -280,15 +280,15 @@ class SystemInfo extends React.Component {
             </Card>
           </Col>
           <Col span={24}>
-            <Card title={i18next.t("system:About Casdoor")} bordered={true} style={{textAlign: "center"}}>
+            <Card title={"About Pipeline Auth"} bordered={true} style={{textAlign: "center"}}>
               <div>{i18next.t("system:An Identity and Access Management (IAM) / Single-Sign-On (SSO) platform with web UI supporting OAuth 2.0, OIDC, SAML and CAS")}</div>
-              GitHub: <a target="_blank" rel="noreferrer" href="https://github.com/casdoor/casdoor">Casdoor</a>
+              GitHub: <a target="_blank" rel="noreferrer" href="https://github.com/liquiid727/pipeline-auth">Pipeline Auth</a>
               <br />
-              {i18next.t("system:Version")}: <a target="_blank" rel="noreferrer" href={link}>{versionText}</a>
+              {i18next.t("general:Version")}: <a target="_blank" rel="noreferrer" href={link}>{versionText}</a>
               <br />
-              {i18next.t("system:Official website")}: <a target="_blank" rel="noreferrer" href="https://casdoor.org">https://casdoor.org</a>
+              Repository: <a target="_blank" rel="noreferrer" href="https://github.com/liquiid727/pipeline-auth">https://github.com/liquiid727/pipeline-auth</a>
               <br />
-              {i18next.t("system:Community")}: <a target="_blank" rel="noreferrer" href="https://casdoor.org/#:~:text=Casdoor%20API-,Community,-GitHub">Get in Touch!</a>
+              Issues: <a target="_blank" rel="noreferrer" href="https://github.com/liquiid727/pipeline-auth/issues">https://github.com/liquiid727/pipeline-auth/issues</a>
             </Card>
           </Col>
         </Row>

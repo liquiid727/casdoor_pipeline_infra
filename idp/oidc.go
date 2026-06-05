@@ -26,14 +26,14 @@ import (
 	"golang.org/x/oauth2"
 )
 
-type CasdoorIdProvider struct {
+type OidcIdProvider struct {
 	Client *http.Client
 	Config *oauth2.Config
 	Host   string
 }
 
-func NewCasdoorIdProvider(clientId string, clientSecret string, redirectUrl string, hostUrl string) *CasdoorIdProvider {
-	idp := &CasdoorIdProvider{}
+func NewOidcIdProvider(clientId string, clientSecret string, redirectUrl string, hostUrl string) *OidcIdProvider {
+	idp := &OidcIdProvider{}
 	config := idp.getConfig(hostUrl)
 	config.ClientID = clientId
 	config.ClientSecret = clientSecret
@@ -43,11 +43,11 @@ func NewCasdoorIdProvider(clientId string, clientSecret string, redirectUrl stri
 	return idp
 }
 
-func (idp *CasdoorIdProvider) SetHttpClient(client *http.Client) {
+func (idp *OidcIdProvider) SetHttpClient(client *http.Client) {
 	idp.Client = client
 }
 
-func (idp *CasdoorIdProvider) getConfig(hostUrl string) *oauth2.Config {
+func (idp *OidcIdProvider) getConfig(hostUrl string) *oauth2.Config {
 	return &oauth2.Config{
 		Endpoint: oauth2.Endpoint{
 			TokenURL: hostUrl + "/api/login/oauth/access_token",
@@ -56,12 +56,12 @@ func (idp *CasdoorIdProvider) getConfig(hostUrl string) *oauth2.Config {
 	}
 }
 
-type CasdoorToken struct {
+type OidcToken struct {
 	AccessToken string `json:"access_token"`
 	ExpiresIn   int    `json:"expires_in"`
 }
 
-func (idp *CasdoorIdProvider) GetToken(code string) (*oauth2.Token, error) {
+func (idp *OidcIdProvider) GetToken(code string) (*oauth2.Token, error) {
 	resp, err := http.PostForm(idp.Config.Endpoint.TokenURL, url.Values{
 		"client_id":     {idp.Config.ClientID},
 		"client_secret": {idp.Config.ClientSecret},
@@ -76,7 +76,7 @@ func (idp *CasdoorIdProvider) GetToken(code string) (*oauth2.Token, error) {
 	if err != nil {
 		return nil, err
 	}
-	pToken := &CasdoorToken{}
+	pToken := &OidcToken{}
 	err = json.Unmarshal(body, pToken)
 	if err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ func (idp *CasdoorIdProvider) GetToken(code string) (*oauth2.Token, error) {
 }
 */
 
-type CasdoorUserInfo struct {
+type OidcUserInfo struct {
 	Id          string `json:"sub"`
 	Name        string `json:"preferred_username,omitempty"`
 	DisplayName string `json:"name"`
@@ -117,8 +117,8 @@ type CasdoorUserInfo struct {
 	Msg         string `json:"msg"`
 }
 
-func (idp *CasdoorIdProvider) GetUserInfo(token *oauth2.Token) (*UserInfo, error) {
-	cdUserinfo := &CasdoorUserInfo{}
+func (idp *OidcIdProvider) GetUserInfo(token *oauth2.Token) (*UserInfo, error) {
+	cdUserinfo := &OidcUserInfo{}
 	accessToken := token.AccessToken
 	request, err := http.NewRequest("GET", fmt.Sprintf("%s/api/userinfo", idp.Host), nil)
 	if err != nil {

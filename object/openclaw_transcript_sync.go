@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 const openClawTranscriptSyncInterval = 10 * time.Second

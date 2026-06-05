@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/casdoor/casdoor/certificate"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/certificate"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/xorm-io/core"
 	"golang.org/x/net/publicsuffix"
 )

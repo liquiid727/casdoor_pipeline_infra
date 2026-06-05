@@ -19,9 +19,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/util"
 	"github.com/go-webauthn/webauthn/webauthn"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func InitDb() {
@@ -202,12 +202,12 @@ func initBuiltInApplication() {
 		Owner:          "admin",
 		Name:           "app-built-in",
 		CreatedTime:    util.GetCurrentTime(),
-		DisplayName:    "Casdoor",
+		DisplayName:    "Pipeline Auth",
 		Category:       "Default",
 		Type:           "All",
 		Scopes:         []*ScopeItem{},
-		Logo:           fmt.Sprintf("%s/img/casdoor-logo_1185x256.png", conf.GetConfigString("staticBaseUrl")),
-		HomepageUrl:    "https://casdoor.org",
+		Logo:           fmt.Sprintf("%s/img/logo.png", conf.GetConfigString("staticBaseUrl")),
+		HomepageUrl:    "https://github.com/liquiid727/pipeline-auth",
 		Organization:   "built-in",
 		Cert:           "cert-built-in",
 		EnablePassword: true,

@@ -23,7 +23,7 @@ import (
 
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web/context"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 const (
@@ -144,12 +144,12 @@ func serveProviderHintRedirectPage(ctx *context.Context) bool {
 				window.location.replace(url.pathname + url.search + url.hash);
 			}
 
-			if (!window.CasdoorProviderHintRedirect || typeof window.CasdoorProviderHintRedirect.run !== "function") {
+			if (!window.PipelineAuthProviderHintRedirect || typeof window.PipelineAuthProviderHintRedirect.run !== "function") {
 				redirectToFallback();
 				return;
 			}
 
-			window.CasdoorProviderHintRedirect.run();
+			window.PipelineAuthProviderHintRedirect.run();
 		})();
 	</script>
 </body>
@@ -172,7 +172,7 @@ func serveAuthCallbackPage(ctx *context.Context) bool {
 		return false
 	}
 
-	if ctx.Input.Query("__casdoor_callback_react") == "1" {
+	if ctx.Input.Query("__pipeline_auth_callback_react") == "1" {
 		return false
 	}
 
@@ -215,12 +215,12 @@ func serveAuthCallbackPage(ctx *context.Context) bool {
 	<script src="/AuthCallbackHandler.js"></script>
 	<script>
 		(function() {
-			if (!window.CasdoorAuthCallback || typeof window.CasdoorAuthCallback.run !== "function") {
+			if (!window.PipelineAuthAuthCallback || typeof window.PipelineAuthAuthCallback.run !== "function") {
 				document.getElementById("callback-status").textContent = "Failed to load callback handler.";
 				return;
 			}
 
-			window.CasdoorAuthCallback.run();
+			window.PipelineAuthAuthCallback.run();
 		})();
 	</script>
 </body>

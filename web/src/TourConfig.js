@@ -4,12 +4,12 @@ import * as Setting from "./Setting";
 export const TourObj = {
   home: [
     {
-      title: "Welcome to casdoor",
-      description: "You can learn more about the use of CasDoor at https://casdoor.org/.",
+      title: "Welcome to Pipeline Auth",
+      description: "You can learn more in the repository documentation.",
       cover: (
         <img
-          alt="casdoor.png"
-          src={`${Setting.StaticBaseUrl}/img/casdoor-logo_1185x256.png`}
+          alt="pipeline-auth.png"
+          src={`${Setting.StaticBaseUrl}/img/logo.png`}
         />
       ),
     },
@@ -20,20 +20,20 @@ export const TourObj = {
     },
     {
       title: "Import users",
-      description: "You can add new users or update existing Casdoor users by uploading a XLSX file of user information.",
+      description: "You can add new users or update existing users by uploading a XLSX file of user information.",
       id: "echarts-chart",
     },
   ],
   webhooks: [
     {
       title: "Webhook List",
-      description: "Event systems allow you to build integrations, which subscribe to certain events on Casdoor. When one of those event is triggered, we'll send a POST json payload to the configured URL. The application parsed the json payload and carry out the hooked function. Events consist of signup, login, logout, update users, which are stored in the action field of the record. Event systems can be used to update an external issue from users.",
+      description: "Event systems allow you to build integrations, which subscribe to certain events on Pipeline Auth. When one of those events is triggered, a POST JSON payload is sent to the configured URL. Events include signup, login, logout, and user updates.",
     },
   ],
   syncers: [
     {
       title: "Syncer List",
-      description: "Casdoor stores users in user table. Don't worry about migrating your application user data into Casdoor, when you plan to use Casdoor as an authentication platform. Casdoor provides syncer to quickly help you sync user data to Casdoor.",
+      description: "Pipeline Auth stores users in the user table and provides syncers to help you import user data from external systems.",
     },
   ],
   sysinfo: [
@@ -58,8 +58,8 @@ export const TourObj = {
       id: "throughput-card",
     },
     {
-      title: "About Casdoor",
-      description: "You can get more Casdoor information in this card.",
+      title: "About Pipeline Auth",
+      description: "You can get more Pipeline Auth information in this card.",
       id: "about-card",
     },
   ],
@@ -72,13 +72,13 @@ export const TourObj = {
   pricings: [
     {
       title: "Price List",
-      description: "Casdoor can be used as subscription management system via plan, pricing and subscription.",
+      description: "Pipeline Auth can be used as a subscription management system via plan, pricing and subscription.",
     },
   ],
   plans: [
     {
       title: "Plan List",
-      description: "Plan  describe list of application's features with own name and price. Plan features depends on Casdoor role with set of permissions.That allow to describe plan's features independ on naming and price. For example: plan may has diffrent prices depends on county or date.",
+      description: "Plans describe application features with their own names and prices. Plan features can be gated by roles and permissions.",
     },
   ],
   payments: [
@@ -102,19 +102,19 @@ export const TourObj = {
   tokens: [
     {
       title: "Token List",
-      description: "Casdoor is based on OAuth. Tokens are users' OAuth token.You can get access token in this list.",
+      description: "Pipeline Auth is based on OAuth. You can inspect users' access tokens in this list.",
     },
   ],
   enforcers: [
     {
       title: "Enforcer List",
-      description: "In addition to the API interface for requesting enforcement of permission control, Casdoor also provides other interfaces that help external applications obtain permission policy information, which is also listed here.",
+      description: "In addition to enforcement APIs, Pipeline Auth also provides interfaces that help external applications obtain permission policy information.",
     },
   ],
   adapters: [
     {
       title: "Adapter List",
-      description: "Casdoor supports using the UI to connect the adapter and manage the policy rules. In Casbin, the policy storage is implemented as an adapter (aka middleware for Casbin). A Casbin user can use an adapter to load policy rules from a storage, or save policy rules to it.",
+      description: "Pipeline Auth supports using the UI to connect adapters and manage policy rules.",
     },
   ],
   models: [
@@ -126,16 +126,16 @@ export const TourObj = {
   permissions: [
     {
       title: "Permission List",
-      description: "All users associated with a single Casdoor organization are shared between the organization's applications and therefore have access to the applications. Sometimes you may want to restrict users' access to certain applications, or certain resources in a certain application. In this case, you can use Permission implemented by Casbin.",
+      description: "All users associated with a single organization are shared between that organization's applications. Use permissions when you need finer-grained access control.",
     },
     {
       title: "Permission Add",
-      description: "In the Casdoor Web UI, you can add a Model for your organization in the Model configuration item, and a Policy for your organization in the Permission configuration item. ",
+      description: "In the Pipeline Auth Web UI, you can add a model for your organization and define policies in the permission configuration.",
       id: "add-button",
     },
     {
       title: "Permission Upload",
-      description: "With Casbin Online Editor, you can get Model and Policy files suitable for your usage scenarios. You can easily import the Model file into Casdoor through the Casdoor Web UI for use by the built-in Casbin. ",
+      description: "With Casbin Online Editor, you can generate model and policy files suitable for your usage scenarios and import them into Pipeline Auth.",
       id: "upload-button",
     },
   ],
@@ -148,7 +148,7 @@ export const TourObj = {
   resources: [
     {
       title: "Resource List",
-      description: "You can upload resources in casdoor. Before upload resources, you need to configure a storage provider. Please see Storage Provider.",
+      description: "You can upload resources in Pipeline Auth. Before uploading resources, configure a storage provider.",
     },
     {
       title: "Upload Resource",
@@ -170,7 +170,7 @@ export const TourObj = {
   organizations: [
     {
       title: "Organization List",
-      description: "Organization is the basic unit of Casdoor, which manages users and applications. If a user signed in to an organization, then he can access all applications belonging to the organization without signing in again.",
+      description: "Organization is the basic unit of Pipeline Auth, which manages users and applications. If a user signs in to an organization, they can access all of that organization's applications without signing in again.",
     },
   ],
   groups: [
@@ -182,18 +182,18 @@ export const TourObj = {
   users: [
     {
       title: "User List",
-      description: "As an authentication platform, Casdoor is able to manage users.",
+      description: "As an authentication platform, Pipeline Auth is able to manage users.",
     },
     {
       title: "Import users",
-      description: "You can add new users or update existing Casdoor users by uploading a XLSX file of user information.",
+      description: "You can add new users or update existing users by uploading a XLSX file of user information.",
       id: "upload-button",
     },
   ],
   applications: [
     {
       title: "Application List",
-      description: "If you want to use Casdoor to provide login service for your web Web APPs, you can add them as Casdoor applications. Users can access all applications in their organizations without login twice.",
+      description: "If you want to use Pipeline Auth to provide login service for your web apps, you can add them as applications. Users can access all applications in their organizations without logging in twice.",
     },
   ],
 };

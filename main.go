@@ -21,21 +21,21 @@ import (
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
 	_ "github.com/beego/beego/v2/server/web/session/redis"
-	"github.com/casdoor/casdoor/authz"
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/controllers"
-	"github.com/casdoor/casdoor/ldap"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/proxy"
-	"github.com/casdoor/casdoor/radius"
-	"github.com/casdoor/casdoor/routers"
-	"github.com/casdoor/casdoor/service"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/authz"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/controllers"
+	"github.com/liquiid727/pipeline-auth/ldap"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/proxy"
+	"github.com/liquiid727/pipeline-auth/radius"
+	"github.com/liquiid727/pipeline-auth/routers"
+	"github.com/liquiid727/pipeline-auth/service"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func main() {
 	web.BConfig.WebConfig.Session.SessionOn = true
-	web.BConfig.WebConfig.Session.SessionName = "casdoor_session_id"
+	web.BConfig.WebConfig.Session.SessionName = "pipeline_auth_session_id"
 	if conf.GetConfigString("redisEndpoint") == "" {
 		web.BConfig.WebConfig.Session.SessionProvider = "file"
 		web.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"

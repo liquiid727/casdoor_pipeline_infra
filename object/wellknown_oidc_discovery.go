@@ -22,9 +22,9 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/util"
 	"github.com/go-jose/go-jose/v4"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type OidcDiscovery struct {

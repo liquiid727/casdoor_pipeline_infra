@@ -20,8 +20,8 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/casdoor/casdoor/util"
 	goldap "github.com/go-ldap/ldap/v3"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // convertGUIDToString converts a binary GUID byte array to a standard UUID string format

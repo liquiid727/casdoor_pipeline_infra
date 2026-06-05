@@ -17,7 +17,7 @@ package ip
 import (
 	"fmt"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func InitIpDb() {

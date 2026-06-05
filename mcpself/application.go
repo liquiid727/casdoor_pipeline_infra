@@ -17,9 +17,9 @@ package mcpself
 import (
 	"fmt"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // handleGetApplicationsTool handles the get_applications MCP tool

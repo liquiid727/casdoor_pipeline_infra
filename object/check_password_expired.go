@@ -18,8 +18,8 @@ import (
 	"errors"
 	"time"
 
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func checkPasswordExpired(user *User, lang string) error {

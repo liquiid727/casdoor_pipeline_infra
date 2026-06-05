@@ -22,7 +22,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/casdoor/casdoor/proxy"
+	"github.com/liquiid727/pipeline-auth/proxy"
 )
 
 type HttpSmsClient struct {

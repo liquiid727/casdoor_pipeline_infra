@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/xorm-io/core"
 )
 
@@ -61,8 +61,8 @@ type Site struct {
 	Status         string      `xorm:"varchar(100)" json:"status"`
 	Nodes          []*NodeItem `xorm:"mediumtext" json:"nodes"`
 
-	CasdoorApplication string       `xorm:"varchar(100)" json:"casdoorApplication"`
-	ApplicationObj     *Application `xorm:"-" json:"applicationObj"`
+	AuthApplication string       `xorm:"'auth_application' varchar(100)" json:"authApplication"`
+	ApplicationObj  *Application `xorm:"-" json:"applicationObj"`
 }
 
 func GetGlobalSites() ([]*Site, error) {

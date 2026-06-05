@@ -92,11 +92,11 @@ class SyncerTableColumnTable extends React.Component {
       },
       {
         title: i18next.t("syncer:Casdoor column"),
-        dataIndex: "casdoorName",
-        key: "casdoorName",
+        dataIndex: "targetField",
+        key: "targetField",
         render: (text, record, index) => {
           return (
-            <Select virtual={false} showSearch style={{width: "100%"}} value={text} onChange={(value => {this.updateField(table, index, "casdoorName", value);})}>
+            <Select virtual={false} showSearch style={{width: "100%"}} value={text} onChange={(value => {this.updateField(table, index, "targetField", value);})}>
               {
                 Setting.getUserCommonFields().map((item, index) => <Option key={index} value={item}>{item}</Option>)
               }

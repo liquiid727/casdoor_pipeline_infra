@@ -469,7 +469,7 @@
       "table": "",
       "tableColumns": [
         {
-          "casdoorName": "",
+          "targetField": "",
           "isHashed": true,
           "name": "",
           "type": "",

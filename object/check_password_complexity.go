@@ -17,8 +17,8 @@ package object
 import (
 	"regexp"
 
-	"github.com/casdoor/casdoor/cred"
-	"github.com/casdoor/casdoor/i18n"
+	"github.com/liquiid727/pipeline-auth/cred"
+	"github.com/liquiid727/pipeline-auth/i18n"
 )
 
 type ValidatorFunc func(password string, lang string) string

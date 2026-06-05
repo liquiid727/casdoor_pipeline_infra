@@ -24,8 +24,8 @@ import i18next from "i18next";
 import RedirectForm from "../common/RedirectForm";
 import {createFormAndSubmit, renderLoginPanel} from "../Setting";
 
-const reactFallbackKey = "__casdoor_callback_react";
-const reactFallbackPayloadKey = "casdoor_callback_react_fallback";
+const reactFallbackKey = "__pipeline_auth_callback_react";
+const reactFallbackPayloadKey = "pipeline_auth_callback_react_fallback";
 
 class AuthCallback extends React.Component {
   constructor(props) {
@@ -69,7 +69,7 @@ class AuthCallback extends React.Component {
     const handleCasLogin = (res) => {
       let msg = "Logged in successfully.";
       if (casService === "") {
-        msg += "Now you can visit apps protected by Casdoor.";
+        msg += "Now you can visit apps protected by Pipeline Auth.";
       }
       Setting.showMessage("success", msg);
 

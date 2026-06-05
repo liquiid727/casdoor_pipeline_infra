@@ -1,11 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap";
 
 /* AI-themed loading dots animation used by common/Loading.js */
-@keyframes casdoor-ai-bounce {
-  0%, 60%, 100% {
+@keyframes pipeline-auth-ai-bounce {
+  0%,
+  60%,
+  100% {
     transform: translateY(0) scale(0.85);
     opacity: 0.5;
   }
+
   30% {
     transform: translateY(-10px) scale(1.1);
     opacity: 1;
@@ -24,7 +27,7 @@ html::-webkit-scrollbar {
 body {
   margin: 0;
   font-family:
-    "Inter",
+    Inter,
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
@@ -56,19 +59,6 @@ code {
   float: left;
 }
 
-.ant-table.ant-table-medium .ant-table-title {
-  padding: 5px 8px !important;
-}
-
-.ant-table.ant-table-medium .ant-table-footer,
-.ant-table.ant-table-medium .ant-table-cell {
-  padding: 1px 8px !important;
-}
-
-.ant-table.ant-table-medium .ant-table-thead .ant-table-cell {
-  padding: 10px 8px !important;
-}
-
 .ant-list-sm .ant-list-item {
   padding: 2px !important;
 }
@@ -93,6 +83,13 @@ code {
   transition: opacity 0.08s ease, color 0.08s ease;
 }
 
+/* Raw <a> tags without Ant Design classes (table cell links, mailto, plain hrefs, etc.) */
+a:not([class], .login-link),
+a[class=""],
+a[href^="mailto:"] {
+  transition: opacity 0.2s ease;
+}
+
 /* Ant Design Typography links */
 .ant-typography a,
 a.ant-typography-link {
@@ -108,42 +105,6 @@ a.ant-typography-link:hover {
 a.ant-typography-link:active {
   opacity: 0.45 !important;
   transition: opacity 0.08s ease;
-}
-
-/* Raw <a> tags without Ant Design classes (table cell links, mailto, plain hrefs, etc.) */
-a:not([class]):not(.login-link),
-a[class=""],
-a[href^="mailto:"] {
-  transition: opacity 0.2s ease;
-}
-
-a:not([class]):not(.login-link):hover,
-a[class=""]:hover,
-a[href^="mailto:"]:hover {
-  opacity: 0.65;
-}
-
-a:not([class]):not(.login-link):active,
-a[class=""]:active,
-a[href^="mailto:"]:active {
-  opacity: 0.4;
-  transition: opacity 0.08s ease;
-}
-
-/* Login page signin method tabs: Password / Code / WebAuthn etc. */
-.signin-methods .ant-tabs-tab .ant-tabs-tab-btn {
-  transition: opacity 0.2s ease, filter 0.2s ease;
-}
-
-.signin-methods .ant-tabs-tab:not(.ant-tabs-tab-active):hover .ant-tabs-tab-btn {
-  opacity: 0.65;
-  filter: brightness(1.2);
-}
-
-.signin-methods .ant-tabs-tab .ant-tabs-tab-btn:active {
-  opacity: 0.4;
-  filter: brightness(0.85);
-  transition: opacity 0.08s ease, filter 0.08s ease;
 }
 
 /* Login page text links: Forgot password? / sign up now */
@@ -202,6 +163,19 @@ a[href^="mailto:"]:active {
   font-weight: 600 !important;
 }
 
+a:not([class], .login-link):hover,
+a[class=""]:hover,
+a[href^="mailto:"]:hover {
+  opacity: 0.65;
+}
+
+a:not([class], .login-link):active,
+a[class=""]:active,
+a[href^="mailto:"]:active {
+  opacity: 0.4;
+  transition: opacity 0.08s ease;
+}
+
 /* Sidebar menu: group titles */
 .ant-menu .ant-menu-item-group-title {
   font-weight: 700 !important;
@@ -224,6 +198,19 @@ a[href^="mailto:"]:active {
   font-weight: 700 !important;
 }
 
+.ant-table.ant-table-medium .ant-table-title {
+  padding: 5px 8px !important;
+}
+
+.ant-table.ant-table-medium .ant-table-footer,
+.ant-table.ant-table-medium .ant-table-cell {
+  padding: 1px 8px !important;
+}
+
+.ant-table.ant-table-medium .ant-table-thead .ant-table-cell {
+  padding: 10px 8px !important;
+}
+
 /* Card: header title */
 .ant-card .ant-card-head-title {
   font-weight: 600 !important;
@@ -239,6 +226,22 @@ a[href^="mailto:"]:active {
   font-weight: 600 !important;
 }
 
+/* Login page signin method tabs: Password / Code / WebAuthn etc. */
+.signin-methods .ant-tabs-tab .ant-tabs-tab-btn {
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.signin-methods .ant-tabs-tab .ant-tabs-tab-btn:active {
+  opacity: 0.4;
+  filter: brightness(0.85);
+  transition: opacity 0.08s ease, filter 0.08s ease;
+}
+
+.signin-methods .ant-tabs-tab:not(.ant-tabs-tab-active):hover .ant-tabs-tab-btn {
+  opacity: 0.65;
+  filter: brightness(1.2);
+}
+
 /* Layout sider: menu item and submenu labels */
 .ant-layout-sider .ant-menu-item,
 .ant-layout-sider .ant-menu-submenu-title {
@@ -252,8 +255,8 @@ a[href^="mailto:"]:active {
 
 /* Sidebar menu: selected item - darker background */
 .ant-layout-sider .ant-menu-light .ant-menu-item-selected,
-.ant-layout-sider .ant-menu-light>.ant-menu .ant-menu-item-selected {
-  background-color: rgba(0, 0, 0, 0.15) !important;
+.ant-layout-sider .ant-menu-light > .ant-menu .ant-menu-item-selected {
+  background-color: rgb(0 0 0 / 15%) !important;
 }
 
 /* Sidebar menu container: hide scrollbar but keep scroll behavior */
@@ -261,6 +264,7 @@ a[href^="mailto:"]:active {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
 }
+
 .sider-menu-container::-webkit-scrollbar {
   display: none; /* Chrome/Safari/WebKit */
 }
@@ -270,5 +274,5 @@ a[href^="mailto:"]:active {
 .ant-message .ant-message-notice-content,
 .ant-message .ant-message-custom-content,
 .ant-message .ant-message-custom-content span {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif !important;
 }

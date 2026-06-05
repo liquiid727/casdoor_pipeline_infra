@@ -22,11 +22,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/storage"
-	"github.com/casdoor/casdoor/util"
 	"github.com/casdoor/oss"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/storage"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 var isCloudIntranet bool
@@ -128,19 +128,12 @@ func GetUploadFileUrl(provider *Provider, fullFilePath string, hasTimestamp bool
 }
 
 func getStorageProvider(provider *Provider, lang string) (oss.StorageInterface, error) {
-	endpoint := getProviderEndpoint(provider)
-	certificate := ""
 	if provider.Category == "Storage" && provider.Type == "Casdoor" {
-		cert, err := GetCert(util.GetId(provider.Owner, provider.Cert))
-		if err != nil {
-			return nil, err
-		}
-		if cert == nil {
-			return nil, fmt.Errorf("no cert for %s", provider.Cert)
-		}
-		certificate = cert.Certificate
+		return nil, fmt.Errorf("provider %s uses unsupported legacy storage type %q; please replace or remove it before continuing", provider.Name, provider.Type)
 	}
-	storageProvider, err := storage.GetStorageProvider(provider.Type, provider.ClientId, provider.ClientSecret, provider.RegionId, provider.Bucket, endpoint, certificate, provider.Content)
+
+	endpoint := getProviderEndpoint(provider)
+	storageProvider, err := storage.GetStorageProvider(provider.Type, provider.ClientId, provider.ClientSecret, provider.RegionId, provider.Bucket, endpoint, "", provider.Content)
 	if err != nil {
 		return nil, err
 	}
@@ -168,13 +161,9 @@ func uploadFile(provider *Provider, fullFilePath string, fileBuffer *bytes.Buffe
 	fileUrl, objectKey := GetUploadFileUrl(provider, fullFilePath, true)
 	objectKeyRefined := refineObjectKey(provider, objectKey)
 
-	object, err := storageProvider.Put(objectKeyRefined, fileBuffer)
+	_, err = storageProvider.Put(objectKeyRefined, fileBuffer)
 	if err != nil {
 		return "", "", err
-	}
-
-	if provider.Type == "Casdoor" {
-		fileUrl = object.Path
 	}
 
 	return fileUrl, objectKey, nil

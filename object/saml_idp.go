@@ -31,8 +31,8 @@ import (
 	"time"
 
 	"github.com/beevik/etree"
-	"github.com/casdoor/casdoor/util"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/liquiid727/pipeline-auth/util"
 	saml "github.com/russellhaering/gosaml2"
 	dsig "github.com/russellhaering/goxmldsig"
 )

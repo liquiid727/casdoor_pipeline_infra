@@ -15,11 +15,12 @@
 package object
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/xorm-io/core"
 	"golang.org/x/crypto/ssh"
 )
@@ -27,10 +28,31 @@ import (
 type TableColumn struct {
 	Name        string   `json:"name"`
 	Type        string   `json:"type"`
-	CasdoorName string   `json:"casdoorName"`
+	TargetField string   `json:"targetField"`
 	IsKey       bool     `json:"isKey"`
 	IsHashed    bool     `json:"isHashed"`
 	Values      []string `json:"values"`
+}
+
+type tableColumnAlias TableColumn
+
+func (column *TableColumn) UnmarshalJSON(data []byte) error {
+	type legacyTableColumn struct {
+		tableColumnAlias
+		LegacyTargetField string `json:"casdoorName"`
+	}
+
+	aux := &legacyTableColumn{}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	*column = TableColumn(aux.tableColumnAlias)
+	if column.TargetField == "" {
+		column.TargetField = aux.LegacyTargetField
+	}
+
+	return nil
 }
 
 type Syncer struct {
@@ -307,7 +329,7 @@ func (syncer *Syncer) getKeyColumn() *TableColumn {
 
 func (syncer *Syncer) getLocalPrimaryKey() string {
 	column := syncer.getKeyColumn()
-	return util.CamelToSnakeCase(column.CasdoorName)
+	return util.CamelToSnakeCase(column.TargetField)
 }
 
 func (syncer *Syncer) getTargetTablePrimaryKey() string {

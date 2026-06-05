@@ -18,7 +18,7 @@ import (
 	"encoding/json"
 
 	"github.com/beego/beego/v2/server/web/context"
-	"github.com/casdoor/casdoor/conf"
+	"github.com/liquiid727/pipeline-auth/conf"
 )
 
 func AppendWebConfigCookie(ctx *context.Context) error {

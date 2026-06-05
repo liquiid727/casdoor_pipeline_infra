@@ -23,7 +23,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // WecomSyncerProvider implements SyncerProvider for WeCom (WeChat Work) API-based syncers

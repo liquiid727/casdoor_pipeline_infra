@@ -20,23 +20,23 @@ import (
 	"net/url"
 
 	"github.com/casdoor/casdoor-go-sdk/casdoorsdk"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
-func getSigninUrl(casdoorClient *casdoorsdk.Client, callbackUrl string, originalPath string) string {
+func getSignInURL(authServerClient *casdoorsdk.Client, callbackURL string, originalPath string) string {
 	scope := "read"
 	return fmt.Sprintf("%s/login/oauth/authorize?client_id=%s&response_type=code&redirect_uri=%s&scope=%s&state=%s",
-		casdoorClient.Endpoint, casdoorClient.ClientId, url.QueryEscape(callbackUrl), scope, url.QueryEscape(originalPath))
+		authServerClient.Endpoint, authServerClient.ClientId, url.QueryEscape(callbackURL), scope, url.QueryEscape(originalPath))
 }
 
-func redirectToCasdoor(casdoorClient *casdoorsdk.Client, w http.ResponseWriter, r *http.Request) {
+func redirectToAuthServer(authServerClient *casdoorsdk.Client, w http.ResponseWriter, r *http.Request) {
 	scheme := getScheme(r)
 
-	callbackUrl := fmt.Sprintf("%s://%s/caswaf-handler", scheme, r.Host)
+	callbackURL := fmt.Sprintf("%s://%s/caswaf-handler", scheme, r.Host)
 	originalPath := r.RequestURI
-	signinUrl := getSigninUrl(casdoorClient, callbackUrl, originalPath)
-	http.Redirect(w, r, signinUrl, http.StatusFound)
+	signInURL := getSignInURL(authServerClient, callbackURL, originalPath)
+	http.Redirect(w, r, signInURL, http.StatusFound)
 }
 
 func handleAuthCallback(w http.ResponseWriter, r *http.Request) {
@@ -56,30 +56,30 @@ func handleAuthCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	application, err := object.GetApplication(util.GetId(site.Owner, site.CasdoorApplication))
+	application, err := object.GetApplication(util.GetId(site.Owner, site.AuthApplication))
 	if err != nil {
-		responseError(w, "CasWAF error: casdoorClient.GetOAuthToken() error: %s", err.Error())
+		responseError(w, "Pipeline Auth WAF error: auth server token exchange failed: %s", err.Error())
 		return
 	}
 
-	//casdoorClient, err := getCasdoorClientFromSite(site)
+	// authServerClient, err := getAuthServerClientFromSite(site)
 	//if err != nil {
-	//	responseError(w, "CasWAF error: getCasdoorClientFromSite() error: %s", err.Error())
+	//	responseError(w, "Pipeline Auth WAF error: getAuthServerClientFromSite() error: %s", err.Error())
 	//	return
 	//}
 
 	token, tokenError, err := object.GetAuthorizationCodeToken(application, application.ClientSecret, code, "", "")
 	if tokenError != nil {
-		responseError(w, "CasWAF error: casdoorClient.GetOAuthToken() error: %s", tokenError.Error)
+		responseError(w, "Pipeline Auth WAF error: auth server token exchange failed: %s", tokenError.Error)
 		return
 	}
 	if err != nil {
-		responseError(w, "CasWAF error: casdoorClient.GetOAuthToken() error: %s", err.Error())
+		responseError(w, "Pipeline Auth WAF error: auth server token exchange failed: %s", err.Error())
 		return
 	}
 
 	cookie := &http.Cookie{
-		Name:  "casdoor_access_token",
+		Name:  "pipeline_auth_access_token",
 		Value: token.AccessToken,
 		Path:  "/",
 	}

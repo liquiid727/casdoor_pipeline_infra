@@ -24,7 +24,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/nyaruka/phonenumbers"
 	"golang.org/x/oauth2"
 )

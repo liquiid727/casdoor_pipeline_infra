@@ -21,8 +21,8 @@ import (
 	"testing"
 
 	"github.com/beego/beego/v2/server/web"
-	"github.com/casdoor/casdoor/proxy"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/proxy"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/stretchr/testify/assert"
 )
 

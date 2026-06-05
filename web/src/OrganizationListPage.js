@@ -31,7 +31,7 @@ class OrganizationListPage extends BaseListPage {
       name: `organization_${randomName}`,
       createdTime: moment().format(),
       displayName: `New Organization - ${randomName}`,
-      websiteUrl: "https://door.casdoor.com",
+      websiteUrl: "https://github.com/liquiid727/pipeline-auth",
       favicon: `${Setting.StaticBaseUrl}/img/favicon.png`,
       passwordType: "bcrypt",
       PasswordSalt: "",

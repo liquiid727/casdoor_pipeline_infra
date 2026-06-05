@@ -20,11 +20,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/casdoor/casdoor/form"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
 	"github.com/go-webauthn/webauthn/protocol"
 	"github.com/go-webauthn/webauthn/webauthn"
+	"github.com/liquiid727/pipeline-auth/form"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // WebAuthnSignupBegin

@@ -22,8 +22,8 @@ import (
 	"strings"
 
 	"github.com/casdoor/casdoor-go-sdk/casdoorsdk"
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/object"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/object"
 )
 
 func joinPath(a string, b string) string {
@@ -111,14 +111,14 @@ func getX509CertByDomain(domain string) (*tls.Certificate, error) {
 	return &tlsCert, certErr
 }
 
-func getCasdoorClientFromSite(site *object.Site) (*casdoorsdk.Client, error) {
+func getAuthServerClientFromSite(site *object.Site) (*casdoorsdk.Client, error) {
 	if site.ApplicationObj == nil {
 		return nil, fmt.Errorf("site.ApplicationObj is empty")
 	}
 
-	casdoorEndpoint := conf.GetConfigString("origin")
-	if casdoorEndpoint == "" {
-		casdoorEndpoint = "http://localhost:8000"
+	authServerEndpoint := conf.GetConfigString("origin")
+	if authServerEndpoint == "" {
+		authServerEndpoint = "http://localhost:8000"
 	}
 
 	clientId := site.ApplicationObj.ClientId
@@ -129,7 +129,7 @@ func getCasdoorClientFromSite(site *object.Site) (*casdoorsdk.Client, error) {
 		certificate = site.ApplicationObj.CertObj.Certificate
 	}
 
-	res := casdoorsdk.NewClient(casdoorEndpoint, clientId, clientSecret, certificate, site.ApplicationObj.Organization, site.CasdoorApplication)
+	res := casdoorsdk.NewClient(authServerEndpoint, clientId, clientSecret, certificate, site.ApplicationObj.Organization, site.AuthApplication)
 	return res, nil
 }
 

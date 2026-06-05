@@ -14,7 +14,7 @@
 
 package controllers
 
-import "github.com/casdoor/casdoor/object"
+import "github.com/liquiid727/pipeline-auth/object"
 
 // GetDashboard
 // @Title GetDashboard

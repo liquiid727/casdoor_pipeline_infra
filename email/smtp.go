@@ -17,8 +17,8 @@ package email
 import (
 	"crypto/tls"
 
-	"github.com/casdoor/casdoor/conf"
 	"github.com/casdoor/gomail/v2"
+	"github.com/liquiid727/pipeline-auth/conf"
 )
 
 type SmtpEmailProvider struct {

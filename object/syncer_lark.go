@@ -23,7 +23,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // LarkSyncerProvider implements SyncerProvider for Lark API-based syncers

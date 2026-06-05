@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 var (
@@ -47,7 +47,7 @@ func getCasdoorCertMap() (map[string]*Cert, error) {
 	return res, nil
 }
 
-func getCasdoorApplicationMap() (map[string]*Application, error) {
+func getAuthApplicationMap() (map[string]*Application, error) {
 	casdoorCertMap, err := getCasdoorCertMap()
 	if err != nil {
 		return nil, err
@@ -72,7 +72,7 @@ func getCasdoorApplicationMap() (map[string]*Application, error) {
 }
 
 func refreshSiteMap() error {
-	applicationMap, err := getCasdoorApplicationMap()
+	applicationMap, err := getAuthApplicationMap()
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -91,8 +91,8 @@ func refreshSiteMap() error {
 
 	for _, site := range sites {
 		if applicationMap != nil {
-			if site.CasdoorApplication != "" && site.ApplicationObj == nil {
-				if v, ok2 := applicationMap[site.CasdoorApplication]; ok2 {
+			if site.AuthApplication != "" && site.ApplicationObj == nil {
+				if v, ok2 := applicationMap[site.AuthApplication]; ok2 {
 					site.ApplicationObj = v
 				}
 			}

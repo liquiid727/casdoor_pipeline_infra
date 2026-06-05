@@ -20,9 +20,9 @@ import (
 	"net/http/httputil"
 	"net/url"
 
-	"github.com/casdoor/casdoor/mcpself"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/mcpself"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // ProxyServer

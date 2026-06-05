@@ -19,8 +19,8 @@ package deployment
 import (
 	"testing"
 
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func TestDeployStaticFiles(t *testing.T) {
@@ -28,7 +28,10 @@ func TestDeployStaticFiles(t *testing.T) {
 
 	provider, err := object.GetProvider(util.GetId("admin", "provider_storage_aliyun_oss"))
 	if err != nil {
-		panic(err)
+		t.Skipf("skip deploy static files test: %v", err)
+	}
+	if provider == nil {
+		t.Skip("skip deploy static files test: provider_storage_aliyun_oss is not configured in this environment")
 	}
 
 	deployStaticFiles(provider)

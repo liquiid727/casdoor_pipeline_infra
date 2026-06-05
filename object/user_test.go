@@ -20,7 +20,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/xorm-io/core"
 )
 

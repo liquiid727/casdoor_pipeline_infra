@@ -851,7 +851,7 @@ class ProviderEditPage extends React.Component {
                 this.updateProviderField("type", defaultType);
                 this.updateProviderField("endpoint", "");
               } else if (value === "Log") {
-                defaultType = "Casdoor Permission Log";
+                defaultType = "System Log";
                 this.updateProviderField("type", defaultType);
                 this.updateProviderField("host", "");
                 this.updateProviderField("port", 0);

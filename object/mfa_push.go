@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/casdoor/casdoor/notification"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/notification"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type PushMfa struct {

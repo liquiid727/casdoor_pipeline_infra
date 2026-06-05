@@ -18,7 +18,7 @@ import copy from "copy-to-clipboard";
 import * as Setting from "../Setting";
 import i18next from "i18next";
 
-export const generateCasdoorAppUrl = (accessToken, forQrCode = true) => {
+export const generatePipelineAuthAppUrl = (accessToken, forQrCode = true) => {
   let qrUrl = "";
   let error = null;
 
@@ -27,7 +27,7 @@ export const generateCasdoorAppUrl = (accessToken, forQrCode = true) => {
     return {qrUrl, error};
   }
 
-  qrUrl = `casdoor-authenticator://login?serverUrl=${window.location.origin}&accessToken=${accessToken}`;
+  qrUrl = `pipeline-authenticator://login?serverUrl=${window.location.origin}&accessToken=${accessToken}`;
 
   if (forQrCode && qrUrl.length >= 2000) {
     qrUrl = "";
@@ -37,8 +37,8 @@ export const generateCasdoorAppUrl = (accessToken, forQrCode = true) => {
   return {qrUrl, error};
 };
 
-export const CasdoorAppQrCode = ({accessToken, icon}) => {
-  const {qrUrl, error} = generateCasdoorAppUrl(accessToken, true);
+export const PipelineAuthAppQrCode = ({accessToken, icon}) => {
+  const {qrUrl, error} = generatePipelineAuthAppUrl(accessToken, true);
 
   if (error) {
     return <Alert message={error} type="error" showIcon />;
@@ -55,8 +55,8 @@ export const CasdoorAppQrCode = ({accessToken, icon}) => {
   );
 };
 
-export const CasdoorAppUrl = ({accessToken}) => {
-  const {qrUrl, error} = generateCasdoorAppUrl(accessToken, false);
+export const PipelineAuthAppUrl = ({accessToken}) => {
+  const {qrUrl, error} = generatePipelineAuthAppUrl(accessToken, false);
 
   const handleCopyUrl = async() => {
     if (!window.isSecureContext) {

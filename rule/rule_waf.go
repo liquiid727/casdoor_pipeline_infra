@@ -18,11 +18,11 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/object"
 	"github.com/corazawaf/coraza/v3"
 	"github.com/corazawaf/coraza/v3/types"
 	"github.com/hsluoyz/modsecurity-go/seclang/parser"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/object"
 )
 
 type WafRule struct{}

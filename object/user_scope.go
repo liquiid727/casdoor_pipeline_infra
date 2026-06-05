@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/casdoor/casdoor/i18n"
+	"github.com/liquiid727/pipeline-auth/i18n"
 )
 
 // ConsentRecord represents the data for OAuth consent API requests/responses

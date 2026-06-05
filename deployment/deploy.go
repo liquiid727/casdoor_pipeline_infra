@@ -20,25 +20,17 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/storage"
-	"github.com/casdoor/casdoor/util"
 	"github.com/casdoor/oss"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/storage"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func deployStaticFiles(provider *object.Provider) {
-	certificate := ""
 	if provider.Category == "Storage" && provider.Type == "Casdoor" {
-		cert, err := object.GetCert(util.GetId(provider.Owner, provider.Cert))
-		if err != nil {
-			panic(err)
-		}
-		if cert == nil {
-			panic(err)
-		}
-		certificate = cert.Certificate
+		panic(fmt.Sprintf("provider %s uses unsupported legacy storage type %q; please replace or remove it before continuing", provider.Name, provider.Type))
 	}
-	storageProvider, err := storage.GetStorageProvider(provider.Type, provider.ClientId, provider.ClientSecret, provider.RegionId, provider.Bucket, provider.Endpoint, certificate, provider.Content)
+	storageProvider, err := storage.GetStorageProvider(provider.Type, provider.ClientId, provider.ClientSecret, provider.RegionId, provider.Bucket, provider.Endpoint, "", provider.Content)
 	if err != nil {
 		panic(err)
 	}

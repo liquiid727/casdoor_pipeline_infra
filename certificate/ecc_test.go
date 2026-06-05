@@ -20,7 +20,7 @@ package certificate
 import (
 	"testing"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -18,9 +18,9 @@ import (
 	"net/http"
 
 	"github.com/beego/beego/v2/server/web/context"
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 const (

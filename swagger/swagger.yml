@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
-  title: Casdoor RESTful API
-  description: Swagger Docs of Casdoor Backend API
+  title: Pipeline Auth RESTful API
+  description: Swagger Docs of Pipeline Auth Backend API
   version: 1.503.0
   contact:
     email: casbin@googlegroups.com
@@ -6219,7 +6219,7 @@ definitions:
     title: TableColumn
     type: object
     properties:
-      casdoorName:
+      targetField:
         type: string
       isHashed:
         type: boolean

@@ -64,7 +64,7 @@ class SiteListPage extends BaseListPage {
       node: "",
       isSelf: false,
       nodes: [],
-      casdoorApplication: "",
+      authApplication: "",
       organizations: [],
     };
   }
@@ -372,10 +372,10 @@ class SiteListPage extends BaseListPage {
       },
       // {
       //   title: i18next.t("site:Casdoor app"),
-      //   dataIndex: "casdoorApplication",
-      //   key: "casdoorApplication",
+      //   dataIndex: "authApplication",
+      //   key: "authApplication",
       //   width: "140px",
-      //   sorter: (a, b) => a.casdoorApplication.localeCompare(b.casdoorApplication),
+      //   sorter: (a, b) => a.authApplication.localeCompare(b.authApplication),
       //   render: (text, record, index) => {
       //     if (text === "") {
       //       return null;

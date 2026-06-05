@@ -18,9 +18,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/casdoor/casdoor/object"
 	"github.com/elimity-com/scim"
 	"github.com/elimity-com/scim/errors"
+	"github.com/liquiid727/pipeline-auth/object"
 )
 
 type UserResourceHandler struct{}

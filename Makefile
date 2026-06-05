@@ -78,6 +78,22 @@ vendor: ## Update vendor.
 run: fmt vet ## Run backend in local 
 	go run ./main.go
 
+.PHONY: docs-backend-reference
+docs-backend-reference: ## Generate backend API reference docs.
+	node scripts/docs/generate-reference-docs.js backend
+
+.PHONY: docs-frontend-reference
+docs-frontend-reference: ## Generate frontend route and page-to-API reference docs.
+	node scripts/docs/generate-reference-docs.js frontend
+
+.PHONY: docs-drift-report
+docs-drift-report: ## Generate API drift report from live routes, Swagger, and frontend wrappers.
+	node scripts/docs/generate-reference-docs.js drift
+
+.PHONY: docs-reference
+docs-reference: ## Generate all reference docs and drift reports.
+	node scripts/docs/generate-reference-docs.js all
+
 .PHONY: docker-build
 docker-build: ## Build docker image with the manager.
 	docker build -t ${REGISTRY}/${IMG}:${IMG_TAG} .

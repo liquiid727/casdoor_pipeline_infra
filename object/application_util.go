@@ -21,8 +21,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func getProviderMap(owner string) (m map[string]*Provider, err error) {

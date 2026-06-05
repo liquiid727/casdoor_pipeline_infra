@@ -18,11 +18,11 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
 	"github.com/elimity-com/scim"
 	"github.com/elimity-com/scim/optional"
 	"github.com/elimity-com/scim/schema"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type AnyMap map[string]interface{}

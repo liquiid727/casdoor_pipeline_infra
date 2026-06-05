@@ -25,11 +25,11 @@ import (
 	"time"
 
 	"github.com/beego/beego/v2/server/web/context"
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/mcpself"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/mcpself"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type Response struct {
@@ -104,7 +104,7 @@ func denyMcpRequest(ctx *context.Context) {
 		scheme = "http"
 	}
 	resourceMetadataUrl := fmt.Sprintf("%s://%s/.well-known/oauth-protected-resource", scheme, host)
-	ctx.Output.Header("WWW-Authenticate", fmt.Sprintf("Bearer realm=\"casdoor\", resource_metadata=\"%s\"", resourceMetadataUrl))
+	ctx.Output.Header("WWW-Authenticate", fmt.Sprintf("Bearer realm=\"pipeline-auth\", resource_metadata=\"%s\"", resourceMetadataUrl))
 
 	ctx.Output.SetStatus(http.StatusUnauthorized)
 	_ = ctx.Output.JSON(resp, true, false)

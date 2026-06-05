@@ -18,7 +18,7 @@ import (
 	"encoding/json"
 
 	"github.com/beego/beego/v2/server/web/context"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // applicationStub is a lightweight struct for extracting owner/name from application data

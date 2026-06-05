@@ -1,9 +1,9 @@
 <div align="center">
-  <a href="https://casdoor.ai">
-    <img src="https://cdn.casbin.org/img/casdoor-logo_1185x256.png" alt="Casdoor" width="500">
+  <a href="https://github.com/liquiid727/pipeline-auth">
+    <img src="https://raw.githubusercontent.com/liquiid727/pipeline-auth/main/web/public/img/logo.png" alt="Pipeline Auth" width="500">
   </a>
 
-  <h3>Casdoor: AI-First Identity and Access Management (IAM) / AI MCP Gateway</h3>
+  <h3>Pipeline Auth: Independent IAM / MCP Gateway Fork</h3>
 
   <p align="center">
     <strong>An open-source, AI-first IAM / MCP gateway and authentication server with a web UI.</strong><br>
@@ -12,53 +12,42 @@
   </p>
 
   <p align="center">
-    <a href="https://casdoor.ai/"><strong>Documentation and guides: casdoor.ai</strong></a>
+    <a href="https://github.com/liquiid727/pipeline-auth"><strong>Repository: liquiid727/pipeline-auth</strong></a>
   </p>
 
   <p>
-    <a href="https://casdoor.ai/docs/overview">
-      <img src="https://img.shields.io/badge/documentation-casdoor.ai%2Fdocs-1890ff?style=flat-square&logo=readthedocs&logoColor=white" alt="Documentation">
+    <a href="https://github.com/liquiid727/pipeline-auth">
+      <img src="https://img.shields.io/badge/repository-pipeline--auth-1890ff?style=flat-square&logo=github&logoColor=white" alt="Repository">
     </a>
-    <a href="https://github.com/casdoor/casdoor/releases/latest">
+    <a href="https://github.com/liquiid727/pipeline-auth/releases/latest">
       <img src="https://img.shields.io/github/v/release/casdoor/casdoor?style=flat-square&color=blue" alt="GitHub Release">
     </a>
-    <a href="https://hub.docker.com/r/casbin/casdoor">
-      <img src="https://img.shields.io/docker/pulls/casbin/casdoor?style=flat-square&color=brightgreen" alt="Docker Pulls">
+    <a href="https://github.com/liquiid727/pipeline-auth/actions/workflows/build.yml">
+      <img src="https://img.shields.io/github/actions/workflow/status/liquiid727/pipeline-auth/build.yml?style=flat-square&label=build" alt="Build Status">
     </a>
-    <a href="https://github.com/casdoor/casdoor/actions/workflows/build.yml">
-      <img src="https://img.shields.io/github/actions/workflow/status/casdoor/casdoor/build.yml?style=flat-square&label=build" alt="Build Status">
+    <a href="https://goreportcard.com/report/github.com/liquiid727/pipeline-auth">
+      <img src="https://goreportcard.com/badge/github.com/liquiid727/pipeline-auth?style=flat-square" alt="Go Report Card">
     </a>
-    <a href="https://goreportcard.com/report/github.com/casdoor/casdoor">
-      <img src="https://goreportcard.com/badge/github.com/casdoor/casdoor?style=flat-square" alt="Go Report Card">
-    </a>
-    <a href="https://github.com/casdoor/casdoor/blob/master/LICENSE">
-      <img src="https://img.shields.io/github/license/casdoor/casdoor?style=flat-square&color=orange" alt="License">
+    <a href="https://github.com/liquiid727/pipeline-auth/blob/master/LICENSE">
+      <img src="https://img.shields.io/github/license/liquiid727/pipeline-auth?style=flat-square&color=orange" alt="License">
     </a>
   </p>
 
   <p>
-    <a href="https://github.com/casdoor/casdoor/stargazers">
-      <img src="https://img.shields.io/github/stars/casdoor/casdoor?style=flat-square&color=yellow" alt="GitHub Stars">
+    <a href="https://github.com/liquiid727/pipeline-auth/stargazers">
+      <img src="https://img.shields.io/github/stars/liquiid727/pipeline-auth?style=flat-square&color=yellow" alt="GitHub Stars">
     </a>
-    <a href="https://github.com/casdoor/casdoor/network/members">
-      <img src="https://img.shields.io/github/forks/casdoor/casdoor?style=flat-square" alt="GitHub Forks">
+    <a href="https://github.com/liquiid727/pipeline-auth/network/members">
+      <img src="https://img.shields.io/github/forks/liquiid727/pipeline-auth?style=flat-square" alt="GitHub Forks">
     </a>
-    <a href="https://github.com/casdoor/casdoor/issues">
-      <img src="https://img.shields.io/github/issues/casdoor/casdoor?style=flat-square&color=red" alt="GitHub Issues">
-    </a>
-    <a href="https://discord.gg/5rPsrAzK7S">
-      <img src="https://img.shields.io/discord/1022748306096537660?style=flat-square&logo=discord&label=Discord&color=5865F2" alt="Discord">
-    </a>
-    <a href="https://crowdin.com/project/casdoor-site">
-      <img src="https://badges.crowdin.net/casdoor-site/localized.svg" alt="Crowdin">
+    <a href="https://github.com/liquiid727/pipeline-auth/issues">
+      <img src="https://img.shields.io/github/issues/liquiid727/pipeline-auth?style=flat-square&color=red" alt="GitHub Issues">
     </a>
   </p>
 
   <p align="center">
-    <a href="https://casdoor.ai"><strong>Website</strong></a> ·
-    <a href="https://casdoor.ai/docs/overview"><strong>Documentation</strong></a> ·
-    <a href="https://door.casdoor.com"><strong>Live demo</strong></a> ·
-    <a href="https://discord.gg/5rPsrAzK7S"><strong>Discord</strong></a>
+    <a href="https://github.com/liquiid727/pipeline-auth"><strong>Repository</strong></a> ·
+    <a href="https://github.com/liquiid727/pipeline-auth/issues"><strong>Issues</strong></a>
   </p>
 </div>
 
@@ -66,8 +55,7 @@
 
 ## Table of contents
 
-- [Why Casdoor](#why-casdoor)
-- [Live demos](#live-demos)
+- [Why Pipeline Auth](#why-pipeline-auth)
 - [Quick start](#quick-start)
 - [Features](#features)
 - [Technology stack](#technology-stack)
@@ -80,22 +68,10 @@
 
 ---
 
-<a id="why-casdoor"></a>
-## Why Casdoor
+<a id="why-pipeline-auth"></a>
+## Why Pipeline Auth
 
-Casdoor is a **UI-first** identity provider and access management platform: one place to manage users, organizations, applications, and providers, with a modern web console. Authorization policies can be expressed with **[Casbin](https://casbin.org/)** (ACL, RBAC, ABAC, and more). Unlike reverse-proxy-centric auth companions, Casdoor is a dedicated auth server with broad protocol support, designed to be straightforward to self-host and integrate—see **[casdoor.ai](https://casdoor.ai)** for documentation.
-
----
-
-<a id="live-demos"></a>
-## 🌐 Live demos
-
-| Environment | URL | Description |
-|-------------|-----|-------------|
-| **Read-only** | [door.casdoor.com](https://door.casdoor.com) | Global demo; **any modification or write operation will fail** (read-only). |
-| **Writable** | [demo.casdoor.com](https://demo.casdoor.com) | Full access for testing; **data is reset about every 5 minutes**. |
-
-Default demo admin login (where applicable): `admin` / `123` — use only for demos; change credentials on your own deployment.
+Pipeline Auth is an independent fork of Casdoor focused on running as a self-contained IAM / MCP gateway codebase without depending on a sibling `casdoor` checkout or upstream Casdoor self-branding.
 
 ---
 
@@ -110,7 +86,7 @@ Pick one deployment method below. To keep behavior consistent with upstream, the
 2. Clone the repository:
 
 ```bash
-git clone https://github.com/casdoor/casdoor.git
+git clone https://github.com/liquiid727/pipeline-auth.git
 cd casdoor
 ```
 
@@ -126,8 +102,6 @@ go run main.go
 ```
 
 5. Open [http://localhost:8000](http://localhost:8000) and sign in with `built-in/admin` / `123` on a fresh install (change password immediately in production).
-
-Official guide: [Server installation](https://casdoor.ai/docs/basic/server-installation)
 
 ### 🐳 Docker
 
@@ -147,8 +121,6 @@ docker compose up
 
 Then open [http://localhost:8000](http://localhost:8000) and sign in with `built-in/admin` / `123` on a fresh install.
 
-Official guide: [Try with Docker](https://casdoor.ai/docs/basic/try-with-docker)
-
 ### ☸️ Kubernetes Helm
 
 With Helm v3 and a running Kubernetes cluster:
@@ -157,9 +129,7 @@ With Helm v3 and a running Kubernetes cluster:
 helm install casdoor oci://registry-1.docker.io/casbin/casdoor-helm-charts
 ```
 
-After installation, access Casdoor through your cluster service/ingress. The official guide covers chart versions (including optional `--version`) and cluster-specific settings.
-
-Official guide: [Try with Helm](https://casdoor.ai/docs/basic/try-with-helm)
+After installation, access Pipeline Auth through your cluster service/ingress.
 
 ---
 
@@ -226,8 +196,8 @@ Official guide: [Try with Helm](https://casdoor.ai/docs/basic/try-with-helm)
 
 Casdoor is built as a **frontend–backend separated** project:
 
-- **Web UI**: JavaScript and **React** ([`web/`](https://github.com/casdoor/casdoor/tree/master/web))
-- **API server**: **Go** with **Beego**, RESTful APIs ([repository root](https://github.com/casdoor/casdoor))
+- **Web UI**: JavaScript and **React** ([`web/`](https://github.com/liquiid727/pipeline-auth/tree/master/web))
+- **API server**: **Go** with **Beego**, RESTful APIs ([repository root](https://github.com/liquiid727/pipeline-auth))
 - **Data**: mainstream databases including **MySQL**, **PostgreSQL**, and others ([overview](https://casdoor.ai/docs/overview))
 - **Cache**: optional **Redis** for session/cache-style deployments (configure as needed)
 
@@ -279,29 +249,29 @@ Browse the full list: [Integrations](https://casdoor.ai/docs/category/integratio
 
 - **Discord**: [Join our community](https://discord.gg/5rPsrAzK7S)
 - **Contact**: [casdoor.ai/help](https://casdoor.ai/help)
-- **Issues**: [GitHub Issues](https://github.com/casdoor/casdoor/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/casdoor/casdoor/discussions)
+- **Issues**: [GitHub Issues](https://github.com/liquiid727/pipeline-auth/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/liquiid727/pipeline-auth/discussions)
 
 ---
 
 <a id="contributing"></a>
 ## 🌍 Contributing
 
-If you have questions about Casdoor, you can **[open an issue](https://github.com/casdoor/casdoor/issues)**. Pull requests are welcome; **we recommend opening an issue first** so you can align with maintainers and the community before larger changes.
+If you have questions about Casdoor, you can **[open an issue](https://github.com/liquiid727/pipeline-auth/issues)**. Pull requests are welcome; **we recommend opening an issue first** so you can align with maintainers and the community before larger changes.
 
 Please also read our [contribution guidelines](https://casdoor.ai/docs/contributing/) before contributing.
 
 ### Translation and i18n
 
 - **Crowdin** is used for translation workflows: [casdoor-site on Crowdin](https://crowdin.com/project/casdoor-site).
-- The web app uses **i18next**. When you add or change user-visible strings under [`web/`](https://github.com/casdoor/casdoor/tree/master/web), update the English catalog at [`web/src/locales/en/data.json`](web/src/locales/en/data.json) accordingly.
+- The web app uses **i18next**. When you add or change user-visible strings under [`web/`](https://github.com/liquiid727/pipeline-auth/tree/master/web), update the English catalog at [`web/src/locales/en/data.json`](web/src/locales/en/data.json) accordingly.
 
 ---
 
 <a id="license"></a>
 ## 📄 License
 
-Casdoor is licensed under the [Apache License 2.0](https://github.com/casdoor/casdoor/blob/master/LICENSE).
+Casdoor is licensed under the [Apache License 2.0](https://github.com/liquiid727/pipeline-auth/blob/master/LICENSE).
 
 ---
 
@@ -309,8 +279,8 @@ Casdoor is licensed under the [Apache License 2.0](https://github.com/casdoor/ca
 
 [![Made with ❤️](https://img.shields.io/badge/Made_with-%E2%9D%A4%EF%B8%8F-ff6b6b?style=flat-square&logoColor=white)](https://casdoor.ai) [![By Casdoor](https://img.shields.io/badge/by-Casdoor-4ecdc4?style=flat-square)](https://casdoor.ai)
 
-<a href="https://github.com/casdoor/casdoor/stargazers"><img src="https://img.shields.io/github/stars/casdoor/casdoor?style=social&logo=github&label=Star" alt="GitHub Stars"></a>
+<a href="https://github.com/liquiid727/pipeline-auth/stargazers"><img src="https://img.shields.io/github/stars/casdoor/casdoor?style=social&logo=github&label=Star" alt="GitHub Stars"></a>
 
-<sub>© 2026 <a href="https://casdoor.ai">Casdoor</a>. Licensed under <a href="https://github.com/casdoor/casdoor/blob/master/LICENSE">Apache License 2.0</a>.</sub>
+<sub>© 2026 <a href="https://casdoor.ai">Casdoor</a>. Licensed under <a href="https://github.com/liquiid727/pipeline-auth/blob/master/LICENSE">Apache License 2.0</a>.</sub>
 
 </div>

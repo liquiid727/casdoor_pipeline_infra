@@ -17,7 +17,7 @@ import {DeleteOutlined, DownOutlined, UpOutlined} from "@ant-design/icons";
 import {Button, Col, Image, Input, Popover, Row, Table, Tooltip} from "antd";
 import * as Setting from "../Setting";
 import i18next from "i18next";
-import {CasdoorAppQrCode, CasdoorAppUrl} from "../common/CasdoorAppConnector";
+import {PipelineAuthAppQrCode, PipelineAuthAppUrl} from "../common/PipelineAuthAppConnector";
 
 class MfaAccountTable extends React.Component {
   constructor(props) {
@@ -177,7 +177,7 @@ class MfaAccountTable extends React.Component {
             <Popover
               trigger="focus"
               overlayInnerStyle={{padding: 0}}
-              content={<CasdoorAppQrCode accessToken={this.props.accessToken} icon={this.state.icon} />}
+              content={<PipelineAuthAppQrCode accessToken={this.props.accessToken} icon={this.state.icon} />}
             >
               <Button style={{marginRight: "10px"}} size="small">
                 {i18next.t("general:QR Code")}
@@ -185,7 +185,7 @@ class MfaAccountTable extends React.Component {
             </Popover>
             <Popover
               trigger="click"
-              content={<CasdoorAppUrl accessToken={this.props.accessToken} />}
+              content={<PipelineAuthAppUrl accessToken={this.props.accessToken} />}
             >
               <Button size="small">
                 {i18next.t("general:URL")}

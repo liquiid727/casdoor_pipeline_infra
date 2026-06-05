@@ -29,14 +29,14 @@ import (
 	"time"
 
 	"github.com/beego/beego/v2/server/web"
-	"github.com/casdoor/casdoor/captcha"
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/form"
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/idp"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/proxy"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/captcha"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/form"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/idp"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/proxy"
+	"github.com/liquiid727/pipeline-auth/util"
 	"golang.org/x/oauth2"
 )
 
@@ -1445,8 +1445,8 @@ func (c *ApiController) DeviceAuth() {
 
 	if application == nil {
 		c.Data["json"] = object.TokenError{
-			Error:            c.T("token:Invalid client_id"),
-			ErrorDescription: c.T("token:Invalid client_id"),
+			Error:            c.T("general:Invalid client_id"),
+			ErrorDescription: c.T("general:Invalid client_id"),
 		}
 		c.ServeJSON()
 		return
@@ -1469,7 +1469,7 @@ func (c *ApiController) DeviceAuth() {
 		if generateTime > 5 {
 			c.Data["json"] = object.TokenError{
 				Error:            "userCode gen",
-				ErrorDescription: c.T("token:Invalid client_id"),
+				ErrorDescription: c.T("general:Invalid client_id"),
 			}
 			c.ServeJSON()
 			return

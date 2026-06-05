@@ -20,9 +20,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/util"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type Claims struct {

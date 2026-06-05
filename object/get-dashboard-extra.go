@@ -18,7 +18,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/casdoor/casdoor/conf"
+	"github.com/liquiid727/pipeline-auth/conf"
 )
 
 // ProviderTypeCount holds a provider type label and its count.

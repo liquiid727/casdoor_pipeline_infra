@@ -18,8 +18,8 @@ import (
 	"encoding/json"
 
 	"github.com/beego/beego/v2/server/web/pagination"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 // GetEntries

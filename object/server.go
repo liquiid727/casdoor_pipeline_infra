@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/casdoor/casdoor/mcp"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/mcp"
+	"github.com/liquiid727/pipeline-auth/util"
 	mcpsdk "github.com/modelcontextprotocol/go-sdk/mcp"
 	"github.com/xorm-io/core"
 )

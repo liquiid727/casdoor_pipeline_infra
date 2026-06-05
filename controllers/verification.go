@@ -21,10 +21,10 @@ import (
 	"strings"
 
 	"github.com/beego/beego/v2/core/utils/pagination"
-	"github.com/casdoor/casdoor/captcha"
-	"github.com/casdoor/casdoor/form"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/captcha"
+	"github.com/liquiid727/pipeline-auth/form"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 const (

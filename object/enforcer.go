@@ -19,8 +19,8 @@ import (
 	"slices"
 
 	"github.com/casbin/casbin/v2"
-	"github.com/casdoor/casdoor/util"
 	xormadapter "github.com/casdoor/xorm-adapter/v3"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/xorm-io/core"
 )
 

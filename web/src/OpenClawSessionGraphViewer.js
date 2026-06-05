@@ -227,7 +227,7 @@ function getStatusTag(node) {
   return node.ok ? (
     <Tag color="success">{i18next.t("general:OK")}</Tag>
   ) : (
-    <Tag color="error">{i18next.t("webhook:Failed")}</Tag>
+    <Tag color="error">{i18next.t("entry:Failed")}</Tag>
   );
 }
 
@@ -492,7 +492,7 @@ class OpenClawSessionGraphViewer extends React.Component {
           <Tag color="green">{i18next.t("entry:Results")}: {stats.toolResultCount}</Tag>
           <Tag color="purple">{i18next.t("entry:Finals")}: {stats.finalCount}</Tag>
           {stats.failedCount > 0 ? (
-            <Tag color="red">{i18next.t("webhook:Failed")}: {stats.failedCount}</Tag>
+            <Tag color="red">{i18next.t("entry:Failed")}: {stats.failedCount}</Tag>
           ) : null}
         </div>
         {this.renderRawTranscriptButton()}

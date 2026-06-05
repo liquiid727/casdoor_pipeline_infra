@@ -21,7 +21,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func sendWebhook(webhook *Webhook, record *Record, extendedUser *User) (int, string, error) {

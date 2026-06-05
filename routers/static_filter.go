@@ -27,9 +27,9 @@ import (
 
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web/context"
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/object"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/object"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 var (
@@ -52,14 +52,6 @@ func getWebBuildFolder() string {
 	path = filepath.Join(frontendBaseDir, "web/build")
 	if util.FileExist(filepath.Join(path, "index.html")) {
 		return path
-	}
-
-	casdoorDir := filepath.Join(filepath.Dir(frontendBaseDir), "casdoor")
-	if util.FileExist(filepath.Join(casdoorDir, "index.html")) {
-		return casdoorDir
-	}
-	if util.FileExist(filepath.Join(casdoorDir, "web/build", "index.html")) {
-		return filepath.Join(casdoorDir, "web/build")
 	}
 
 	return path
@@ -211,8 +203,8 @@ func StaticFilter(ctx *context.Context) {
 		}
 		dir = strings.ReplaceAll(dir, "\\", "/")
 		ctx.ResponseWriter.WriteHeader(http.StatusNotFound)
-		errorText := fmt.Sprintf("The Casdoor frontend HTML file: \"index.html\" was not found, it should be placed at: \"%s/web/build/index.html\". For more information, see: https://casdoor.org/docs/basic/server-installation/#frontend-1", dir)
-		http.ServeContent(ctx.ResponseWriter, ctx.Request, "Casdoor frontend has encountered error...", time.Now(), strings.NewReader(errorText))
+		errorText := fmt.Sprintf("The Pipeline Auth frontend HTML file \"index.html\" was not found. Expected path: \"%s/web/build/index.html\".", dir)
+		http.ServeContent(ctx.ResponseWriter, ctx.Request, "Pipeline Auth frontend error", time.Now(), strings.NewReader(errorText))
 		return
 	}
 

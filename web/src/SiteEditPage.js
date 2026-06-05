@@ -406,8 +406,8 @@ class SiteEditPage extends React.Component {
             {i18next.t("site:Casdoor app")}:
           </Col>
           <Col span={22} >
-            <Select virtual={false} style={{width: "100%"}} showSearch value={this.state.site.casdoorApplication} onChange={(value => {
-              this.updateSiteField("casdoorApplication", value);
+            <Select virtual={false} style={{width: "100%"}} showSearch value={this.state.site.authApplication} onChange={(value => {
+              this.updateSiteField("authApplication", value);
             })}>
               {
                 this.state.applications?.map((application, index) => <Option key={index} value={application.name}>{application.name}</Option>)

@@ -23,12 +23,12 @@ import (
 	"time"
 
 	"github.com/beego/beego/v2/core/logs"
-	"github.com/casdoor/casdoor/controllers"
-	"github.com/casdoor/casdoor/object"
+	"github.com/liquiid727/pipeline-auth/controllers"
+	"github.com/liquiid727/pipeline-auth/object"
 
 	"github.com/beego/beego/v2/server/web/context"
-	"github.com/casdoor/casdoor/authz"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/authz"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 var orgOwnerObject = []string{

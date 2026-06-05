@@ -22,8 +22,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 const (
@@ -340,7 +340,7 @@ func buildOpenClawRawTranscriptResource(logProvider *Provider, storageProvider *
 		CreatedTime: createdTime,
 		User:        "",
 		Provider:    storageProvider.Name,
-		Application: CasdoorApplication,
+		Application: AuthApplication,
 		Tag:         openClawTranscriptResourceTag,
 		Parent:      getOpenClawTranscriptResourceParent(logProvider.Owner, logProvider.Name, sessionID),
 		FileName:    filepath.Base(transcriptPath),

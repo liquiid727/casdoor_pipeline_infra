@@ -24,12 +24,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/faceId"
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/proxy"
-	"github.com/casdoor/casdoor/util"
 	"github.com/go-webauthn/webauthn/webauthn"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/faceId"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/proxy"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/xorm-io/builder"
 	"github.com/xorm-io/core"
 )
@@ -128,7 +128,7 @@ type User struct {
 	Adfs            string `xorm:"adfs varchar(100)" json:"adfs"`
 	Baidu           string `xorm:"baidu varchar(100)" json:"baidu"`
 	Alipay          string `xorm:"alipay varchar(100)" json:"alipay"`
-	Casdoor         string `xorm:"casdoor varchar(100)" json:"casdoor"`
+	Oidc            string `xorm:"oidc varchar(100)" json:"oidc"`
 	Infoflow        string `xorm:"infoflow varchar(100)" json:"infoflow"`
 	Apple           string `xorm:"apple varchar(100)" json:"apple"`
 	AzureAD         string `xorm:"azuread varchar(100)" json:"azuread"`
@@ -855,7 +855,7 @@ func UpdateUser(id string, user *User, columns []string, isAdmin bool) (bool, er
 			"hash", "is_default_avatar", "properties", "webauthnCredentials", "mfa_items", "last_change_password_time", "managedAccounts", "face_ids", "mfaAccounts",
 			"signin_wrong_times", "last_signin_wrong_time", "groups", "mfa_phone_enabled", "mfa_email_enabled", "email_verified",
 			"github", "google", "qq", "wechat", "facebook", "dingtalk", "weibo", "gitee", "linkedin", "wecom", "lark", "gitlab", "adfs",
-			"baidu", "alipay", "casdoor", "infoflow", "apple", "azuread", "azureadb2c", "slack", "steam", "bilibili", "okta", "douyin", "kwai", "line", "amazon",
+			"baidu", "alipay", "oidc", "infoflow", "apple", "azuread", "azureadb2c", "slack", "steam", "bilibili", "okta", "douyin", "kwai", "line", "amazon",
 			"auth0", "battlenet", "bitbucket", "box", "cloudfoundry", "dailymotion", "deezer", "digitalocean", "discord", "dropbox",
 			"eveonline", "fitbit", "gitea", "heroku", "influxcloud", "instagram", "intercom", "kakao", "lastfm", "mailru", "meetup",
 			"microsoftonline", "naver", "nextcloud", "onedrive", "oura", "patreon", "paypal", "salesforce", "shopify", "soundcloud",
@@ -1163,7 +1163,7 @@ func deleteUser(user *User) (bool, error) {
 
 func DeleteUser(user *User) (bool, error) {
 	// Forced offline the user first
-	_, err := DeleteSession(util.GetSessionId(user.Owner, user.Name, CasdoorApplication), "")
+	_, err := DeleteSession(util.GetSessionId(user.Owner, user.Name, AuthApplication), "")
 	if err != nil {
 		return false, err
 	}

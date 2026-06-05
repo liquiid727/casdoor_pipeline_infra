@@ -22,7 +22,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/mitchellh/mapstructure"
 	"golang.org/x/oauth2"
 )

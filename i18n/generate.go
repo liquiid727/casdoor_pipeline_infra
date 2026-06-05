@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type I18nData map[string]map[string]string

@@ -21,7 +21,7 @@ import (
 	"github.com/casbin/lego/v4/certcrypto"
 	"github.com/casbin/lego/v4/lego"
 	"github.com/casbin/lego/v4/registration"
-	"github.com/casdoor/casdoor/proxy"
+	"github.com/liquiid727/pipeline-auth/proxy"
 )
 
 type Account struct {

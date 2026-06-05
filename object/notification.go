@@ -21,9 +21,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casdoor/casdoor/notification"
-	"github.com/casdoor/casdoor/util"
 	notify "github.com/casdoor/notify2"
+	"github.com/liquiid727/pipeline-auth/notification"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func getNotificationClient(provider *Provider) (notify.Notifier, error) {

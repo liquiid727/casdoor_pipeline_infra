@@ -18,7 +18,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 func GetDirectResources(owner string, user string, provider *Provider, prefix string, lang string) ([]*Resource, error) {

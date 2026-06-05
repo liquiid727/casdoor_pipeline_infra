@@ -18,8 +18,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/casdoor/casdoor/conf"
 	sender "github.com/casdoor/go-sms-sender"
+	"github.com/liquiid727/pipeline-auth/conf"
 )
 
 func getSmsClient(provider *Provider) (sender.SmsClient, error) {

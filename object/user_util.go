@@ -22,12 +22,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/idp"
-	"github.com/casdoor/casdoor/util"
 	"github.com/go-webauthn/webauthn/webauthn"
 	jsoniter "github.com/json-iterator/go"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/idp"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/xorm-io/core"
 	"golang.org/x/oauth2"
 )

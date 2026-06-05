@@ -22,10 +22,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/util"
 	goldap "github.com/go-ldap/ldap/v3"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/nyaruka/phonenumbers"
 	"github.com/thanhpk/randstr"
 	"golang.org/x/text/encoding/unicode"

@@ -19,8 +19,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/casdoor/casdoor/conf"
-	"github.com/casdoor/casdoor/proxy"
+	"github.com/liquiid727/pipeline-auth/conf"
+	"github.com/liquiid727/pipeline-auth/proxy"
 )
 
 var defaultStorageProvider *Provider = nil

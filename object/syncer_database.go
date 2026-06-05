@@ -21,8 +21,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/casdoor/casdoor/util"
 	"github.com/go-sql-driver/mysql"
+	"github.com/liquiid727/pipeline-auth/util"
 	"golang.org/x/crypto/ssh"
 )
 
@@ -97,7 +97,7 @@ func (p *DatabaseSyncerProvider) GetOriginalUsers() ([]*OriginalUser, error) {
 	}
 
 	// Memory leak problem handling
-	// https://github.com/casdoor/casdoor/issues/1256
+	// https://github.com/liquiid727/pipeline-auth/issues/1256
 	users := p.Syncer.getOriginalUsersFromMap(results)
 	// Clear map contents to help garbage collection
 	for i := range results {

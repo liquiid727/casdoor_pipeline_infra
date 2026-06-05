@@ -14,19 +14,19 @@
 
 // Package routers
 // @APIVersion 1.503.0
-// @Title Casdoor RESTful API
-// @Description Swagger Docs of Casdoor Backend API
+// @Title Pipeline Auth RESTful API
+// @Description Swagger Docs of Pipeline Auth Backend API
 // @Contact casbin@googlegroups.com
 // @SecurityDefinition AccessToken apiKey Authorization header
 // @Schemes https,http
-// @ExternalDocs Find out more about Casdoor
-// @ExternalDocsUrl https://casdoor.org/
+// @ExternalDocs Find out more about Pipeline Auth
+// @ExternalDocsUrl https://github.com/liquiid727/pipeline-auth
 package routers
 
 import (
 	"github.com/beego/beego/v2/server/web"
-	"github.com/casdoor/casdoor/controllers"
-	"github.com/casdoor/casdoor/mcpself"
+	"github.com/liquiid727/pipeline-auth/controllers"
+	"github.com/liquiid727/pipeline-auth/mcpself"
 )
 
 func InitAPI() {

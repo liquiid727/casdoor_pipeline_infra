@@ -95,7 +95,7 @@
     ADFS: {scope: "openid", endpoint: "http://example.com"},
     Baidu: {scope: "basic", endpoint: "http://openapi.baidu.com/oauth/2.0/authorize"},
     Alipay: {scope: "basic", endpoint: "https://openauth.alipay.com/oauth2/publicAppAuthorize.htm"},
-    Casdoor: {scope: "openid%20profile%20email", endpoint: "http://example.com"},
+    OIDC: {scope: "openid%20profile%20email", endpoint: "http://example.com"},
     Infoflow: {endpoint: "https://xpc.im.baidu.com/oauth2/authorize"},
     Apple: {scope: "name%20email", endpoint: "https://appleid.apple.com/auth/authorize"},
     AzureAD: {scope: "user.read", endpoint: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"},
@@ -285,7 +285,7 @@
       return endpoint + "?client_id=" + provider.clientId + "&redirect_uri=" + redirectUri + "&state=" + state + "&response_type=code&scope=" + scope + "&display=popup";
     } else if (provider.type === "Alipay") {
       return endpoint + "?app_id=" + provider.clientId + "&scope=auth_user&redirect_uri=" + redirectUri + "&state=" + state + "&response_type=code&scope=" + scope + "&display=popup";
-    } else if (provider.type === "Casdoor") {
+    } else if (provider.type === "OIDC") {
       return provider.domain + "/login/oauth/authorize?client_id=" + provider.clientId + "&redirect_uri=" + redirectUri + "&state=" + state + "&response_type=code&scope=" + scope;
     } else if (provider.type === "Infoflow") {
       return endpoint + "?appid=" + provider.clientId + "&redirect_uri=" + redirectUri + "?state=" + state;
@@ -399,7 +399,7 @@
     window.location.replace(authUrl);
   }
 
-  window.CasdoorProviderHintRedirect = {
+  window.PipelineAuthProviderHintRedirect = {
     run: function() {
       return run().catch(function() {
         redirectToFallback();

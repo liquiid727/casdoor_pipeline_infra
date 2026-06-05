@@ -17,7 +17,7 @@ package object
 import (
 	"errors"
 
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/util"
 )
 
 type SmsMfa struct {

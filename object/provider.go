@@ -23,11 +23,11 @@ import (
 	"strings"
 
 	"github.com/beego/beego/v2/server/web/context"
-	"github.com/casdoor/casdoor/i18n"
-	"github.com/casdoor/casdoor/idp"
-	"github.com/casdoor/casdoor/idv"
-	"github.com/casdoor/casdoor/log"
-	"github.com/casdoor/casdoor/util"
+	"github.com/liquiid727/pipeline-auth/i18n"
+	"github.com/liquiid727/pipeline-auth/idp"
+	"github.com/liquiid727/pipeline-auth/idv"
+	"github.com/liquiid727/pipeline-auth/log"
+	"github.com/liquiid727/pipeline-auth/util"
 	"github.com/xorm-io/core"
 )
 
@@ -247,6 +247,10 @@ func UpdateProvider(id string, provider *Provider) (bool, error) {
 		}
 	}
 
+	if err := validateProviderType(provider); err != nil {
+		return false, err
+	}
+
 	session := ormer.Engine.ID(core.PK{owner, name}).AllCols()
 	if provider.ClientSecret == "***" {
 		session = session.Omit("client_secret")
@@ -286,6 +290,10 @@ func AddProvider(provider *Provider) (bool, error) {
 	}
 
 	if err := fillOpenClawProviderDefaults(provider); err != nil {
+		return false, err
+	}
+
+	if err := validateProviderType(provider); err != nil {
 		return false, err
 	}
 
@@ -512,7 +520,7 @@ func FromProviderToIdpInfo(ctx *context.Context, provider *Provider) (*idp.Provi
 			providerInfo.ClientId = provider.ClientId2
 			providerInfo.ClientSecret = provider.ClientSecret2
 		}
-	} else if provider.Type == "ADFS" || provider.Type == "AzureAD" || provider.Type == "AzureADB2C" || provider.Type == "Casdoor" || provider.Type == "Okta" {
+	} else if provider.Type == "ADFS" || provider.Type == "AzureAD" || provider.Type == "AzureADB2C" || provider.Type == "OIDC" || provider.Type == "Okta" {
 		providerInfo.HostUrl = provider.Domain
 	} else if provider.Type == "Alipay" && provider.Cert != "" {
 		cert, err := GetCert(util.GetId(provider.Owner, provider.Cert))
@@ -552,21 +560,7 @@ func GetLogProviderFromProvider(provider *Provider) (log.LogProvider, error) {
 	}
 
 	if provider.Type == "Casdoor Permission Log" {
-		return log.NewPermissionLogProvider(provider.Name, func(owner, createdTime, providerName, message string) error {
-			name := log.GenerateEntryName()
-			entry := &Entry{
-				Owner:       owner,
-				Name:        name,
-				CreatedTime: createdTime,
-				UpdatedTime: createdTime,
-				DisplayName: name,
-				Provider:    providerName,
-				Application: CasdoorApplication,
-				Message:     message,
-			}
-			_, err := AddEntry(entry)
-			return err
-		}), nil
+		return nil, fmt.Errorf("provider %s uses unsupported legacy log type %q; please replace or remove it before continuing", provider.Name, provider.Type)
 	}
 
 	if provider.Type == "Agent" && provider.SubType == "OpenClaw" {
@@ -597,6 +591,22 @@ func GetLogProviderFromProvider(provider *Provider) (log.LogProvider, error) {
 	}
 
 	return log.GetLogProvider(provider.Type, provider.Host, provider.Port, provider.Title)
+}
+
+func validateProviderType(provider *Provider) error {
+	if provider == nil {
+		return nil
+	}
+
+	if provider.Category == "Storage" && provider.Type == "Casdoor" {
+		return fmt.Errorf("provider %s uses unsupported legacy storage type %q; please replace or remove it before continuing", provider.Name, provider.Type)
+	}
+
+	if provider.Type == "Casdoor Permission Log" {
+		return fmt.Errorf("provider %s uses unsupported legacy log type %q; please replace or remove it before continuing", provider.Name, provider.Type)
+	}
+
+	return nil
 }
 
 // InvokeCustomProviderLogout iterates through the application's Custom OAuth2 providers

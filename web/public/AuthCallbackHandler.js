@@ -15,8 +15,8 @@
 (function() {
   "use strict";
 
-  var reactFallbackKey = "__casdoor_callback_react";
-  var reactFallbackPayloadKey = "casdoor_callback_react_fallback";
+  var reactFallbackKey = "__pipeline_auth_callback_react";
+  var reactFallbackPayloadKey = "pipeline_auth_callback_react_fallback";
 
   function setStatus(message, isError) {
     var statusNode = document.getElementById("callback-status");
@@ -323,7 +323,7 @@
       }
 
       if (casService === "") {
-        setStatus("Logged in successfully. Now you can visit apps protected by Casdoor.", false);
+        setStatus("Logged in successfully. Now you can visit apps protected by Pipeline Auth.", false);
         return;
       }
 
@@ -423,7 +423,7 @@
     goToReactFallback();
   }
 
-  window.CasdoorAuthCallback = {
+  window.PipelineAuthAuthCallback = {
     run: function() {
       return run().catch(function(error) {
         setStatus(error && error.message ? error.message : "Failed to complete callback.", true);
