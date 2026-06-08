@@ -5,6 +5,8 @@
 ## 1. 架构说明
 
 - [身份与支付架构接入说明](./identity-and-payment-architecture.md)
+- [认证能力企业级架构设计](./identity/auth-gateway-architecture.md)
+- [认证网关 Roadmap 与并行任务拆分](./identity/auth-gateway-roadmap.md)
 
 ## 2. 能力盘点
 

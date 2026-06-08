@@ -18,8 +18,11 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 
 	"github.com/casdoor/casdoor-go-sdk/casdoorsdk"
+	gatewayconfig "github.com/liquiid727/pipeline-auth/gateway/config"
+	"github.com/liquiid727/pipeline-auth/gateway/core"
 	"github.com/liquiid727/pipeline-auth/object"
 	"github.com/liquiid727/pipeline-auth/util"
 )
@@ -34,14 +37,33 @@ func redirectToAuthServer(authServerClient *casdoorsdk.Client, w http.ResponseWr
 	scheme := getScheme(r)
 
 	callbackURL := fmt.Sprintf("%s://%s/caswaf-handler", scheme, r.Host)
-	originalPath := r.RequestURI
-	signInURL := getSignInURL(authServerClient, callbackURL, originalPath)
-	http.Redirect(w, r, signInURL, http.StatusFound)
+	flow := core.NewOAuthFlow()
+	decision, err := flow.BeginAuth(gatewayconfig.SiteAuthConfig{
+		Auth: gatewayconfig.AuthConfig{
+			Endpoint:     authServerClient.Endpoint,
+			ClientID:     authServerClient.ClientId,
+			ClientSecret: authServerClient.ClientSecret,
+		},
+	}, callbackURL, getRequestReturnPath(r))
+	if err != nil {
+		responseError(w, "Pipeline Auth WAF error: create OAuth state failed: %s", err.Error())
+		return
+	}
+	http.Redirect(w, r, decision.RedirectURL, http.StatusFound)
+}
+
+func getRequestReturnPath(r *http.Request) string {
+	path := r.URL.RequestURI()
+	if path != "" {
+		return path
+	}
+	return r.RequestURI
 }
 
 func handleAuthCallback(w http.ResponseWriter, r *http.Request) {
 	site := getSiteByDomainWithWww(r.Host)
 	if site == nil {
+		observeGatewayCallbackFailure(nil, "site_not_found")
 		responseError(w, "CasWAF error: site not found for host: %s", r.Host)
 		return
 	}
@@ -49,16 +71,31 @@ func handleAuthCallback(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
 	state := r.URL.Query().Get("state")
 	if code == "" {
+		observeGatewayCallbackFailure(site, "missing_code")
 		responseError(w, "CasWAF error: the code should not be empty")
 		return
 	} else if state == "" {
+		observeGatewayCallbackFailure(site, "missing_state")
 		responseError(w, "CasWAF error: the state should not be empty")
 		return
 	}
 
 	application, err := object.GetApplication(util.GetId(site.Owner, site.AuthApplication))
 	if err != nil {
+		observeGatewayCallbackFailure(site, "application_error")
 		responseError(w, "Pipeline Auth WAF error: auth server token exchange failed: %s", err.Error())
+		return
+	}
+	if application == nil {
+		observeGatewayCallbackFailure(site, "application_not_found")
+		http.Error(w, "Pipeline Auth WAF error: auth application not found", http.StatusBadRequest)
+		return
+	}
+
+	parsedState, err := parseOAuthState(state, application.ClientSecret, time.Now())
+	if err != nil {
+		observeGatewayCallbackFailure(site, "invalid_state")
+		http.Error(w, "Pipeline Auth WAF error: invalid OAuth state", http.StatusBadRequest)
 		return
 	}
 
@@ -70,21 +107,18 @@ func handleAuthCallback(w http.ResponseWriter, r *http.Request) {
 
 	token, tokenError, err := object.GetAuthorizationCodeToken(application, application.ClientSecret, code, "", "")
 	if tokenError != nil {
+		observeGatewayCallbackFailure(site, "token_error")
 		responseError(w, "Pipeline Auth WAF error: auth server token exchange failed: %s", tokenError.Error)
 		return
 	}
 	if err != nil {
+		observeGatewayCallbackFailure(site, "token_exchange_error")
 		responseError(w, "Pipeline Auth WAF error: auth server token exchange failed: %s", err.Error())
 		return
 	}
 
-	cookie := &http.Cookie{
-		Name:  "pipeline_auth_access_token",
-		Value: token.AccessToken,
-		Path:  "/",
-	}
-	http.SetCookie(w, cookie)
+	setAuthCookie(w, r, token.AccessToken)
+	observeGatewayCallbackSuccess(site)
 
-	originalPath := state
-	http.Redirect(w, r, originalPath, http.StatusFound)
+	http.Redirect(w, r, parsedState.Path, http.StatusFound)
 }

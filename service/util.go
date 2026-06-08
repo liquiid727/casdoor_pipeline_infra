@@ -134,9 +134,19 @@ func getAuthServerClientFromSite(site *object.Site) (*casdoorsdk.Client, error) 
 }
 
 func getScheme(r *http.Request) string {
-	scheme := r.URL.Scheme
-	if scheme == "" {
-		scheme = "http"
+	if scheme := r.Header.Get("X-Forwarded-Proto"); scheme != "" {
+		return normalizeForwardedScheme(scheme)
 	}
-	return scheme
+	if scheme := r.Header.Get("X-Forwarded-Scheme"); scheme != "" {
+		return normalizeForwardedScheme(scheme)
+	}
+	if r.TLS != nil {
+		return "https"
+	}
+	return "http"
+}
+
+func normalizeForwardedScheme(value string) string {
+	scheme := strings.Split(value, ",")[0]
+	return strings.ToLower(strings.TrimSpace(scheme))
 }

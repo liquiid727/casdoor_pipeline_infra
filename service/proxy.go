@@ -31,7 +31,7 @@ import (
 	"github.com/liquiid727/pipeline-auth/util"
 )
 
-func forwardHandler(targetUrl string, writer http.ResponseWriter, request *http.Request) {
+func forwardHandler(targetUrl string, writer http.ResponseWriter, request *http.Request, site *object.Site) {
 	target, err := url.Parse(targetUrl)
 
 	if nil != err {
@@ -104,6 +104,10 @@ func forwardHandler(targetUrl string, writer http.ResponseWriter, request *http.
 		}
 
 		return nil
+	}
+	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+		observeGatewayUpstreamError(site, targetUrl)
+		responseError(w, "Pipeline Auth WAF error: upstream request failed: %s", err.Error())
 	}
 
 	proxy.ServeHTTP(writer, request)
@@ -213,10 +217,17 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	if site.Status == "Inactive" {
+		observeGatewayInactiveSiteBlock(site)
+		w.WriteHeader(http.StatusServiceUnavailable)
+		responseErrorWithoutCode(w, "CasWAF error: site is inactive for host: %s", r.Host)
+		return
+	}
+
 	// oAuth proxy
 	if site.AuthApplication != "" {
 		// handle oAuth proxy
-		cookie, err := r.Cookie("pipeline_auth_access_token")
+		cookie, err := r.Cookie(authCookieName)
 		if err != nil && err.Error() != "http: named cookie not present" {
 			panic(err)
 		}
@@ -229,12 +240,16 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 
 		if cookie == nil {
 			// not logged in
+			observeGatewayLoginStart(site)
 			redirectToAuthServer(authServerClient, w, r)
 			return
 		} else {
 			_, err = authServerClient.ParseJwtToken(cookie.Value)
 			if err != nil {
-				responseError(w, "Pipeline Auth WAF error: parse access token failed: %s", err.Error())
+				observeGatewayTokenInvalid(site)
+				clearAuthCookie(w)
+				observeGatewayLoginStart(site)
+				redirectToAuthServer(authServerClient, w, r)
 				return
 			}
 		}
@@ -298,7 +313,7 @@ func nextHandle(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, path)
 	} else {
 		targetUrl := joinPath(site.GetHost(), r.RequestURI)
-		forwardHandler(targetUrl, w, r)
+		forwardHandler(targetUrl, w, r, site)
 	}
 }
 
